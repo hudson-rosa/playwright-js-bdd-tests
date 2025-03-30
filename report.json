@@ -1,0 +1,173 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "sign-in;successful-sign-in-to-orangehrm",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Successful sign in to OrangeHRM",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "I am on OrangeHRM website at Sign In page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "user"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Admin"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "When ",
+            "line": 9,
+            "name": "I sign in using valid account credentials",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "my session loads at the Dashboard page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@ui",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 1
+          },
+          {
+            "name": "@authentication",
+            "line": 1
+          },
+          {
+            "name": "@bdd",
+            "line": 1
+          },
+          {
+            "name": "@sign-in",
+            "line": 7
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "sign-in;unsuccessful-signin",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "Unsuccessful signin",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "I am on OrangeHRM website at Sign In page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 16,
+            "name": "I sign in using invalid account credentials",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "the message \"Invalid credentials\" is displayed",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@ui",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 1
+          },
+          {
+            "name": "@authentication",
+            "line": 1
+          },
+          {
+            "name": "@bdd",
+            "line": 1
+          },
+          {
+            "name": "@invalid-sign-in",
+            "line": 14
+          },
+          {
+            "name": "@negative",
+            "line": 14
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "sign-in",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Sign In",
+    "tags": [
+      {
+        "name": "@ui",
+        "line": 1
+      },
+      {
+        "name": "@regression",
+        "line": 1
+      },
+      {
+        "name": "@authentication",
+        "line": 1
+      },
+      {
+        "name": "@bdd",
+        "line": 1
+      }
+    ],
+    "uri": "features/sign-in.feature"
+  }
+]
