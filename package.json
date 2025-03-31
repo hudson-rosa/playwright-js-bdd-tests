@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js"
+    "test": "cucumber-js",
+    "test:sign-in": "npx cucumber-js --tags '@sign-in'",
+    "test:regression": "npx cucumber-js --tags '@regression'",
+    "test:negative": "npx cucumber-js --tags '@negative'"
   },
   "keywords": [],
   "author": "",
