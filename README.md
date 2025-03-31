@@ -18,9 +18,12 @@ Inside that directory, you can run several commands:
   npx playwright codegen
     Auto generate tests with Codegen.
 
+
 We suggest that you begin by typing:
 
     npx playwright test
+
+    npx playwright test signInOrangeHrm 
 
 And check out the following files:
   - ./tests/example.spec.js - Example end-to-end test
