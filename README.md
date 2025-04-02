@@ -55,7 +55,7 @@ To open last HTML report run:
 
 ------------------
 
-# Running the BDD Execution
+# Running the BDD scenarios
 
   ```bash
   PWDEBUG=1 npx cucumber-js
