@@ -1,6 +1,5 @@
 const { Given, When, Then, Before, After } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
-const { chromium, firefox, webkit } = require('playwright');
 require("dotenv").config();
 
 

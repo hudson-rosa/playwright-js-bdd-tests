@@ -10,7 +10,7 @@
     "test:chromium:regression": "BROWSER='chromium' npx cucumber-js --require support/world.js --tags '@regression'",
     "test:firefox:regression": "BROWSER='firefox' npx cucumber-js --require support/world.js --tags '@regression'",
     "test:webkit:regression": "BROWSER='webkit' npx cucumber-js --require support/world.js --tags '@regression'",
-    "test:all-browsers:smoke": "npm-run-all -p test:chromium:regression test:firefox:regression test:webkit:regression",
+    "test:all-browsers:smoke": "npm-run-all -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
     "test:all-browsers:regression": "npm-run-all -p test:chromium:regression test:firefox:regression test:webkit:regression",
     "test:sign-in": "npx cucumber-js --tags '@sign-in'",
     "test:regression": "npx cucumber-js --tags '@regression'",
