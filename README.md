@@ -74,6 +74,11 @@ To open last HTML report run:
   ```
   Run multiple tags.
 
+  If you need to specify the scenarios based on the steps path:
+  ```bash
+    npx cucumber-js features/sign-in.feature --require steps/signInSteps.js
+  ```
+
   ## Reports
 
   ```bash

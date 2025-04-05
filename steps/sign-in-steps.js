@@ -1,23 +1,20 @@
 const { Given, When, Then, Before, After } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
-const { chromium } = require("playwright");
+const { chromium, firefox, webkit } = require("playwright");
 require("dotenv").config();
 
 const { SignInPage, DashboardPage } = require("../pages/page_modules/index");
 
 let signInPage;
 let dashboardPage;
-let browser;
-let page;
 
 Before(async function() {
-  browser = await chromium.launch({ headless: false });
-  page = await browser.newPage();
-  signInPage = new SignInPage(page);
-  dashboardPage = new DashboardPage(page);
+  await this.initBrowser();
 });
 
 Given("I am on OrangeHRM website at Sign In page", async function() {
+  signInPage = new SignInPage(this.getPage());
+  dashboardPage = new DashboardPage(this.getPage());
   await signInPage.openPage();
 });
 
@@ -29,7 +26,7 @@ When("I sign in using valid account credentials", async function(dataTable) {
 });
 
 Then("my session loads at the Dashboard page", async function() {
-  dashboardPage = new DashboardPage(page);
+  dashboardPage = new DashboardPage(this.getPage());
   await dashboardPage.assertDashboardHeader();
 });
 
@@ -44,7 +41,5 @@ Then("the message {string} is displayed", async function(expectedMessage) {
 });
 
 After(async function() {
-  if (browser) {
-    await browser.close();
-  }
+  await this.closeBrowser();
 });

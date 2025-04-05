@@ -1,10 +1,10 @@
-@ui @regression @authentication
+@regression @authentication
 Feature: Sign In
 
   Background: Accessing Sign In page
     Given I am on OrangeHRM website at Sign In page
 
-  @sign-in
+  @sign-in @smoke-test
   Scenario: Successful sign in to OrangeHRM
     When I sign in using valid account credentials
       | user     | Admin    |
