@@ -79,6 +79,40 @@ To open last HTML report run:
     npx cucumber-js features/sign-in.feature --require steps/signInSteps.js
   ```
 
+  ## Running locally from Dockerfile
+  
+  Running the tests using Dockerfile:
+  ```bash
+    docker build -t playwright-tests .
+    docker run --rm playwright-tests
+  ```
+
+  Running the tests using docker-compose.yml:
+  ```bash
+    docker-compose build
+
+    # To run on all browsers from the project root
+    docker-compose up --abort-on-container-exit
+
+    # To run forcing rebuild
+    docker-compose up --build --abort-on-container-exit
+
+    # OR:
+    npm run docker-compose-run-tests
+
+    # To run with specific tags/scripts
+    docker-compose run --rm tests npx npm-run-all -p test:chromium:regression test:firefox:regression test:webkit:regression
+  ```
+
+  To clean up all containers and volumes:
+  ```bash
+    docker-compose down -v
+
+    # OR:
+    npm run docker-remove-all
+  ```
+
+
   ## Reports
 
   ```bash

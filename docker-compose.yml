@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  tests:
+    container_name: playwright-bdd-tests
+    image: mcr.microsoft.com/playwright:v1.51.0-jammy
+    volumes:
+      - .:/tests
+    working_dir: /tests
+    environment:
+      - .env
+    entrypoint: [ "bash", "-c" ]
+    command:
+      - |
+        sed -i 's/\r$//' ./run_tests_ci.sh && \
+        chmod +x ./run_tests_ci.sh && \
+        ./run_tests_ci.sh
+    # entrypoint: [ "npx" ]
+    # command: [ "npm-run-all", "-p", "test:chromium:smoke", "test:firefox:smoke", "test:webkit:smoke" ]
+    shm_size: '1gb'
