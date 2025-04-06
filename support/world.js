@@ -8,8 +8,9 @@ class CustomWorld {
   }
 
   async initBrowser() {
+    const isHeadless = process.env.HEADLESS == "true";
     const browserType = process.env.BROWSER || "chromium";
-    await this.browserHandler.launch(browserType, false); // false = headless disabled
+    await this.browserHandler.launch(browserType, isHeadless); // false = headless disabled
   }
 
   getPage() {
@@ -17,7 +18,11 @@ class CustomWorld {
   }
 
   async closeBrowser() {
-    await this.browserHandler.close();
+    try {
+      await this.browserHandler.close();
+    } catch (err) {
+      console.error("After hook error:", err);
+    }
   }
 }
 
