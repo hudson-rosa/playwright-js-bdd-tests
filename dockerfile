@@ -13,8 +13,9 @@ RUN npm ci
 # Ensure all browsers are installed (chromium, firefox, webkit)
 RUN npx playwright install --with-deps
 
-# Give execution permission to node_modules binaries
+# Give execution permission to node_modules binaries and the test runner script
 RUN chmod -R 777 node_modules
+RUN chmod +x ./run_pw_tests.sh
 
 # Default command (can be overridden in docker-compose or Jenkinsfile)
-CMD ["npm", "run", "test:all-browsers:smoke"]
+CMD ["bash", "./run_pw_tests.sh", "open_allure=false", "browser=chromium", "headless=true", "tag=smoke"]

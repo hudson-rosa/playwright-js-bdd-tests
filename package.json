@@ -32,13 +32,16 @@
     "test:regression": "npx cucumber-js --tags '@regression'",
     "test:negative": "npx cucumber-js --tags '@negative'",
     
-    "docker-remove-images": "docker rmi -f $(docker images -q)",
-    "docker-remove-containers": "docker rm -f $(docker ps -aq)",
-    "docker-compose-down": "docker-compose down -v",
     "docker-show-images": "docker images -q",
     "docker-show-containers": "docker ps -aq",
+    "docker-remove-images": "docker rmi -f $(docker images -q)",
+    "docker-remove-containers": "docker rm -f $(docker ps -aq)",
+    
     "docker-remove-all": "npm run docker-remove-images && npm run docker-remove-containers && npm run docker-compose-down",
-
+    "dockerfile-build": "docker build -t playwright-bdd-tests .",
+    "dockerfile-run": "docker run --rm playwright-bdd-tests",
+    
+    "docker-compose-down": "docker-compose down -v",
     "docker-compose-build": "docker-compose build",
     "docker-compose-run-tests": "docker-compose up --abort-on-container-exit"
   },

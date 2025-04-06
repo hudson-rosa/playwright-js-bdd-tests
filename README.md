@@ -1,4 +1,15 @@
-# Running the specs
+# Running the Playwright tests from this project
+
+As you can see in the sections below, you have flexible ways to trigger the Cucumber tests.
+However, the script file `run_pw_tests.sh` allows to run the tests easily by passing the correct arguments to the expected variables OPEN_ALLURE, HEADLESS, BROWSER, TAG.
+
+  ```bash
+    # Example:
+    ./run_pw_tests.sh open_allure=false browser=webkit headless=true tag='@authentication'
+  ```
+
+
+## Running the specs
 
 Inside that directory, you can run several commands:
   ```bash
@@ -45,7 +56,7 @@ And check out the following files:
   - ./tests-examples/demo-todo-app.spec.js - Demo Todo App end-to-end tests
   - ./playwright.config.js - Playwright Test configuration
 
-## Reports
+### Reports
 
 To open last HTML report run:
 
@@ -55,7 +66,7 @@ To open last HTML report run:
 
 ------------------
 
-# Running the BDD scenarios
+## Running the BDD scenarios
 
   ```bash
   PWDEBUG=1 npx cucumber-js
@@ -79,7 +90,7 @@ To open last HTML report run:
     npx cucumber-js features/sign-in.feature --require steps/signInSteps.js
   ```
 
-  ## Running locally from Dockerfile
+  ### Running locally from Dockerfile
   
   Running the tests using Dockerfile:
   ```bash
@@ -99,12 +110,16 @@ To open last HTML report run:
 
     # OR:
     npm run docker-compose-run-tests
-
-    # To run with specific tags/scripts
-    docker-compose run --rm tests npx npm-run-all -p test:chromium:regression test:firefox:regression test:webkit:regression
   ```
 
-  To clean up all containers and volumes:
+  You can customise the test run variables such as OPEN_ALLURE, HEADLESS, BROWSER, TAG to send with the command `docker-compose up`. To make it simpler, combine with the command defined in the `package.json > scripts`:
+  
+  ```bash
+    # Example:
+    OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests
+  ```
+
+  To remove all containers and volumes:
   ```bash
     docker-compose down -v
 
@@ -112,10 +127,9 @@ To open last HTML report run:
     npm run docker-remove-all
   ```
 
-
-  ## Reports
+  ### Allure Report
 
   ```bash
-    npx cucumber-js --format json:report.json
+    npm run generate:allure-report && npm run open:allure-report
   ```
   Generate a JSON report.

@@ -10,6 +10,7 @@ services:
     environment:
       - .env
       - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+      - OPEN_ALLURE=true BROWSER=firefox HEADLESS=false TAG='@smoke' 
     entrypoint: [ "bash", "-c" ]
     command:
       - |
@@ -27,7 +28,8 @@ services:
         # Run testst
         sed -i 's/\r$//' ./run_pw_tests.sh && \
         chmod +x ./run_pw_tests.sh && \
-        ./run_pw_tests.sh open_allure=false browser=chromium headless=true tag='@regression'
+        ./run_pw_tests.sh open_allure=${OPEN_ALLURE} browser=${BROWSER} headless=${HEADLESS} tag=${TAG}
+    # ./run_pw_tests.sh open_allure=false browser=chromium headless=true tag='@regression'
     # entrypoint: [ "npx" ]
     # command: [ "npm-run-all", "-p", "test:chromium:smoke", "test:firefox:smoke", "test:webkit:smoke" ]
     shm_size: '1gb'
