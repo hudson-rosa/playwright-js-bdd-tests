@@ -5,7 +5,6 @@ module.exports = {
     parallel: 3,
     timeout: 20000,
     worldParameters: {},
-    // format: ["progress-bar", "json:reports/cucumber-report.json"],
     format: ["progress", "allure-cucumberjs/reporter"],
     formatOptions: {
       resultsDir: "allure-results",
@@ -45,14 +44,14 @@ module.exports = {
   },
   chromium: {
     ...this.default,
-    env: { BROWSER: "chromium" }
+    env: { BROWSER: "chromium", ALLURE_RESULTS_DIR: "/chromium" }
   },
   firefox: {
     ...this.default,
-    env: { BROWSER: "firefox" }
+    env: { BROWSER: "firefox", ALLURE_RESULTS_DIR: "/firefox" }
   },
   webkit: {
     ...this.default,
-    env: { BROWSER: "webkit" }
+    env: { BROWSER: "webkit", ALLURE_RESULTS_DIR: "/webkit" }
   }
 };

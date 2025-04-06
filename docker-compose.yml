@@ -9,12 +9,25 @@ services:
     working_dir: /tests
     environment:
       - .env
+      - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
     entrypoint: [ "bash", "-c" ]
     command:
       - |
-        sed -i 's/\r$//' ./run_tests_ci.sh && \
-        chmod +x ./run_tests_ci.sh && \
-        ./run_tests_ci.sh
+        # Install Java
+        apt-get update && apt-get install -y openjdk-11-jdk && \
+        
+        # Find the JAVA_HOME path dynamically
+        JAVA_PATH=$(update-alternatives --config java | grep -oP '(/.*jdk.*)' | head -n 1) && \
+        export JAVA_HOME=$JAVA_PATH && \
+        
+        # Verify JAVA_HOME
+        echo "JAVA_HOME is set to $JAVA_HOME" && \
+        java -version && \
+        
+        # Run testst
+        sed -i 's/\r$//' ./run_pw_tests.sh && \
+        chmod +x ./run_pw_tests.sh && \
+        ./run_pw_tests.sh open_allure=false browser=chromium headless=true tag='@regression'
     # entrypoint: [ "npx" ]
     # command: [ "npm-run-all", "-p", "test:chromium:smoke", "test:firefox:smoke", "test:webkit:smoke" ]
     shm_size: '1gb'
