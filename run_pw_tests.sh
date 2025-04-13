@@ -74,19 +74,19 @@ echo "   ⤷ ✅ Tag         : $TAG"
 
 case "$BROWSER" in
 chromium)
-  HEADLESS=$HEADLESS npm run test:chromium:tags $TAG
+  HEADLESS=$HEADLESS npm run test:chromium:tags $TAG || TEST_EXIT_CODE=$?
   ;;
 firefox)
-  HEADLESS=$HEADLESS npm run test:firefox:tags $TAG
+  HEADLESS=$HEADLESS npm run test:firefox:tags $TAG || TEST_EXIT_CODE=$?
   ;;
 webkit)
-  HEADLESS=$HEADLESS npm run test:webkit:tags $TAG
+  HEADLESS=$HEADLESS npm run test:webkit:tags $TAG || TEST_EXIT_CODE=$?
   ;;
 all)
   HEADLESS=$HEADLESS npx npm-run-all -p \
     test:chromium:tags $TAG \
     test:firefox:tags $TAG \
-    test:webkit:tags $TAG
+    test:webkit:tags $TAG || TEST_EXIT_CODE=$?
   ;;
 *)
   echo "❌ Invalid browser: $BROWSER. Valid options are: chromium, firefox, webkit, all"
@@ -99,3 +99,6 @@ echo "✅ All tests were executed."
 ./run_allure.sh open_allure=$OPEN_ALLURE
 
 echo "✅ All done."
+
+# Exit with captured test result
+exit ${TEST_EXIT_CODE:-0}

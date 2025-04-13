@@ -21,7 +21,7 @@ class CustomWorld {
     try {
       await this.browserHandler.close();
     } catch (err) {
-      console.error("After hook error:", err);
+      console.error("Error when closing the browser:", err);
     }
   }
 }

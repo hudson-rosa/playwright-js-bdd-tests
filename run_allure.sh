@@ -17,7 +17,7 @@ for arg in "$@"; do
   esac
 done
 
-echo "✨✨ Generating Allure Report ✨✨..."
+echo "\n✨✨ Generating Allure Report ✨✨..."
 sleep 2
 npm run generate:allure-report
 
