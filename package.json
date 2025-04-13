@@ -14,15 +14,15 @@
     
     "test": "cucumber-js",
     "test:chromium:tags": "BROWSER='chromium' npx cucumber-js format:allure:chromium --require support/world.js --tags ",
-    "test:chromium:smoke": "BROWSER='chromium' npx cucumber-js format:allure:chromium --require support/world.js --tags '@smoke-test'",
+    "test:chromium:smoke": "BROWSER='chromium' npx cucumber-js format:allure:chromium --require support/world.js --tags '@smoke'",
     "test:chromium:regression": "BROWSER='chromium' npx cucumber-js format:allure:chromium --require support/world.js --tags '@regression'",
     
     "test:firefox:tags": "BROWSER='firefox' npx cucumber-js format:allure:firefox --require support/world.js --tags ",
-    "test:firefox:smoke": "BROWSER='firefox' npx cucumber-js format:allure:firefox --require support/world.js --tags '@smoke-test'",
+    "test:firefox:smoke": "BROWSER='firefox' npx cucumber-js format:allure:firefox --require support/world.js --tags '@smoke'",
     "test:firefox:regression": "BROWSER='firefox' npx cucumber-js format:allure:firefox --require support/world.js --tags '@regression'",
     
     "test:webkit:tags": "BROWSER='webkit' npx cucumber-js format:allure:webkit --require support/world.js --tags ",
-    "test:webkit:smoke": "BROWSER='webkit' npx cucumber-js format:allure:webkit --require support/world.js --tags '@smoke-test'",
+    "test:webkit:smoke": "BROWSER='webkit' npx cucumber-js format:allure:webkit --require support/world.js --tags '@smoke'",
     "test:webkit:regression": "BROWSER='webkit' npx cucumber-js format:allure:webkit --require support/world.js --tags '@regression'",
     
     "test:crossbrowser:smoke": "HEADLESS=false npm-run-all remove-allure -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
@@ -43,7 +43,8 @@
     
     "docker-compose-down": "docker-compose down -v",
     "docker-compose-build": "docker-compose build",
-    "docker-compose-run-tests": "docker-compose up --abort-on-container-exit"
+    "docker-compose-run-tests": "docker-compose up --abort-on-container-exit",
+    "docker-compose-run-tests-args": "OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests"
   },
   "keywords": [],
   "author": "",

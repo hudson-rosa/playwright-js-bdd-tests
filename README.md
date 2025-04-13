@@ -117,6 +117,9 @@ To open last HTML report run:
   ```bash
     # Example:
     OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests
+
+    # OR
+    OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@smoke' npm run docker-compose up
   ```
 
   To remove all containers and volumes:

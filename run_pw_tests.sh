@@ -1,55 +1,76 @@
 #!/bin/bash
 set -e
 
+# Remove Previous Allure Results
+echo "_____________________________________"
+echo "\n🎭 Playwright • JS • BDD • Allure ⚡"
+echo "-------------------------------------"
+echo "     ▶ Starting..."
+
+echo "\n 🗑 Cleaning up old reports..."
+npm run remove-allure
+
 # Default values
 OPEN_ALLURE="false"
 BROWSER=""
-HEADLESS="true"
-TAG="@regression"
+HEADLESS=""
+TAG=""
 
 # Parse named arguments
 for arg in "$@"; do
   case $arg in
-  open_allure=*)
-    OPEN_ALLURE="${arg#*=}"
-    shift
-    ;;
-  browser=*)
-    BROWSER="${arg#*=}"
-    shift
-    ;;
-  headless=*)
-    HEADLESS="${arg#*=}"
-    shift
-    ;;
-  tag=*)
-    TAG="${arg#*=}"
-    shift
-    ;;
-  *)
-    echo "❌ Unknown argument: $arg"
-    exit 1
-    ;;
+    open_allure=*)
+      OPEN_ALLURE="${arg#*=}"
+      shift
+      ;;
+    browser=*)
+      BROWSER="${arg#*=}"
+      shift
+      ;;
+    headless=*)
+      HEADLESS="${arg#*=}"
+      shift
+      ;;
+    tag=*)
+      TAG="${arg#*=}"
+      shift
+      ;;
+    *)
+      echo "❌ Unknown argument: $arg"
+      exit 1
+      ;;
   esac
 done
 
+MISSING_ARGS=""
+
+if [ -z "$OPEN_ALLURE" ]; then
+  MISSING_ARGS+="\n ❌ OPEN_ALLURE arg is missing on the command!\n    --> Use: open_allure=true|false"
+fi
 if [ -z "$BROWSER" ]; then
-  echo "\nSome arguments are missing for this command! "
-  echo "✅ OPEN_ALLURE arg is 'false' by default. --> Use: open_allure=true|false"
-  echo "❌ No browser specified.                  --> Use: browser=chromium|firefox|webkit|all"
-  echo "✅ HEADLESS arg is 'true' by default.     --> Use: headless=true|false"
-  echo "✅ TAG arg is '@regression' by default.   --> Use: tag='@smoke'|'@regression'\n"
+  MISSING_ARGS+="\n ❌ BROWSER arg is missing on the command!\n    --> Use: browser=chromium|firefox|webkit|all"
+fi
+if [ -z "$HEADLESS" ]; then
+  MISSING_ARGS+="\n ❌ HEADLESS arg is missing on the command!\n    --> Use: headless=true|false"
+fi
+if [ -z "$TAG" ]; then
+  MISSING_ARGS+="\n ❌ TAG arg is missing on the command!\n    --> Use: tag='@smoke'|'@regression'|'@...'"
+fi
+if [[ $TAG != @* ]]; then
+  MISSING_ARGS+="\n ⚠️ Current TAG value must start with '@' under the brackets\n    --> Use: tag='@smoke'|'@regression'|'@...'"
+fi
+
+# Show all missing arg messages at once
+if [ -n "$MISSING_ARGS" ]; then
+  echo -e "$MISSING_ARGS"
   exit 1
 fi
 
-echo "▶ Running Playwright tests"
-echo "   ⤷ Open Allure : $OPEN_ALLURE"
-echo "   ⤷ Browser     : $BROWSER"
-echo "   ⤷ Headless    : $HEADLESS"
-echo "   ⤷ Tag         : $TAG"
-
-# Remove Previous Allure Results
-npm run remove-allure
+echo "\n▶ Running Playwright tests"
+echo "   ⤷ ✅ Open Allure : $OPEN_ALLURE"
+echo "   ⤷ ✅ Browser     : $BROWSER"
+echo "   ⤷ ✅ Headless    : $HEADLESS"
+echo "   ⤷ ✅ Tag         : $TAG"
 
 case "$BROWSER" in
 chromium)
@@ -73,12 +94,8 @@ all)
   ;;
 esac
 
-echo "✨✨ Generating Allure Report ✨✨..."
-npm run generate:allure-report
+echo "✅ All tests were executed."
 
-if [ "$OPEN_ALLURE" == "true" ]; then
-  echo "📂 Opening Allure Report..."
-  npm run open:allure-report
-fi
+./run_allure.sh open_allure=$OPEN_ALLURE
 
 echo "✅ All done."
