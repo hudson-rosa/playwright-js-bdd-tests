@@ -3,44 +3,33 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "format:allure": "--format allure-cucumberjs/reporter --format-options '{ \"resultsDir\": \"results\" }'",
     "remove-allure": "rm -rf allure-results allure-report",
     "serve:allure-report": "allure serve allure-report",
     "generate:allure-report": "npx allure generate allure-results --clean -o allure-report",
     "open:allure-report": "npx allure open allure-report",
-    "format:allure": "--format allure-cucumberjs/reporter --format-options '{ \"resultsDir\": \"results\" }'",
-    "format:allure:chromium": "--format allure-cucumberjs/reporter --format-options '{ \"resultsDir\": \"allure-results/chromium\" }'",
-    "format:allure:firefox": "--format allure-cucumberjs/reporter --format-options '{ \"resultsDir\": \"allure-results/firefox\" }'",
-    "format:allure:webkit": "--format allure-cucumberjs/reporter --format-options '{ \"resultsDir\": \"allure-results/webkit\" }'",
-    
     "test": "cucumber-js",
-    "test:chromium:tags": "BROWSER='chromium' npx cucumber-js format:allure:chromium --require support/world.js --tags ",
-    "test:chromium:smoke": "BROWSER='chromium' npx cucumber-js format:allure:chromium --require support/world.js --tags '@smoke'",
-    "test:chromium:regression": "BROWSER='chromium' npx cucumber-js format:allure:chromium --require support/world.js --tags '@regression'",
-    
-    "test:firefox:tags": "BROWSER='firefox' npx cucumber-js format:allure:firefox --require support/world.js --tags ",
-    "test:firefox:smoke": "BROWSER='firefox' npx cucumber-js format:allure:firefox --require support/world.js --tags '@smoke'",
-    "test:firefox:regression": "BROWSER='firefox' npx cucumber-js format:allure:firefox --require support/world.js --tags '@regression'",
-    
-    "test:webkit:tags": "BROWSER='webkit' npx cucumber-js format:allure:webkit --require support/world.js --tags ",
-    "test:webkit:smoke": "BROWSER='webkit' npx cucumber-js format:allure:webkit --require support/world.js --tags '@smoke'",
-    "test:webkit:regression": "BROWSER='webkit' npx cucumber-js format:allure:webkit --require support/world.js --tags '@regression'",
-    
+    "test:chromium:tags": "BROWSER='chromium' npx cucumber-js format:allure --require support/world.js --require steps --tags ",
+    "test:chromium:smoke": "BROWSER='chromium' npx cucumber-js format:allure --require support/world.js --require steps --tags '@smoke'",
+    "test:chromium:regression": "BROWSER='chromium' npx cucumber-js format:allure --require support/world.js --require steps --tags '@regression'",
+    "test:firefox:tags": "BROWSER='firefox' npx cucumber-js format:allure --require support/world.js --require steps --tags ",
+    "test:firefox:smoke": "BROWSER='firefox' npx cucumber-js format:allure --require support/world.js --require steps --tags '@smoke'",
+    "test:firefox:regression": "BROWSER='firefox' npx cucumber-js format:allure --require support/world.js --require steps --tags '@regression'",
+    "test:webkit:tags": "BROWSER='webkit' npx cucumber-js format:allure --require support/world.js --require steps --tags ",
+    "test:webkit:smoke": "BROWSER='webkit' npx cucumber-js format:allure --require support/world.js --require steps --tags '@smoke'",
+    "test:webkit:regression": "BROWSER='webkit' npx cucumber-js format:allure --require support/world.js ---require steps -tags '@regression'",
     "test:crossbrowser:smoke": "HEADLESS=false npm-run-all remove-allure -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
     "test:crossbrowser:smoke:headless": "HEADLESS=true npm-run-all remove-allure -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
-    
     "test:sign-in": "npx cucumber-js --tags '@sign-in'",
     "test:regression": "npx cucumber-js --tags '@regression'",
     "test:negative": "npx cucumber-js --tags '@negative'",
-    
     "docker-show-images": "docker images -q",
     "docker-show-containers": "docker ps -aq",
     "docker-remove-images": "docker rmi -f $(docker images -q)",
     "docker-remove-containers": "docker rm -f $(docker ps -aq)",
-    
     "docker-remove-all": "npm run docker-remove-images && npm run docker-remove-containers && npm run docker-compose-down",
     "dockerfile-build": "docker build -t playwright-bdd-tests .",
     "dockerfile-run": "docker run --rm playwright-bdd-tests",
-    
     "docker-compose-down": "docker-compose down -v",
     "docker-compose-build": "docker-compose build",
     "docker-compose-run-tests": "docker-compose up --abort-on-container-exit",
@@ -55,6 +44,7 @@
     "@playwright/test": "^1.51.1",
     "@types/node": "^22.13.14",
     "allure-commandline": "^2.33.0",
+    "allure-cucumberjs": "^3.2.1",
     "allure-playwright": "^3.2.1",
     "cucumber": "^6.0.7",
     "npm-run-all": "^4.1.5",
@@ -63,10 +53,10 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "allure-cucumberjs": "^3.2.1",
     "allure-js-commons": "^3.2.1",
     "cucumber-playwright": "^1.2.1",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "sanitize-filename": "^1.6.3"
   },
   "directories": {
     "test": "tests"

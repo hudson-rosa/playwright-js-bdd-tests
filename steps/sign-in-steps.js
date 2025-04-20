@@ -1,4 +1,4 @@
-const { Given, When, Then, Before, After } = require("@cucumber/cucumber");
+const { Given, When, Then, Before } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
 require("dotenv").config();
 
@@ -37,8 +37,4 @@ When("I sign in using invalid account credentials", async function() {
 
 Then("the message {string} is displayed", async function(expectedMessage) {
   await dashboardPage.verifyInvalidLoginMessage(expectedMessage);
-});
-
-After(async function() {
-  await this.closeBrowser();
 });

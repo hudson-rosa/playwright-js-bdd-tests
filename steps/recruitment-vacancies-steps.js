@@ -1,4 +1,4 @@
-const { Given, When, Then, Before, After } = require("@cucumber/cucumber");
+const { Given, When, Then, Before } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
 require("dotenv").config();
 
@@ -25,8 +25,4 @@ When("I save the form with with all the required entries", function(dataTable) {
 Then("I see the new register added to the vacancies' list", function() {
   // Write code here that turns the phrase above into concrete actions
   return "to-do";
-});
-
-After(async function() {
-  await this.closeBrowser();
 });

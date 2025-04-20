@@ -30,13 +30,26 @@ export default defineConfig({
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // reporter: 'html',
-  reporter: [["html"], ["list"], ["allure-playwright", { outputFolder: "allure-report" }]],
-  
+  reporter: [
+    ["dot"],
+    ["html"],
+    ["list"],
+    ["allure-playwright", { outputFolder: "allure-results" }],
+    [
+      "json",
+      {
+        outputFile: "jsonReports/jsonReport.json"
+      }
+    ]
+  ],
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     // baseURL: 'http://127.0.0.1:3000',
-    trace: "on-first-retry"
+    trace: "on-first-retry",
+    screenshot: "on",
+    video: "on"
   },
 
   /* Configure projects for major browsers */
@@ -46,13 +59,13 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
       timeout: 100000
     },
-    
+
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
       timeout: 100000
     },
-    
+
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },

@@ -1,4 +1,6 @@
 // support/browserHandler.js
+const allure = require("allure-js-commons");
+const { ContentType } = require("allure-js-commons");
 const { chromium, firefox, webkit } = require("playwright");
 
 const browsers = { chromium, firefox, webkit };

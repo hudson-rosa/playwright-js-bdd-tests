@@ -1,6 +1,6 @@
 module.exports = {
   default: {
-    require: ["./support/world.js", "./steps/**/*.js"],
+    require: ["./support/world.js", "./steps/**/*.js", "support/**/*.js"],
     paths: ["./features/**/*.feature"],
     parallel: 3,
     timeout: 20000,
