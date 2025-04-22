@@ -9,11 +9,11 @@ let dashboardPage;
 
 Before(async function() {
   await this.initBrowser();
+  signInPage = new SignInPage(this.getPage());
+  dashboardPage = new DashboardPage(this.getPage());
 });
 
 Given("I am on OrangeHRM website at Sign In page", async function() {
-  signInPage = new SignInPage(this.getPage());
-  dashboardPage = new DashboardPage(this.getPage());
   await signInPage.openPage();
 });
 

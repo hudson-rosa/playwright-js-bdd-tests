@@ -1,12 +1,11 @@
 @regression @recruitment
 Feature: Recruitment - Managing Vacancies
 
-  Background: Accessing Sign In page
-    Given I am on OrangeHRM website at Sign In page
-
   @vacancy
   Scenario: Successful sign in to OrangeHRM
-    Given I am on "Recruitment > Vacancies" page
+    Given I am on "Recruitment > Vacancies" page as the user:
+      | user     | Admin    |
+      | password | admin123 |
     When I tap "Add" to register a new vacancy
     And I save the form with with all the required entries
       | vacancy name   | Admin                     |
