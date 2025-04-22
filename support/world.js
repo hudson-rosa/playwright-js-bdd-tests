@@ -8,8 +8,9 @@ const sanitizeFilename = require("sanitize-filename");
 const { Status } = require("@cucumber/cucumber");
 
 class CustomWorld {
-  constructor() {
+  constructor(options) {
     this.browserHandler = new BrowserHandler();
+    this.attach = options.attach;
   }
 
   async initBrowser() {
@@ -35,9 +36,10 @@ setWorldConstructor(CustomWorld);
 
 After(async function (scenario) {
   const page = this.getPage();
+  console.log(`--> Scenario - "${scenario.pickle.name}" has been ${scenario.result?.status}!`);
   const isFailed = scenario.result?.status === Status.FAILED;
-
-  if (isFailed && page) {
+  
+  if (isFailed && page != null) {
     const screenshotsDir = path.resolve(__dirname, "../allure-results");
     console.log('--> Capturing screenshot...' + screenshotsDir);
 

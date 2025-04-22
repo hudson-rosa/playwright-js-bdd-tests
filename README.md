@@ -7,6 +7,12 @@ However, the script file `run_pw_tests.sh` allows to run the tests easily by pas
     # Example:
     ./run_pw_tests.sh open_allure=false browser=webkit headless=true tag='@authentication'
   ```
+## Generating new tests
+To easily generate the code for the scenarios, use the following command passing the desired URL from the target application:
+
+```bash
+  npx playwright codegen https://opensource-demo.orangehrmlive.com/
+```
 
 
 ## Running the specs
