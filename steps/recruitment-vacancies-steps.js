@@ -8,19 +8,16 @@ let signInPage;
 let dashboardPage;
 let menuPage;
 
-Before(async function() {
-  await this.initBrowser();
+Given(/^I am on "(.*)" page as the user:$/, async function(navigation, dataTable) {
+  menuPage = new MenuPage(this.getPage());
   signInPage = new SignInPage(this.getPage());
   dashboardPage = new DashboardPage(this.getPage());
-  menuPage = new MenuPage(this.getPage());
-});
-
-Given(/^I am on "(.*)" page as the user:$/, async function (navigation, dataTable) {
   const credentials = dataTable.rowsHash();
 
   await signInPage.openPage();
   await signInPage.fillUsername(credentials.user);
   await signInPage.fillPassword(credentials.password);
+  await attachScreenshot(this, navigation);
   await signInPage.submitLogin();
 
   await menuPage.openMenu(navigation);

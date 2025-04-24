@@ -1,5 +1,5 @@
 // support/world.js
-const { setWorldConstructor, After } = require("@cucumber/cucumber");
+const { setWorldConstructor, Before, After } = require("@cucumber/cucumber");
 const BrowserHandler = require("./browserHandler");
 
 const fs = require("fs");
@@ -33,6 +33,10 @@ class CustomWorld {
 }
 
 setWorldConstructor(CustomWorld);
+
+Before(async function() {
+  await this.initBrowser();
+});
 
 After(async function (scenario) {
   const page = this.getPage();

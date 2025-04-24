@@ -3,7 +3,7 @@ class SignInPage {
     this.page = page;
     this.usernameInput = 'input[name="username"]';
     this.passwordInput = 'input[name="password"]';
-    this.loginButton = 'button[type="submit"]';
+    this.loginButton = 'button[class*="orangehrm-login-button"]';
   }
 
   async openPage() {

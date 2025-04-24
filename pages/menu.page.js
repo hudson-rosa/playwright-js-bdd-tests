@@ -23,7 +23,6 @@ class MenuPage {
   async openMenu(option) {
     const menuLevel = option.toString().toLowerCase().split(">")[0].trim();
     await this.page.getByRole("link", { name: this.menu[menuLevel]["label"] }).click();
-
   }
 }
 

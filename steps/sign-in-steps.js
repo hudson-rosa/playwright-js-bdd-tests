@@ -7,13 +7,9 @@ const { SignInPage, DashboardPage } = require("../pages/page_modules/index");
 let signInPage;
 let dashboardPage;
 
-Before(async function() {
-  await this.initBrowser();
+Given("I am on OrangeHRM website at Sign In page", async function() {
   signInPage = new SignInPage(this.getPage());
   dashboardPage = new DashboardPage(this.getPage());
-});
-
-Given("I am on OrangeHRM website at Sign In page", async function() {
   await signInPage.openPage();
 });
 
@@ -25,7 +21,6 @@ When("I sign in using valid account credentials", async function(dataTable) {
 });
 
 Then("my session loads at the Dashboard page", async function() {
-  dashboardPage = new DashboardPage(this.getPage());
   await dashboardPage.assertDashboardHeader();
 });
 
