@@ -36,6 +36,7 @@ setWorldConstructor(CustomWorld);
 
 Before(async function() {
   await this.initBrowser();
+  const page = this.getPage();
 });
 
 After(async function (scenario) {

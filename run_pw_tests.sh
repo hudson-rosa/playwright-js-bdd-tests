@@ -11,6 +11,7 @@ echo "\n 🗑 Cleaning up old reports..."
 npm run remove-allure
 
 # Default values
+# E.g.: sh run_pw_tests.sh open_allure=true headless=false browser=chromium tag="@authentication"
 OPEN_ALLURE="false"
 BROWSER=""
 HEADLESS=""

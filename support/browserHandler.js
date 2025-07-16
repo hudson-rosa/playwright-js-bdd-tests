@@ -25,12 +25,12 @@ class BrowserHandler {
 
   async close() {
     if (this.browser) {
-      console.log(`Closing browser...`);
+      console.log('Closing browser...');
       await this.browser.close();
       this.browser = null;
       this.page = null;
     } else {
-      console.log(`No browser to close.`);
+      console.log('No browser to close.');
     }
   }
 }
