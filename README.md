@@ -4,8 +4,9 @@ As you can see in the sections below, you have flexible ways to trigger the Cucu
 However, the script file `run_pw_tests.sh` allows to run the tests easily by passing the correct arguments to the expected variables OPEN_ALLURE, HEADLESS, BROWSER, TAG.
 
   ```bash
-    # Example:
+    # Examples:
     ./run_pw_tests.sh open_allure=false browser=webkit headless=true tag='@authentication'
+    ./run_pw_tests.sh open_allure=true browser=chromium headless=false tag='@negative'
   ```
 ## Generating new tests
 To easily generate the code for the scenarios, use the following command passing the desired URL from the target application:
