@@ -71,6 +71,14 @@ To open last HTML report run:
   npx playwright show-report
 ```
 
+### Using AI Log Analyser
+
+To have accurate analysis on existing failures from the generated Allure Report logs, run this command:
+
+```bash
+  node analyzeWithGPT.js result.json
+```
+
 ------------------
 
 ## Running the BDD scenarios

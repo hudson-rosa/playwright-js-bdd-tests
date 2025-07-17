@@ -59,6 +59,7 @@
     "allure-js-commons": "^3.2.1",
     "cucumber-playwright": "^1.2.1",
     "dotenv": "^16.4.7",
+    "openai": "^5.10.1",
     "sanitize-filename": "^1.6.3"
   },
   "directories": {
