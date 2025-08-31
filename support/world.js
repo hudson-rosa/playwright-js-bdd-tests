@@ -1,5 +1,6 @@
 // support/world.js
 const { setWorldConstructor, Before, After } = require("@cucumber/cucumber");
+const { request } = require('@playwright/test');
 const BrowserHandler = require("./browserHandler");
 
 const fs = require("fs");
@@ -11,8 +12,20 @@ class CustomWorld {
   constructor(options) {
     this.browserHandler = new BrowserHandler();
     this.attach = options.attach;
+    this.apiContext = null;
+    this.response = null;
   }
 
+  async initApiContext() {
+    this.apiContext = await request.newContext({
+      baseURL: process.env.BASE_API
+    });
+  }
+  
+  async disposeApi() {
+    await this.apiContext.dispose();
+  }
+  
   async initBrowser() {
     const isHeadless = process.env.HEADLESS == "true";
     const browserType = process.env.BROWSER || "chromium";
@@ -35,6 +48,7 @@ class CustomWorld {
 setWorldConstructor(CustomWorld);
 
 Before(async function() {
+  await this.initApiContext();
   await this.initBrowser();
   const page = this.getPage();
 });
@@ -64,4 +78,5 @@ After(async function (scenario) {
   }
 
   await this.closeBrowser();
+  await this.disposeApi();
 });

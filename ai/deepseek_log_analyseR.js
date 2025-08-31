@@ -1,13 +1,13 @@
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const { OpenAI } = require('openai');
+const axios = require('axios');
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
+const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
 const resultsDir = path.resolve(__dirname, './../allure-results');
 
-
-async function askGPTAboutFailure(resultsFfile) {
+async function askDeepSeekAboutFailure(resultsFfile) {
   const prompt =
     `Analyze the error or failures in the log file from the Allure Report and suggest a fix to the lines where you see an error or exceptions:\n\n` +
     `Test: ${resultsFfile.name}\n` +
@@ -15,21 +15,32 @@ async function askGPTAboutFailure(resultsFfile) {
     `Error Message: ${resultsFfile.message}\n\n` +
     `Stack Trace:\n${resultsFfile.trace}\n`;
 
-  const completion = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: prompt }]
-  });
+  try {
+    const response = await axios.post(DEEPSEEK_API_URL, {
+      model: "deepseek-chat",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.7
+    }, {
+      headers: {
+        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
 
-  console.log("Root cause suggestion:", completion.choices[0].message.content);
-  return completion.choices[0].message.content;
+    const suggestion = response.data.choices[0].message.content;
+    console.log("💡 DeepSeek Suggestion:\n", suggestion);
+    return suggestion;
+  } catch (error) {
+    console.error("❌ DeepSeek API Error:", error.response?.data || error.message);
+    return "Error contacting DeepSeek API.";
+  }
 }
 
 
 async function main() {
   const testFiles = fs.readdirSync(resultsDir).filter(file => file.endsWith('-result.json'));
-
   const failures = [];
-  // console.log(`🔍 Searching files in: ${resultsDir}...`);
+
   console.log(`🔍 Analyzing ${testFiles.length} test files in ${resultsDir}...`);
 
   for (const file of testFiles) {
@@ -49,8 +60,8 @@ async function main() {
 
   for (const failure of failures) {
     console.log(`\n❌ Analyzing test: "${failure.name}"`);
-    const suggestion = await askGPTAboutFailure(failure);
-    console.log(`🧠 ChatGPT Suggestion:\n${suggestion}`);
+    const suggestion = await askDeepSeekAboutFailure(failure);
+    console.log(`🧠 DeepSeek Suggestion:\n${suggestion}`);
   }
 }
 

@@ -23,6 +23,7 @@
     "test:webkit:regression": "BROWSER='webkit' npx cucumber-js format:allure --require support/world.js ---require steps -tags '@regression'",
     "test:crossbrowser:smoke": "HEADLESS=false npm-run-all remove-allure -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
     "test:crossbrowser:smoke:headless": "HEADLESS=true npm-run-all remove-allure -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
+    "test:api:tags": "npx cucumber-js format:allure --require support/world.js --require steps --tags",
     "test:sign-in": "npx cucumber-js --tags '@sign-in'",
     "test:regression": "npx cucumber-js --tags '@regression'",
     "test:negative": "npx cucumber-js --tags '@negative'",
@@ -57,6 +58,7 @@
   },
   "dependencies": {
     "allure-js-commons": "^3.2.1",
+    "axios": "^1.11.0",
     "cucumber-playwright": "^1.2.1",
     "dotenv": "^16.4.7",
     "openai": "^5.10.1",
