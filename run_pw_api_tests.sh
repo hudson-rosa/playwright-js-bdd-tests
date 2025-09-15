@@ -8,7 +8,7 @@ echo "-------------------------------------"
 echo "     ▶ Starting..."
 
 echo "\n 🗑 Cleaning up old reports..."
-npm run remove-allure
+npm run remove-allure-sh
 
 # Default values
 # E.g.: sh run_pw_tests.sh open_allure=true tag="@api"

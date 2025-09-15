@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "format:allure": "--format allure-cucumberjs/reporter --format-options '{ \"resultsDir\": \"results\" }'",
-    "remove-allure": "rm -rf allure-results allure-report",
+    "remove-allure-sh": "rm -rf allure-results allure-report",
+    "remove-allure-win": "rimraf allure-report allure-results",
     "serve:allure-report": "allure serve allure-report",
     "generate:allure-report": "npx allure generate allure-results --clean -o allure-report",
     "open:allure-report": "npx allure open allure-report",
@@ -21,8 +22,8 @@
     "test:webkit:tags": "BROWSER='webkit' npx cucumber-js format:allure --require support/world.js --require steps --tags ",
     "test:webkit:smoke": "BROWSER='webkit' npx cucumber-js format:allure --require support/world.js --require steps --tags '@smoke'",
     "test:webkit:regression": "BROWSER='webkit' npx cucumber-js format:allure --require support/world.js ---require steps -tags '@regression'",
-    "test:crossbrowser:smoke": "HEADLESS=false npm-run-all remove-allure -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
-    "test:crossbrowser:smoke:headless": "HEADLESS=true npm-run-all remove-allure -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
+    "test:crossbrowser:smoke": "HEADLESS=false npm-run-all remove-allure-sh -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
+    "test:crossbrowser:smoke:headless": "HEADLESS=true npm-run-all remove-allure-sh -p test:chromium:smoke test:firefox:smoke test:webkit:smoke",
     "test:api:tags": "npx cucumber-js format:allure --require support/world.js --require steps --tags",
     "test:sign-in": "npx cucumber-js --tags '@sign-in'",
     "test:regression": "npx cucumber-js --tags '@regression'",
@@ -58,10 +59,12 @@
   },
   "dependencies": {
     "allure-js-commons": "^3.2.1",
+    "appium": "^2.19.0",
     "axios": "^1.11.0",
     "cucumber-playwright": "^1.2.1",
     "dotenv": "^16.4.7",
     "openai": "^5.10.1",
+    "rimraf": "^6.0.1",
     "sanitize-filename": "^1.6.3"
   },
   "directories": {
