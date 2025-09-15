@@ -1,7 +1,7 @@
 module.exports = {
-  DashboardPage: require(".././dashboard.page"),
-  SignInPage: require(".././signin.page"),
-  NavigationPage: require(".././navigation.page"),
-  RecruitmentPage: require(".././recruitment.page"),
-  RecruitmentVacanciesPage: require(".././recruitment-vacancies.page")
+  DashboardPage: require("../web/dashboard.page"),
+  SignInPage: require("../web/signin.page"),
+  NavigationPage: require("../web/navigation.page"),
+  RecruitmentPage: require("../web/recruitment.page"),
+  RecruitmentVacanciesPage: require("../web/recruitment-vacancies.page")
 };
