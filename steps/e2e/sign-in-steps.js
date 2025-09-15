@@ -2,7 +2,7 @@ const { Given, When, Then, Before } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
 require("dotenv").config();
 
-const { SignInPage, DashboardPage } = require("../pages/page_modules/index");
+const { SignInPage, DashboardPage } = require("../../pages/page_modules/index");
 
 let signInPage;
 let dashboardPage;
