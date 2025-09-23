@@ -1,12 +1,14 @@
 // support/world.js
 const { setWorldConstructor, Before, After } = require("@cucumber/cucumber");
+const { Status } = require("@cucumber/cucumber");
 const { request } = require('@playwright/test');
 const BrowserHandler = require("./browserHandler");
+const AppiumDriverSetup = require("./appiumDriverSetup");
 
 const fs = require("fs");
 const path = require("path");
 const sanitizeFilename = require("sanitize-filename");
-const { Status } = require("@cucumber/cucumber");
+let tags;
 
 class CustomWorld {
   constructor(options) {
@@ -14,6 +16,7 @@ class CustomWorld {
     this.attach = options.attach;
     this.apiContext = null;
     this.response = null;
+    this.androidDriver = null;
   }
 
   async initApiContext() {
@@ -43,14 +46,33 @@ class CustomWorld {
       console.error("Error when closing the browser: ", err);
     }
   }
+    
+  async initAndroid() {
+    this.androidDriver = await AppiumDriverSetup.getAndroidDriver();
+  }
+
+  async quitAndroid() {
+    if (this.androidDriver) {
+      await this.androidDriver.deleteSession();
+      this.androidDriver = null;
+    }
+  }
+
 }
 
 setWorldConstructor(CustomWorld);
 
-Before(async function() {
+Before(async function (scenario) {
+  tags = scenario.pickle.tags.map(t => t.name);
+  console.log(`--> Scenario - "${scenario.pickle.name}" with tags: ${tags.join(", ")}`);
+  
   await this.initApiContext();
   await this.initBrowser();
-  const page = this.getPage();
+  this.page = this.getPage();
+
+  if (tags.includes("@android")) {
+    await this.initAndroid();
+  }
 });
 
 After(async function (scenario) {
@@ -79,4 +101,8 @@ After(async function (scenario) {
 
   await this.closeBrowser();
   await this.disposeApi();
+
+  if (tags.includes("@android")) { 
+    await this.quitAndroid();
+  }
 });

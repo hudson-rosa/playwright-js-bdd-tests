@@ -1,7 +1,7 @@
-@regression @api
+ @api @regression-api
 Feature: API Testing with Playwright
 
-  @get-user-details
+  @get-user-details @smoke-api
   Scenario: Get user details
     Given I send a GET request to "/users/1"
     Then the response status should be 200

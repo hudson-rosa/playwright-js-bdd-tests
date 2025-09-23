@@ -1,4 +1,4 @@
-@regression @recruitment
+@web @regression-web @recruitment
 Feature: Recruitment - Managing Vacancies
 
   @vacancy

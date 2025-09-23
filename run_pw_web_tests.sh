@@ -2,16 +2,16 @@
 set -e
 
 # Remove Previous Allure Results
-echo "_____________________________________"
-echo "\n🎭 Playwright • JS • BDD • Allure ⚡"
-echo "-------------------------------------"
+echo "___________________________________________"
+echo "\n🎭 WEB • Playwright • JS • BDD • Allure ⚡"
+echo "-------------------------------------------"
 echo "     ▶ Starting..."
 
 echo "\n 🗑 Cleaning up old reports..."
 npm run remove-allure-sh
 
-# Default values
-# E.g.: sh run_pw_tests.sh open_allure=true headless=false browser=chromium tag="@authentication"
+# RUN THIS FILE WITH THE COMMAND:
+# E.g.:       ./run_pw_web_tests.sh open_allure=true headless=false browser=chromium tag="@web"
 OPEN_ALLURE="false"
 BROWSER=""
 HEADLESS=""
@@ -55,10 +55,10 @@ if [ -z "$HEADLESS" ]; then
   MISSING_ARGS+="\n ❌ HEADLESS arg is missing on the command!\n    --> Use: headless=true|false"
 fi
 if [ -z "$TAG" ]; then
-  MISSING_ARGS+="\n ❌ TAG arg is missing on the command!\n    --> Use: tag='@smoke'|'@regression'|'@...'"
+  MISSING_ARGS+="\n ❌ TAG arg is missing on the command!\n    --> Use: tag='@smoke-web'|'@regression-web'|'@web...'"
 fi
 if [[ $TAG != @* ]]; then
-  MISSING_ARGS+="\n ⚠️ Current TAG value must start with '@' under the brackets\n    --> Use: tag='@smoke'|'@regression'|'@...'"
+  MISSING_ARGS+="\n ⚠️ Current TAG value must start with '@' under the brackets\n    --> Use: tag='@smoke-web'|'@regression-web'|'@web...'"
 fi
 
 # Show all missing arg messages at once

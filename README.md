@@ -1,13 +1,33 @@
 # Running the Playwright tests from this project
 
 As you can see in the sections below, you have flexible ways to trigger the Cucumber tests.
-However, the script file `run_pw_tests.sh` allows to run the tests easily by passing the correct arguments to the expected variables OPEN_ALLURE, HEADLESS, BROWSER, TAG.
+However, the script files `run_pw_web_tests.sh`, `run_pw_api_tests.sh`, and `run_pw_android_tests.sh` allows to run the tests easily by passing the correct arguments to the expected variables OPEN_ALLURE, HEADLESS, BROWSER, TAG, etc.
+
+For the Web tests, we can have these command args:
 
   ```bash
     # Examples:
-    ./run_pw_tests.sh open_allure=false browser=webkit headless=true tag='@authentication'
-    ./run_pw_tests.sh open_allure=true browser=chromium headless=false tag='@negative'
+    ./run_pw_web_tests.sh open_allure=false browser=chromium headless=true tag='@web'
+    ./run_pw_web_tests.sh open_allure=true browser=firefox headless=false tag='@authentication'
+    ./run_pw_web_tests.sh open_allure=true browser=webkit headless=false tag='@negative'
   ```
+
+For the API tests, we can have these command args:
+
+  ```bash
+    # Examples:
+    ./run_pw_api_tests.sh open_allure=true tag="@api"
+    ./run_pw_api_tests.sh open_allure=false tag="@post-new-user"
+  ```
+
+For the Android Mobile tests, we can have these command args:
+
+  ```bash
+    # Examples:
+    ./run_pw_android_tests.sh open_allure=true tag=' @android' 
+    ./run_pw_android_tests.sh open_allure=false tag=' @main-page-elements' 
+  ```
+
 ## Generating new tests
 To easily generate the code for the scenarios, use the following command passing the desired URL from the target application:
 
@@ -15,69 +35,6 @@ To easily generate the code for the scenarios, use the following command passing
   npx playwright codegen https://opensource-demo.orangehrmlive.com/
 ```
 
-
-## Running the specs
-
-Inside that directory, you can run several commands:
-  ```bash
-    npx playwright test
-  ```
-  Runs the end-to-end tests.
-
-  ```bash
-    npx playwright test --ui
-  ```
-  Starts the interactive UI mode.
-
-  ```bash
-    npx playwright test --project=chromium
-  ```
-  Runs the tests only on Desktop Chrome.
-
-  ```bash
-    npx playwright test example
-  ```
-  Runs the tests in a specific file.
-
-  ```bash
-    npx playwright test --debug
-  ```
-  Runs the tests in debug mode.
-
-  ```bash
-    npx playwright codegen
-  ```
-  Auto generate tests with Codegen.
-
-
-We suggest that you begin by typing:
-
-  ```bash
-    npx playwright test
-
-    npx playwright test signInOrangeHrm 
-  ```
-
-And check out the following files:
-  - ./tests/example.spec.js - Example end-to-end test
-  - ./tests-examples/demo-todo-app.spec.js - Demo Todo App end-to-end tests
-  - ./playwright.config.js - Playwright Test configuration
-
-### Reports
-
-To open last HTML report run:
-
-```bash
-  npx playwright show-report
-```
-
-### Using AI Log Analyser
-
-To have accurate analysis on existing failures from the generated Allure Report logs, run this command:
-
-```bash
-  node analyzeWithGPT.js result.json
-```
 
 ------------------
 
@@ -151,3 +108,77 @@ To have accurate analysis on existing failures from the generated Allure Report 
     npm run generate:allure-report && npm run open:allure-report
   ```
   Generate a JSON report.
+
+
+### CLEANING OLD SESSIONS FROM NATIVE APP TESTS
+
+- To clean the old sessions: 
+adb -s 25261FDF60045T shell pm clear io.appium.android.apis
+adb -s 25261FDF60045T uninstall io.appium.uiautomator2.server
+adb -s 25261FDF60045T uninstall io.appium.uiautomator2.server.test
+
+- To manually install the app on a device: 
+adb -s 25261FDF60045T install -r ./apps/ApiDemos-debug.apk
+
+## Running the specs - THE BASICS OF PLAYWRIGHT
+
+Inside that directory, you can run several commands:
+  ```bash
+    npx playwright test
+  ```
+  Runs the end-to-end tests.
+
+  ```bash
+    npx playwright test --ui
+  ```
+  Starts the interactive UI mode.
+
+  ```bash
+    npx playwright test --project=chromium
+  ```
+  Runs the tests only on Desktop Chrome.
+
+  ```bash
+    npx playwright test example
+  ```
+  Runs the tests in a specific file.
+
+  ```bash
+    npx playwright test --debug
+  ```
+  Runs the tests in debug mode.
+
+  ```bash
+    npx playwright codegen
+  ```
+  Auto generate tests with Codegen.
+
+
+We suggest that you begin by typing:
+
+  ```bash
+    npx playwright test
+
+    npx playwright test signInOrangeHrm 
+  ```
+
+And check out the following files:
+  - ./tests/example.spec.js - Example end-to-end test
+  - ./tests-examples/demo-todo-app.spec.js - Demo Todo App end-to-end tests
+  - ./playwright.config.js - Playwright Test configuration
+
+### Reports
+
+To open last HTML report run:
+
+```bash
+  npx playwright show-report
+```
+
+### Using AI Log Analyser
+
+To have accurate analysis on existing failures from the generated Allure Report logs, run this command:
+
+```bash
+  node analyzeWithGPT.js result.json
+```
