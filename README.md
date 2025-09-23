@@ -5,167 +5,183 @@ However, the script files `run_pw_web_tests.sh`, `run_pw_api_tests.sh`, and `run
 
 For the Web tests, we can have these command args:
 
-  ```bash
-    # Examples:
-    ./run_pw_web_tests.sh open_allure=false browser=chromium headless=true tag='@web'
-    ./run_pw_web_tests.sh open_allure=true browser=firefox headless=false tag='@authentication'
-    ./run_pw_web_tests.sh open_allure=true browser=webkit headless=false tag='@negative'
-  ```
+```bash
+  # Examples:
+  ./run_pw_web_tests.sh open_allure=false browser=chromium headless=true tag='@web'
+  ./run_pw_web_tests.sh open_allure=true browser=firefox headless=false tag='@authentication'
+  ./run_pw_web_tests.sh open_allure=true browser=webkit headless=false tag='@negative'
+```
 
 For the API tests, we can have these command args:
 
-  ```bash
-    # Examples:
-    ./run_pw_api_tests.sh open_allure=true tag="@api"
-    ./run_pw_api_tests.sh open_allure=false tag="@post-new-user"
-  ```
+```bash
+  # Examples:
+  ./run_pw_api_tests.sh open_allure=true tag="@api"
+  ./run_pw_api_tests.sh open_allure=false tag="@post-new-user"
+```
 
 For the Android Mobile tests, we can have these command args:
 
-  ```bash
-    # Examples:
-    ./run_pw_android_tests.sh open_allure=true tag=' @android' 
-    ./run_pw_android_tests.sh open_allure=false tag=' @main-page-elements' 
-  ```
+```bash
+  # Examples:
+  ./run_pw_android_tests.sh open_allure=true tag=' @android'
+  ./run_pw_android_tests.sh open_allure=false tag=' @main-page-elements'
+```
 
+-----------------------
 ## Generating new tests
+
 To easily generate the code for the scenarios, use the following command passing the desired URL from the target application:
 
 ```bash
   npx playwright codegen https://opensource-demo.orangehrmlive.com/
 ```
 
+--------------------------------------------------
+## Running the BDD scenarios using the PW commands
 
-------------------
+```bash
+PWDEBUG=1 npx cucumber-js
+```
 
-## Running the BDD scenarios
+Run in non-headless mode for debugging.
 
-  ```bash
-  PWDEBUG=1 npx cucumber-js
-  ```
-  Run in non-headless mode for debugging.
-  
-  ```bash
-    npx cucumber-js --tags @sign-in
-    npx cucumber-js --tags @negative
-    npx cucumber-js --tags @regression
-  ```
-  Run specific scenarios as tagged
+```bash
+  npx cucumber-js --tags @sign-in
+  npx cucumber-js --tags @negative
+  npx cucumber-js --tags @regression
+```
 
-  ```bash
-    npx cucumber-js --tags '@sign-in or @invalid-sign-in'
-  ```
-  Run multiple tags.
+Run specific scenarios as tagged
 
-  If you need to specify the scenarios based on the steps path:
-  ```bash
-    npx cucumber-js features/sign-in.feature --require steps/signInSteps.js
-  ```
+```bash
+  npx cucumber-js --tags '@sign-in or @invalid-sign-in'
+```
 
-  ### Running locally from Dockerfile
-  
-  Running the tests using Dockerfile:
-  ```bash
-    docker build -t playwright-tests .
-    docker run --rm playwright-tests
-  ```
+Run multiple tags.
 
-  Running the tests using docker-compose.yml:
-  ```bash
-    docker-compose build
+If you need to specify the scenarios based on the steps path:
 
-    # To run on all browsers from the project root
-    docker-compose up --abort-on-container-exit
+```bash
+  npx cucumber-js features/sign-in.feature --require steps/signInSteps.js
+```
 
-    # To run forcing rebuild
-    docker-compose up --build --abort-on-container-exit
+### Running locally from Dockerfile
 
-    # OR:
-    npm run docker-compose-run-tests
-  ```
+Running the tests using Dockerfile:
 
-  You can customise the test run variables such as OPEN_ALLURE, HEADLESS, BROWSER, TAG to send with the command `docker-compose up`. To make it simpler, combine with the command defined in the `package.json > scripts`:
-  
-  ```bash
-    # Example:
-    OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests
+```bash
+  docker build -t playwright-tests .
+  docker run --rm playwright-tests
+```
 
-    # OR
-    OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@smoke' npm run docker-compose up
-  ```
+Running the tests using docker-compose.yml:
 
-  To remove all containers and volumes:
-  ```bash
-    docker-compose down -v
+```bash
+  docker-compose build
 
-    # OR:
-    npm run docker-remove-all
-  ```
+  # To run on all browsers from the project root
+  docker-compose up --abort-on-container-exit
 
-  ### Allure Report
+  # To run forcing rebuild
+  docker-compose up --build --abort-on-container-exit
 
-  ```bash
-    npm run generate:allure-report && npm run open:allure-report
-  ```
-  Generate a JSON report.
+  # OR:
+  npm run docker-compose-run-tests
+```
 
+You can customise the test run variables such as OPEN_ALLURE, HEADLESS, BROWSER, TAG to send with the command `docker-compose up`. To make it simpler, combine with the command defined in the `package.json > scripts`:
 
-### CLEANING OLD SESSIONS FROM NATIVE APP TESTS
+```bash
+  # Example:
+  OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests
 
-- To clean the old sessions: 
-adb -s 25261FDF60045T shell pm clear io.appium.android.apis
-adb -s 25261FDF60045T uninstall io.appium.uiautomator2.server
-adb -s 25261FDF60045T uninstall io.appium.uiautomator2.server.test
+  # OR
+  OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@smoke' npm run docker-compose up
+```
 
-- To manually install the app on a device: 
-adb -s 25261FDF60045T install -r ./apps/ApiDemos-debug.apk
+To remove all containers and volumes:
 
+```bash
+  docker-compose down -v
+
+  # OR:
+  npm run docker-remove-all
+```
+
+## Allure Report
+
+```bash
+  npm run generate:allure-report && npm run open:allure-report
+```
+
+Generate a JSON report.
+
+----------------------------------------------
+## CLEANING OLD SESSIONS FROM NATIVE APP TESTS
+
+- To clean the old sessions:
+  adb -s 25261FDF60045T shell pm clear io.appium.android.apis
+  adb -s 25261FDF60045T uninstall io.appium.uiautomator2.server
+  adb -s 25261FDF60045T uninstall io.appium.uiautomator2.server.test
+
+- To manually install the app on a device:
+  adb -s 25261FDF60045T install -r ./apps/ApiDemos-debug.apk
+
+-----------------------------------------------
 ## Running the specs - THE BASICS OF PLAYWRIGHT
 
 Inside that directory, you can run several commands:
-  ```bash
-    npx playwright test
-  ```
-  Runs the end-to-end tests.
 
-  ```bash
-    npx playwright test --ui
-  ```
-  Starts the interactive UI mode.
+```bash
+  npx playwright test
+```
 
-  ```bash
-    npx playwright test --project=chromium
-  ```
-  Runs the tests only on Desktop Chrome.
+Runs the end-to-end tests.
 
-  ```bash
-    npx playwright test example
-  ```
-  Runs the tests in a specific file.
+```bash
+  npx playwright test --ui
+```
 
-  ```bash
-    npx playwright test --debug
-  ```
-  Runs the tests in debug mode.
+Starts the interactive UI mode.
 
-  ```bash
-    npx playwright codegen
-  ```
-  Auto generate tests with Codegen.
+```bash
+  npx playwright test --project=chromium
+```
 
+Runs the tests only on Desktop Chrome.
+
+```bash
+  npx playwright test example
+```
+
+Runs the tests in a specific file.
+
+```bash
+  npx playwright test --debug
+```
+
+Runs the tests in debug mode.
+
+```bash
+  npx playwright codegen
+```
+
+Auto generate tests with Codegen.
 
 We suggest that you begin by typing:
 
-  ```bash
-    npx playwright test
+```bash
+  npx playwright test
 
-    npx playwright test signInOrangeHrm 
-  ```
+  npx playwright test signInOrangeHrm
+```
 
 And check out the following files:
-  - ./tests/example.spec.js - Example end-to-end test
-  - ./tests-examples/demo-todo-app.spec.js - Demo Todo App end-to-end tests
-  - ./playwright.config.js - Playwright Test configuration
+
+- ./tests/example.spec.js - Example end-to-end test
+- ./tests-examples/demo-todo-app.spec.js - Demo Todo App end-to-end tests
+- ./playwright.config.js - Playwright Test configuration
 
 ### Reports
 
