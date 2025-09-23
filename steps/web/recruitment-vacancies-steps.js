@@ -1,6 +1,6 @@
 const { Given, When, Then, Before, AfterStep } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
-const { SignInPage, DashboardPage, NavigationPage, RecruitmentVacanciesPage } = require("../../pages/page_modules/index");
+const { SignInPage, DashboardPage, NavigationPage, RecruitmentVacanciesPage } = require("../../pages/page_modules/web_index");
 const { attachScreenshot } = require("../../support/utils/screenshotHelper.js");
 require("dotenv").config();
 
