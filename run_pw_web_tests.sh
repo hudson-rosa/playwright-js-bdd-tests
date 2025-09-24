@@ -73,6 +73,7 @@ echo "   ⤷ ✅ Browser     : $BROWSER"
 echo "   ⤷ ✅ Headless    : $HEADLESS"
 echo "   ⤷ ✅ Tag         : $TAG"
 
+# Running tests based on the selected browser
 case "$BROWSER" in
 chromium)
   HEADLESS=$HEADLESS npm run test:chromium:tags $TAG || TEST_EXIT_CODE=$?
@@ -97,6 +98,7 @@ esac
 
 echo "✅ All tests were executed."
 
+# Generate Allure Report
 ./run_allure.sh open_allure=$OPEN_ALLURE
 
 echo "✅ All done."

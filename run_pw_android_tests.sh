@@ -9,6 +9,11 @@ echo "     ▶ Starting..."
 
 echo "\n 🗑 Cleaning up old reports..."
 npm run remove-allure-sh
+npm run remove-appium-logs-sh
+
+./run_appium_server.sh > appium.log 2>&1 &
+APPIUM_PID=$!
+echo "🚀 Appium started in background with PID $APPIUM_PID"
 
 # RUN THIS FILE WITH THE COMMAND:
 # E.g.:       ./run_pw_android_tests.sh open_allure=true tag="@android"
@@ -55,13 +60,22 @@ echo "\n▶ Running Playwright tests"
 echo "   ⤷ ✅ Open Allure : $OPEN_ALLURE"
 echo "   ⤷ ✅ Tag         : $TAG"
 
+# Running tests
 npm run test:android:tags $TAG || TEST_EXIT_CODE=$?
 
 echo "✅ All tests were executed."
 
+# Generate Allure Report
 ./run_allure.sh open_allure=$OPEN_ALLURE
 
 echo "✅ All done."
+
+
+# Stopping Appium
+if [ -n "$APPIUM_PID" ]; then
+  echo "🛑 Stopping Appium (PID $APPIUM_PID)..."
+  kill $APPIUM_PID || true
+fi
 
 # Exit with captured test result
 exit ${TEST_EXIT_CODE:-0}

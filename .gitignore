@@ -7,3 +7,6 @@ allure-report
 allure-results
 results
 report.json
+*.log
+*.err
+.DS_Store

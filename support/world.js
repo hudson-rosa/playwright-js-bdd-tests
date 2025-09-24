@@ -1,7 +1,7 @@
 // support/world.js
 const { setWorldConstructor, Before, After } = require("@cucumber/cucumber");
 const { Status } = require("@cucumber/cucumber");
-const { request } = require('@playwright/test');
+const { request } = require("@playwright/test");
 const BrowserHandler = require("./browserHandler");
 const AppiumDriverSetup = require("./appiumDriverSetup");
 
@@ -24,11 +24,11 @@ class CustomWorld {
       baseURL: process.env.BASE_API
     });
   }
-  
+
   async disposeApi() {
     await this.apiContext.dispose();
   }
-  
+
   async initBrowser() {
     const isHeadless = process.env.HEADLESS == "true";
     const browserType = process.env.BROWSER || "chromium";
@@ -46,7 +46,7 @@ class CustomWorld {
       console.error("Error when closing the browser: ", err);
     }
   }
-    
+
   async initAndroid() {
     this.androidDriver = await AppiumDriverSetup.getAndroidDriver();
   }
@@ -57,20 +57,19 @@ class CustomWorld {
       this.androidDriver = null;
     }
   }
-
 }
 
 setWorldConstructor(CustomWorld);
 
 Before(async function (scenario) {
-  tags = scenario.pickle.tags.map(t => t.name);
+  tags = scenario.pickle.tags.map((t) => t.name);
   console.log(`--> Scenario - "${scenario.pickle.name}" with tags: ${tags.join(", ")}`);
-  
+
   await this.initApiContext();
   await this.initBrowser();
   this.page = this.getPage();
 
-  if (tags.includes("@android")) {
+  if (tags.includes("@android") || tags.includes("@ios")) {
     await this.initAndroid();
   }
 });
@@ -79,10 +78,10 @@ After(async function (scenario) {
   const page = this.getPage();
   console.log(`--> Scenario - "${scenario.pickle.name}" has been ${scenario.result?.status}!`);
   const isFailed = scenario.result?.status === Status.FAILED;
-  
+
   if (isFailed && page != null) {
     const screenshotsDir = path.resolve(__dirname, "../allure-results");
-    console.log('--> Capturing screenshot...' + screenshotsDir);
+    console.log("--> Capturing screenshot..." + screenshotsDir);
 
     if (!fs.existsSync(screenshotsDir)) {
       fs.mkdirSync(screenshotsDir, { recursive: true });
@@ -102,7 +101,7 @@ After(async function (scenario) {
   await this.closeBrowser();
   await this.disposeApi();
 
-  if (tags.includes("@android")) { 
+  if (tags.includes("@android") || tags.includes("@ios")) {
     await this.quitAndroid();
   }
 });

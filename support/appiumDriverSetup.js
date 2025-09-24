@@ -12,7 +12,7 @@ class AppiumDriverSetup {
       "appium:platformVersion": process.env.ANDROID_PLATFORM_VERSION || "16.0",
       "appium:deviceName": process.env.ANDROID_DEVICE || "Pixel_6",
       "appium:udid": process.env.ANDROID_APP_UDID || "25261FDF60045T",
-      "appium:automationName": "UiAutomator2",
+      "appium:automationName": process.env.ANDROID_AUTOMATION_NAME || "UiAutomator2",
       "appium:app": path.join(__dirname, "../apps/ApiDemos-debug.apk"),
       "appium:appPackage": process.env.ANDROID_APP_PACKAGE,
       "appium:appActivity": process.env.ANDROID_APP_ACTIVITY,

@@ -55,12 +55,12 @@ echo "\n▶ Running Playwright API tests"
 echo "   ⤷ ✅ Open Allure : $OPEN_ALLURE"
 echo "   ⤷ ✅ Tag         : $TAG"
 
-
+# Running tests
 npm run test:api:tags $TAG || TEST_EXIT_CODE=$?
 
 echo "✅ All selected API tests were executed."
 
-
+# Generate Allure Report
 ./run_allure.sh open_allure=$OPEN_ALLURE
 
 echo "✅ All done."

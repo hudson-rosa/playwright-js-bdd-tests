@@ -9,9 +9,10 @@ echo "\n🎭 APPIUM SERVER ⚡"
 echo "-------------------------------------"
 echo "     ▶ Starting..."
 
-echo "\n 🗑 Cleaning up old reports..."
 npm run appium:server:debug
-echo "✅ Appium is running on port 4723"
+sleep 10
+curl http://127.0.0.1:4723/status
+echo "✅ Appium is running!
 
 # Exit with captured test result
 exit ${TEST_EXIT_CODE:-0}
