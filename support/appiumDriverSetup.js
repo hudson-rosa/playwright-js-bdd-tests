@@ -6,7 +6,7 @@ const DEFAULT_SYSTEM_PORT = 58200;
 
 class AppiumDriverSetup {
   static async getAndroidDriver() {
-    const systemPort = (process.env.APPIUM_DEFAULT_SYSTEM_PORT ? parseInt(process.env.APPIUM_DEFAULT_SYSTEM_PORT) : DEFAULT_SYSTEM_PORT) + Math.floor(Math.random() * 20);
+    const dynamicSystemPort = (process.env.APPIUM_DEFAULT_SYSTEM_PORT ? parseInt(process.env.APPIUM_DEFAULT_SYSTEM_PORT) : DEFAULT_SYSTEM_PORT) + Math.floor(Math.random() * 20);
     const caps = {
       platformName: "Android",
       "appium:platformVersion": process.env.ANDROID_PLATFORM_VERSION || "16.0",
@@ -20,10 +20,10 @@ class AppiumDriverSetup {
       "appium:fullReset": false,
       "appium:autoGrantPermissions": true,
       "appium:newCommandTimeout": parseInt(process.env.APPIUM_COMMAND_TIMEOUT || 3600),
-      "appium:systemPort": systemPort
+      "appium:systemPort": dynamicSystemPort
     };
 
-    console.log("⚡ Launching Android driver on systemPort:", systemPort);
+    console.log("⚡ Launching Android driver on systemPort:", dynamicSystemPort);
 
     const driver = await remote({
       protocol: process.env.APPIUM_PROTOCOL || "http",
