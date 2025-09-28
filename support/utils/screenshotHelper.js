@@ -25,6 +25,11 @@ async function attachScreenshot(world, label = "") {
   }
 }
 
+/** Captures and attaches a screenshot when a scenario fails.
+ * @param {object} world - The Cucumber world context (`this` in steps).
+ * @param {object} scenario - The Cucumber scenario object.
+ * @param {object} page - The Playwright page instance.
+ */
 async function attachScreenshotFromFailure(world, scenario, page) {
   const screenshotsDir = path.resolve(__dirname, `../allure-results`);
   console.log("--> Capturing screenshot..." + screenshotsDir);

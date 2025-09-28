@@ -5,15 +5,50 @@ require("dotenv").config();
 const DEFAULT_SYSTEM_PORT = 58200;
 const dynamicSystemPort = (process.env.APPIUM_DEFAULT_SYSTEM_PORT ? parseInt(process.env.APPIUM_DEFAULT_SYSTEM_PORT) : DEFAULT_SYSTEM_PORT) + Math.floor(Math.random() * 20);
 
+const androidDevices = {
+  pixel6_android16: {
+    "appium:platformVersion": "16.0",
+    "appium:deviceName": "Pixel_6",
+    "appium:udid": "25261FDF60045T",
+  },
+  galaxyS22_android15: {
+    "appium:platformVersion": "15.0",
+    "appium:deviceName": "Galaxy_S22",
+    "appium:udid": "R58R12345ZZ",
+  },
+};
+
+const iosDevices = {
+  iphoneXS_ios187: {
+    "appium:platformVersion": "18.7",
+    "appium:deviceName": "iPhone XS",
+    "appium:udid": "00008020-00050C3A2121002E",
+  },
+  iphone15pro_ios180: {
+    "appium:platformVersion": "18.0",
+    "appium:deviceName": "iPhone 15 Pro",
+    "appium:udid": "00008030-00091B3B1132003F",
+  },
+};
+
 class AppiumDriverSetup {
+
+  /**
+   * Get Android driver instance  
+   * @return {Promise<WebdriverIO.Browser>} The Android driver instance
+   */
   static async getAndroidDriver() {
     console.log(">>>> ANDROID APP PATH:", path.join(__dirname, process.env.ANDROID_RELATIVE_APP_PATH));
+    
+    const profileName = process.env.ANDROID_PROFILE || "pixel6_android16";
+    const profile = androidDevices[profileName];
+
+    if (!profile) {
+      throw new Error(`❌ Unknown Android profile: ${profileName}`);
+    }
 
     const androidCaps = {
       platformName: "Android",
-      "appium:platformVersion": process.env.ANDROID_PLATFORM_VERSION || "16.0",
-      "appium:deviceName": process.env.ANDROID_DEVICE || "Pixel_6",
-      "appium:udid": process.env.ANDROID_APP_UDID || "25261FDF60045T",
       "appium:automationName": process.env.ANDROID_AUTOMATION_NAME || "UiAutomator2",
       "appium:app": path.join(__dirname, process.env.ANDROID_RELATIVE_APP_PATH),
       "appium:appPackage": process.env.ANDROID_APP_PACKAGE,
@@ -22,33 +57,46 @@ class AppiumDriverSetup {
       "appium:fullReset": false,
       "appium:autoGrantPermissions": true,
       "appium:newCommandTimeout": parseInt(process.env.APPIUM_COMMAND_TIMEOUT || 3600),
-      "appium:systemPort": dynamicSystemPort
+      "appium:systemPort": dynamicSystemPort,
+      ...profile
     };
 
     console.log("⚡ Launching Android driver on systemPort:", dynamicSystemPort);
     return await AppiumDriverSetup.createDriver(androidCaps);
   }
 
+  /** Get iOS driver instance  
+   * @return {Promise<WebdriverIO.Browser>} The iOS driver instance
+   */
   static async getIOSDriver() {
     console.log(">>>> IOS APP PATH:", path.resolve(__dirname, process.env.IOS_RELATIVE_APP_PATH));
 
+    const profileName = process.env.IOS_PROFILE || "iphoneXS_ios187";
+    const profile = iosDevices[profileName];
+
+    if (!profile) {
+      throw new Error(`❌ Unknown iOS profile: ${profileName}`);
+    }
+
     const iosCaps = {
       platformName: "iOS",
-      "appium:platformVersion": process.env.IOS_PLATFORM_VERSION || "18.0",
-      "appium:deviceName": process.env.IOS_DEVICE || "iPhone XS",
-      "appium:udid": process.env.IOS_APP_UDID || "00008020-00050C3A2121002E",
       "appium:automationName": process.env.IOS_AUTOMATION_NAME || "XCUITest",
       "appium:app": path.resolve(__dirname, process.env.IOS_RELATIVE_APP_PATH),
       "appium:bundleId": process.env.IOS_BUNDLE_ID,
       "appium:noReset": false,
       "appium:fullReset": true,
-      "appium:newCommandTimeout": parseInt(process.env.APPIUM_COMMAND_TIMEOUT || 3600)
+      "appium:newCommandTimeout": parseInt(process.env.APPIUM_COMMAND_TIMEOUT || 3600),
+      ...profile
     };
 
     console.log("⚡ Launching iOS driver on systemPort:", dynamicSystemPort);
     return await AppiumDriverSetup.createDriver(iosCaps);
   }
 
+  /** Create the driver with given capabilities
+   * @param {object} caps - The desired capabilities for the driver
+   * @return {Promise<WebdriverIO.Browser>} The driver instance
+   */
   static async createDriver(caps) {
     return await remote({
       protocol: process.env.APPIUM_PROTOCOL || "http",

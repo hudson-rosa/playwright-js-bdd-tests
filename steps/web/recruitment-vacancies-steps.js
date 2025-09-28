@@ -1,4 +1,5 @@
 // steps/web/recruitment-vacancies-steps.js
+
 const { Given, When, Then, Before, AfterStep } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
 const { SignInPage, DashboardPage, NavigationPage, RecruitmentVacanciesPage } = require("../../pages/page_modules/web_index");
