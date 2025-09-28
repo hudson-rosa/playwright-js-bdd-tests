@@ -62,6 +62,7 @@ pipeline {
 
   parameters {
     booleanParam(name: 'OPEN_ALLURE', defaultValue: false, description: 'Enable Allure report generation?')
+    booleanParam(name: 'CLEAR_OLD_RESULTS', defaultValue: false, description: 'Clear old Allure reports?')
     choice(name: 'BROWSER', choices: ['chromium', 'firefox', 'webkit', 'all'], description: 'Browser to test with')
     booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run in headless mode?')
     choice(name: 'TAG', choices: ['@smoke', '@regression'], description: 'Which tag to run?')
@@ -124,6 +125,7 @@ pipeline {
     string(name: 'HEADLESS', defaultValue: 'true', description: 'Run headless: true or false')
     string(name: 'TAG', defaultValue: '@regression', description: 'Cucumber tag to run')
     booleanParam(name: 'OPEN_ALLURE', defaultValue: true, description: 'Generate Allure report?')
+    booleanParam(name: 'CLEAR_OLD_RESULTS', defaultValue: true, description: 'Clear old Allure results?')
   }
 
   stages {
@@ -143,6 +145,7 @@ pipeline {
               -e HEADLESS=${params.HEADLESS} \
               -e TAG="${params.TAG}" \
               -e OPEN_ALLURE=${params.OPEN_ALLURE} \
+              -e CLEAR_OLD_RESULTS=${params.CLEAR_OLD_RESULTS} \
               tests
           """
         }

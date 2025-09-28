@@ -1,12 +1,12 @@
 class ADMainPage {
   constructor(driver) {
     this.driver = driver;
-    this.accessibilityOptionId = "~Accessibility";
+    this.ACCESSIBILITY_OPTIONAL = "~Accessibility";
   }
 
   async isMainPageVisible() {
     try {
-      const el = await this.driver.$(this.accessibilityOptionId);
+      const el = await this.driver.$(this.ACCESSIBILITY_OPTIONAL);
       return await el.isDisplayed();
     } catch (err) {
       return false;

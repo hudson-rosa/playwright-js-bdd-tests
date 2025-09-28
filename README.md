@@ -7,28 +7,30 @@ For the Web tests, we can have these command args:
 
 ```bash
   # Examples:
-  ./run_pw_web_tests.sh open_allure=false browser=chromium headless=true tag='@web'
-  ./run_pw_web_tests.sh open_allure=true browser=firefox headless=false tag='@authentication'
-  ./run_pw_web_tests.sh open_allure=true browser=webkit headless=false tag='@negative'
+  ./test_pw_web.sh browser=chromium headless=false open_allure=true tag='@web'
+  ./test_pw_web.sh browser=chromium headless=true open_allure=false tag='@web'
+  ./test_pw_web.sh browser=firefox headless=false open_allure=true tag='@authentication'
+  ./test_pw_web.sh browser=webkit headless=false open_allure=true tag='@negative'
 ```
 
 For the API tests, we can have these command args:
 
 ```bash
   # Examples:
-  ./run_pw_api_tests.sh open_allure=true tag="@api"
-  ./run_pw_api_tests.sh open_allure=false tag="@post-new-user"
+  ./test_pw_api.sh open_allure=true tag="@api"
+  ./test_pw_api.sh open_allure=false tag="@post-new-user"
 ```
 
 For the Android Mobile tests, we can have these command args:
 
 ```bash
   # Examples:
-  ./run_pw_android_tests.sh open_allure=true tag=' @android'
-  ./run_pw_android_tests.sh open_allure=false tag=' @main-page-elements'
+  ./test_pw_mobile.sh platform=android open_allure=true tag='@smoke-android'
+  ./test_pw_mobile.sh platform=ios open_allure=false tag='@sum-computation'
 ```
 
------------------------
+---
+
 ## Generating new tests
 
 To easily generate the code for the scenarios, use the following command passing the desired URL from the target application:
@@ -37,7 +39,8 @@ To easily generate the code for the scenarios, use the following command passing
   npx playwright codegen https://opensource-demo.orangehrmlive.com/
 ```
 
---------------------------------------------------
+---
+
 ## Running the BDD scenarios using the PW commands
 
 ```bash
@@ -117,19 +120,27 @@ To remove all containers and volumes:
 
 Generate a JSON report.
 
-----------------------------------------------
+---
+
 ## CLEANING OLD SESSIONS FROM NATIVE APP TESTS
 
 - To clean the old sessions:
+
+```bash
   adb -s 25261FDF60045T shell pm clear io.appium.android.apis
   adb -s 25261FDF60045T uninstall io.appium.uiautomator2.server
   adb -s 25261FDF60045T uninstall io.appium.uiautomator2.server.test
+```
 
 - To manually install the app on a device:
-  adb -s 25261FDF60045T install -r ./apps/ApiDemos-debug.apk
 
------------------------------------------------
-## Running the specs - THE BASICS OF PLAYWRIGHT
+```bash
+  adb -s 25261FDF60045T install -r ./apps/ApiDemos-debug.apk
+```
+
+---
+
+## Running the specs - THE BASICS FOR PLAYWRIGHT TESTING
 
 Inside that directory, you can run several commands:
 
@@ -197,4 +208,46 @@ To have accurate analysis on existing failures from the generated Allure Report 
 
 ```bash
   node analyzeWithGPT.js result.json
+```
+
+## Issues with Appium
+
+1️⃣ Unsupported Node version warning
+- Appium 3.x requires Node >= 22.12.0 (or 20.19.0, 24+)
+
+### Solution: Upgrade Node
+
+Using Homebrew:
+```bash
+brew install node@22
+echo 'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"' >> /Users/<PC_NAME>/.zshrc
+brew link --overwrite node@22
+```
+
+Or with NVM:
+
+```bash
+nvm install 22.20.0
+nvm use 22.20.0
+```
+
+Then verify and install the desired Appium version:
+
+```bash
+node -v
+# should be >= 22.+++
+
+npm install -g appium@latest
+appium -v 
+# should be > 3.0.2
+```
+
+Finally, install the drivers for Android and iOS:
+
+```bash
+appium driver install xcuitest
+appium driver install uiautomator2
+
+# to check them:
+appium driver list --installed
 ```

@@ -1,3 +1,5 @@
+// pages/web/dashboard.page.js
+
 const { expect } = require("@playwright/test");
 
 class DashboardPage {

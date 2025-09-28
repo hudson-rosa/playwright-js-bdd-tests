@@ -1,13 +1,26 @@
+// pages/web/recruitment-vacancies.page.js
+
 const { expect } = require("@playwright/test");
 
 class RecruitmentVacanciesPage {
   constructor(page) {
     this.page = page;
     this.addButton = "//button[normalize-space()='Add']";
-    this.vacancyNameInput = this.page.locator("div").filter({ hasText: /^Vacancy Name$/ }).getByRole("textbox");
+    this.vacancyNameInput = this.page
+      .locator("div")
+      .filter({ hasText: /^Vacancy Name$/ })
+      .getByRole("textbox");
     this.jobTitleDropdown = this.page.locator("form i");
     this.descriptionInput = this.page.getByRole("textbox", { name: "Type description here" });
     this.hiringManagerInput = this.page.getByRole("textbox", { name: "Type for hints..." });
+  }
+  
+  async awaitForVacanciesPage() {
+    await expect(this.page).toHaveURL(/viewJobVacancy/);
+  }
+
+  getVacancyRow(vacancyName) {
+    return this.page.getByRole("row", { name: vacancyName });
   }
 
   async clickOnAdd() {

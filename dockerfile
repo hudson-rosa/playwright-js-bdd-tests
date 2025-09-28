@@ -18,4 +18,4 @@ RUN chmod -R 777 node_modules
 RUN chmod +x ./run_pw_tests.sh
 
 # Default command (can be overridden in docker-compose or Jenkinsfile)
-CMD ["bash", "./../run_pw_tests.sh", "open_allure=false", "browser=chromium", "headless=true", "tag=smoke"]
+CMD ["bash", "./../test_pw_web.sh", "open_allure=false", "clear_old_results=true", "browser=chromium", "headless=true", "tag=smoke"]

@@ -4,10 +4,7 @@ const { Status } = require("@cucumber/cucumber");
 const { request } = require("@playwright/test");
 const BrowserHandler = require("./browserHandler");
 const AppiumDriverSetup = require("./appiumDriverSetup");
-
-const fs = require("fs");
-const path = require("path");
-const sanitizeFilename = require("sanitize-filename");
+const { attachScreenshotFromFailure } = require("../support/utils/screenshotHelper.js");
 let tags;
 
 class CustomWorld {
@@ -32,7 +29,8 @@ class CustomWorld {
   async initBrowser() {
     const isHeadless = process.env.HEADLESS == "true";
     const browserType = process.env.BROWSER || "chromium";
-    await this.browserHandler.launch(browserType, isHeadless);
+    this.browser = await this.browserHandler.launch(browserType, isHeadless);
+    this.browserName = browserType;
   }
 
   getPage() {
@@ -57,51 +55,63 @@ class CustomWorld {
       this.androidDriver = null;
     }
   }
+
+  async initIOS() {
+    this.iosDriver = await AppiumDriverSetup.getIOSDriver();
+    return this.iosDriver;
+  }
+
+  async quitIOS() {
+    if (this.iosDriver) {
+      await this.iosDriver.deleteSession();
+      this.iosDriver = null;
+    }
+  }
 }
 
 setWorldConstructor(CustomWorld);
+
+// The hooks
 
 Before(async function (scenario) {
   tags = scenario.pickle.tags.map((t) => t.name);
   console.log(`--> Scenario - "${scenario.pickle.name}" with tags: ${tags.join(", ")}`);
 
+  if (this.allure) {
+    this.allure.addParameter("Browser", process.env.BROWSER || "unknown");
+  }
+
   await this.initApiContext();
   await this.initBrowser();
   this.page = this.getPage();
 
-  if (tags.includes("@android") || tags.includes("@ios")) {
+  if (tags.includes("@android")) {
     await this.initAndroid();
+  }
+
+  if (tags.includes("@ios")) {
+    await this.initIOS();
   }
 });
 
 After(async function (scenario) {
-  const page = this.getPage();
   console.log(`--> Scenario - "${scenario.pickle.name}" has been ${scenario.result?.status}!`);
+  console.log(`--> BROWSER: ${this.browserName}`);
+  const page = this.getPage();
   const isFailed = scenario.result?.status === Status.FAILED;
 
-  if (isFailed && page != null) {
-    const screenshotsDir = path.resolve(__dirname, "../allure-results");
-    console.log("--> Capturing screenshot..." + screenshotsDir);
-
-    if (!fs.existsSync(screenshotsDir)) {
-      fs.mkdirSync(screenshotsDir, { recursive: true });
-    }
-
-    const scenarioName = sanitizeFilename(scenario.pickle.name);
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-    const fileName = `${timestamp}_${scenarioName}.png`;
-    const filePath = path.join(screenshotsDir, fileName);
-
-    const screenshotBuffer = await page.screenshot({ path: filePath, type: "png" });
-
-    console.log(`📸 Attaching screenshot at: ${filePath}`);
-    this.attach(screenshotBuffer, "image/png");
+  if (tags.includes("@web") && isFailed && page != null) {
+    await attachScreenshotFromFailure(this, scenario, page);
   }
 
   await this.closeBrowser();
   await this.disposeApi();
 
-  if (tags.includes("@android") || tags.includes("@ios")) {
+  if (tags.includes("@android")) {
     await this.quitAndroid();
+  }
+
+  if (tags.includes("@ios")) {
+    await this.quitIOS();
   }
 });

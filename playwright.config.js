@@ -35,18 +35,18 @@ export default defineConfig({
     ["dot"],
     ["html"],
     ["list"],
-    [
-      "allure-playwright",
-      {
-        outputFolder: "allure-results",
-        environmentInfo: {
-          os_platform: os.platform(),
-          os_release: os.release(),
-          os_version: os.version(),
-          node_version: process.version
-        }
-      }
-    ],
+    // [
+    //   "allure-playwright",
+    //   {
+    //     outputFolder: "allure-results",
+    //     environmentInfo: {
+    //       os_platform: os.platform(),
+    //       os_release: os.release(),
+    //       os_version: os.version(),
+    //       node_version: process.version
+    //     }
+    //   }
+    // ],
     [
       "json",
       {

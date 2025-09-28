@@ -1,3 +1,5 @@
+// pages/web/recruitment.page.js
+
 class RecruitmentPage {
   constructor(page) {
     this.page = page;

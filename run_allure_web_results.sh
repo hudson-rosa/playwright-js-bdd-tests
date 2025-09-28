@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# RUN THIS FILE WITH THE COMMAND:
+# E.g.:       ./run_allure_web_results.sh open_allure=true
+
 # Default values
 OPEN_ALLURE="false"
 
@@ -19,13 +22,14 @@ done
 
 echo "\n✨✨ Generating Allure Report ✨✨..."
 sleep 2
-npm run generate:allure-report
+npm run generate:allure-report:web
 
 echo "OPEN_ALLURE is: $OPEN_ALLURE"
 if [ "$OPEN_ALLURE" = "true" ]; then
   sleep 2
   echo "📂 Opening Allure Report..."
   npm run open:allure-report
+
 else
   echo "OPEN_ALLURE is not 'true', skipping..."
 fi

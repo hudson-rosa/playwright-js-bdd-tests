@@ -1,18 +1,14 @@
+// steps/web/recruitment-vacancies-steps.js
 const { Given, When, Then, Before, AfterStep } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
 const { SignInPage, DashboardPage, NavigationPage, RecruitmentVacanciesPage } = require("../../pages/page_modules/web_index");
-const { attachScreenshot } = require("../../support/utils/screenshotHelper.js");
 require("dotenv").config();
 
 let signInPage;
 let navigationPage;
 let recruitmentVacanciesPage;
 
-AfterStep(async function() {
-  await attachScreenshot(this, "vacancies");
-});
-
-Given(/^I am on "(.*)" page as the user:$/, async function(navigation, dataTable) {
+Given(/^I am on "(.*)" page as the user:$/, { timeout: 60000 }, async function (navigation, dataTable) {
   const credentials = dataTable.rowsHash();
   const page = this.getPage();
   navigationPage = new NavigationPage(this.getPage());
@@ -22,16 +18,20 @@ Given(/^I am on "(.*)" page as the user:$/, async function(navigation, dataTable
   await signInPage.fillUsername(credentials.user);
   await signInPage.fillPassword(credentials.password);
   await signInPage.submitLogin();
+
+  await expect(this.page).toHaveURL(/dashboard/);
+
   await navigationPage.openFromUrl(navigation, 0);
   await navigationPage.openTab(navigation, 1);
 });
 
-When(/^I tap "(.*)" to register a new vacancy$/, async function(buttonName) {
+When("I click to add a new vacancy", async function () {
   recruitmentVacanciesPage = new RecruitmentVacanciesPage(this.getPage());
+  await recruitmentVacanciesPage.awaitForVacanciesPage();
   await recruitmentVacanciesPage.clickOnAdd();
 });
 
-When("I save the form with with all the required entries", async function(dataTable) {
+When("I save the form with all the required entries", async function (dataTable) {
   const data = dataTable.rowsHash();
   recruitmentVacanciesPage = new RecruitmentVacanciesPage(this.getPage());
   await recruitmentVacanciesPage.fillVacancyName(data.vacancyName);
@@ -46,7 +46,12 @@ When("I save the form with with all the required entries", async function(dataTa
   await recruitmentVacanciesPage.clickSaveButton();
 });
 
-Then("I see the new register added to the vacancies' list", function() {
-  // Write code here that turns the phrase above into concrete actions
-  return "to-do";
+Then("I see the new register added to the vacancies' list", async function (dataTable) {
+  const data = dataTable ? dataTable.rowsHash() : {};
+  const vacancyName = data.vacancyName || "Default Vacancy";
+
+  recruitmentVacanciesPage = new RecruitmentVacanciesPage(this.getPage());
+  const vacancyRow = recruitmentVacanciesPage.getVacancyRow(vacancyName);
+
+  await expect(vacancyRow).toBeVisible({ timeout: 10000 });
 });

@@ -7,14 +7,15 @@ echo "\n🎭 WEB • Playwright • JS • BDD • Allure ⚡"
 echo "-------------------------------------------"
 echo "     ▶ Starting..."
 
-echo "\n 🗑 Cleaning up old reports..."
-npm run remove-allure-sh
 
 # RUN THIS FILE WITH THE COMMAND:
-# E.g.:       ./run_pw_web_tests.sh open_allure=true headless=false browser=chromium tag="@web"
-OPEN_ALLURE="false"
+# E.g.1:       ./test_pw_web.sh browser=chromium headless=false open_allure=true clear_old_results=true tag="@web"
+# E.g.2:       ./test_pw_web.sh browser=firefox headless=false open_allure=true clear_old_results=true tag="@web"
+# E.g.3:       ./test_pw_web.sh browser=webkit headless=false open_allure=true clear_old_results=true tag="@web"
 BROWSER=""
 HEADLESS=""
+OPEN_ALLURE="false"
+CLEAR_OLD_RESULTS="false"
 TAG=""
 
 # Parse named arguments
@@ -22,6 +23,10 @@ for arg in "$@"; do
   case $arg in
     open_allure=*)
       OPEN_ALLURE="${arg#*=}"
+      shift
+      ;;
+    clear_old_results=*)
+      CLEAR_OLD_RESULTS="${arg#*=}"
       shift
       ;;
     browser=*)
@@ -48,6 +53,9 @@ MISSING_ARGS=""
 if [ -z "$OPEN_ALLURE" ]; then
   MISSING_ARGS+="\n ❌ OPEN_ALLURE arg is missing on the command!\n    --> Use: open_allure=true|false"
 fi
+if [ -z "$CLEAR_OLD_RESULTS" ]; then
+  MISSING_ARGS+="\n ❌ CLEAR_OLD_RESULTS arg is missing on the command!\n    --> Use: clear_old_results=true|false"
+fi
 if [ -z "$BROWSER" ]; then
   MISSING_ARGS+="\n ❌ BROWSER arg is missing on the command!\n    --> Use: browser=chromium|firefox|webkit|all"
 fi
@@ -67,28 +75,32 @@ if [ -n "$MISSING_ARGS" ]; then
   exit 1
 fi
 
-echo "\n▶ Running Playwright tests"
-echo "   ⤷ ✅ Open Allure : $OPEN_ALLURE"
-echo "   ⤷ ✅ Browser     : $BROWSER"
-echo "   ⤷ ✅ Headless    : $HEADLESS"
-echo "   ⤷ ✅ Tag         : $TAG"
+# Clear old results if specified
+if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
+  echo "\n 🗑 Cleaning up old reports..."
+  npm run remove-allure-sh
+fi
 
 # Running tests based on the selected browser
+echo "\n▶ Running Playwright tests"
+echo "   ⤷ ✅ Open Allure              : $OPEN_ALLURE"
+echo "   ⤷ ✅ Clear Old Allure Results : $CLEAR_OLD_RESULTS"
+echo "   ⤷ ✅ Browser                  : $BROWSER"
+echo "   ⤷ ✅ Headless                 : $HEADLESS"
+echo "   ⤷ ✅ Tag                      : $TAG"
+
 case "$BROWSER" in
 chromium)
-  HEADLESS=$HEADLESS npm run test:chromium:tags $TAG || TEST_EXIT_CODE=$?
+  TAGS=$TAG HEADLESS=$HEADLESS npm run test:chromium:tags || TEST_EXIT_CODE=$?
   ;;
 firefox)
-  HEADLESS=$HEADLESS npm run test:firefox:tags $TAG || TEST_EXIT_CODE=$?
+  TAGS=$TAG HEADLESS=$HEADLESS npm run test:firefox:tags || TEST_EXIT_CODE=$?
   ;;
 webkit)
-  HEADLESS=$HEADLESS npm run test:webkit:tags $TAG || TEST_EXIT_CODE=$?
+  TAGS=$TAG HEADLESS=$HEADLESS npm run test:webkit:tags || TEST_EXIT_CODE=$?
   ;;
 all)
-  HEADLESS=$HEADLESS npx npm-run-all -p \
-    test:chromium:tags $TAG \
-    test:firefox:tags $TAG \
-    test:webkit:tags $TAG || TEST_EXIT_CODE=$?
+  TAGS=$TAG HEADLESS=$HEADLESS npx npm-run-all --parallel test:chromium:tags test:firefox:tags test:webkit:tags || TEST_EXIT_CODE=$?
   ;;
 *)
   echo "❌ Invalid browser: $BROWSER. Valid options are: chromium, firefox, webkit, all"
@@ -99,7 +111,7 @@ esac
 echo "✅ All tests were executed."
 
 # Generate Allure Report
-./run_allure.sh open_allure=$OPEN_ALLURE
+./run_allure_web_results.sh open_allure=$OPEN_ALLURE
 
 echo "✅ All done."
 

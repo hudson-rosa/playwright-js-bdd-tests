@@ -1,3 +1,5 @@
+// pages/web/navigation.page.js
+
 class NavigationPage {
   constructor(page) {
     this.page = page;
