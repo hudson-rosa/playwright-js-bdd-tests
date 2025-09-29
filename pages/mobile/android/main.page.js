@@ -1,3 +1,5 @@
+// pages/mobile/android/main.page.js
+
 class ADMainPage {
   constructor(driver) {
     this.driver = driver;

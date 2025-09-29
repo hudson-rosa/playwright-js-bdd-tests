@@ -34,6 +34,7 @@
     "test:ios": "npx cucumber-js -p ios --parallel 1 --require steps --require support/world.js --tags '@ios'",
     "test:api:tags": "npx cucumber-js -p api --require support/world.js --require steps --tags ",
     "test:api": "npx cucumber-js -p api --require support/world.js --require steps --tags '@api'",
+    
     "appium:server": "npx appium -p 4723",
     "appium:server:debug": "npx appium -p 4723 --log-level debug",
     "remove-appium-logs-sh": "rm -rf appium.log",

@@ -9,12 +9,12 @@ const androidDevices = {
   pixel6_android16: {
     "appium:platformVersion": "16.0",
     "appium:deviceName": "Pixel_6",
-    "appium:udid": "25261FDF60045T",
+    "appium:udid": "",
   },
   galaxyS22_android15: {
     "appium:platformVersion": "15.0",
     "appium:deviceName": "Galaxy_S22",
-    "appium:udid": "R58R12345ZZ",
+    "appium:udid": "",
   },
 };
 
@@ -22,12 +22,12 @@ const iosDevices = {
   iphoneXS_ios187: {
     "appium:platformVersion": "18.7",
     "appium:deviceName": "iPhone XS",
-    "appium:udid": "00008020-00050C3A2121002E",
+    "appium:udid": "",
   },
-  iphone15pro_ios180: {
-    "appium:platformVersion": "18.0",
+  iphone15pro_ios26: {
+    "appium:platformVersion": "26.0",
     "appium:deviceName": "iPhone 15 Pro",
-    "appium:udid": "00008030-00091B3B1132003F",
+    "appium:udid": "",
   },
 };
 

@@ -9,9 +9,10 @@ echo "     ▶ Starting..."
 
 
 # RUN THIS FILE WITH THE COMMAND:
-# E.g.1:       ./test_pw_web.sh browser=chromium headless=false open_allure=true clear_old_results=true tag="@web"
-# E.g.2:       ./test_pw_web.sh browser=firefox headless=false open_allure=true clear_old_results=true tag="@web"
-# E.g.3:       ./test_pw_web.sh browser=webkit headless=false open_allure=true clear_old_results=true tag="@web"
+# E.g.1 - Chrome:        ./test_pw_web.sh browser=chromium headless=false open_allure=true clear_old_results=true tag="@web"
+# E.g.2 - Firefox:       ./test_pw_web.sh browser=firefox headless=false open_allure=true clear_old_results=true tag="@web"
+# E.g.3 - Webkit:        ./test_pw_web.sh browser=webkit headless=false open_allure=true clear_old_results=true tag="@web"
+# E.g.4 - All Browsers:  ./test_pw_web.sh browser=all headless=false open_allure=true clear_old_results=true tag="@web"
 BROWSER=""
 HEADLESS=""
 OPEN_ALLURE="false"

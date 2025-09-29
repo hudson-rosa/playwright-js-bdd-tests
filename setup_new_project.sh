@@ -15,10 +15,13 @@ echo "..."
 playwright --version 
 echo "✅ All main packages installed."
 
-echo "------> iOS / Android Resources..."
-brew install android-platform-tools
-brew install libimobiledevice
-
 echo "------> Initializing Playwright..."
 npm init playwright@latest
+
+echo "------> iOS / Android Resources..."
+npm install appium @appium/doctor
+brew install android-platform-tools
+brew install libimobiledevice
+appium driver list
+
 echo "✅ All done."

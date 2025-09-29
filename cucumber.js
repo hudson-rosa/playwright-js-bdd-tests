@@ -1,5 +1,4 @@
 // module.exports = {
-
 const path = require("path");
 
 function buildConfig(resultsDir) {

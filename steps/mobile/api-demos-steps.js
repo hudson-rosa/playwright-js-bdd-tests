@@ -14,11 +14,11 @@ Given("I am on the API Demos main page", async function() {
   assert.strictEqual(isVisible, true, "Main page is not visible");
 });
 
-When("I navigate to the {string} section", async function(section) {
+When(/^I navigate to the (.*) section$/, async function(section) {
   await this.apiDemosMainPage.navigateToSection(section);
 });
 
-When("I open {string}", async function(subItem) {
+When(/^I open (.*)$/, async function(subItem) {
   await this.apiDemosMainPage.openSubItem(subItem);
 });
 
@@ -33,7 +33,7 @@ Then("the Bouncing Balls animation should be displayed", async function() {
   assert.ok(activity.includes("graphics/BouncingBalls"), "Wrong activity launched");
 });
 
-Then("I should see the {string} option", async function(option) {
+Then(/^I should see the (.*) option$/, async function(option) {
   const visible = await this.apiDemosMainPage.isDisplayed(option);
   assert.strictEqual(visible, true, `${option} option not visible`);
 });
