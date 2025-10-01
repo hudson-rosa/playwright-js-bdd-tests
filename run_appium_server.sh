@@ -9,8 +9,8 @@ echo "\n🎭 APPIUM SERVER ⚡"
 echo "-------------------------------------"
 echo "     ▶ Starting..."
 
-npm run appium:server:debug
-sleep 10
+npm run appium:server
+sleep 5000
 curl http://127.0.0.1:4723/status
 echo "✅ Appium is running!
 

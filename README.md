@@ -135,7 +135,7 @@ Generate a JSON report.
 - To manually install the app on a device:
 
 ```bash
-  adb -s 25261FDF60045T install -r ./apps/ApiDemos-debug.apk
+  adb -s 25261FDF60045T install -r ./app-dist/ApiDemos-debug.apk
 ```
 
 ---
@@ -296,6 +296,6 @@ Create the folder and install the SDK components:
 
 Test if the app can be installed manually on a real Android device:
 ```bash
-  adb install -r /Users/qa/Projects/test_automation/playwright-js-bdd-tests/apps/ApiDemos-debug.apk
+  adb install -r /Users/qa/Projects/test_automation/playwright-js-bdd-tests/app-dist/ApiDemos-debug.apk
   adb shell am start -n io.appium.android.apis/.ApiDemos
 ```
