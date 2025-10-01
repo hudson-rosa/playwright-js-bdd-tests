@@ -3,10 +3,11 @@ node_modules
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+jsonReports/
+report.json
 allure-report
 allure-results
 results
-report.json
 *.log
 *.err
 .DS_Store

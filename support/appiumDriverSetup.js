@@ -7,12 +7,12 @@ const dynamicSystemPort = (process.env.APPIUM_DEFAULT_SYSTEM_PORT ? parseInt(pro
 
 const androidDevices = {
   pixel6_android16: {
-    "appium:platformVersion": "16.0",
+    "appium:platformVersion": "16",
     "appium:deviceName": "Pixel_6",
-    "appium:udid": "",
+    "appium:udid": "25261FDF60045T",
   },
   galaxyS22_android15: {
-    "appium:platformVersion": "15.0",
+    "appium:platformVersion": "15",
     "appium:deviceName": "Galaxy_S22",
     "appium:udid": "",
   },

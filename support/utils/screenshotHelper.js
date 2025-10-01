@@ -51,5 +51,5 @@ async function attachScreenshotFromFailure(world, scenario, page) {
 
 module.exports = {
   attachScreenshot,
-  attachScreenshotOnFailure: attachScreenshotFromFailure
+  attachScreenshotFromFailure
 };

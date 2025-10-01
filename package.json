@@ -13,28 +13,24 @@
     "generate:allure-report:mobile": "npx allure generate allure-results/android allure-results/ios --clean -o allure-report",
     "generate:allure-report:api": "npx allure generate allure-results/api --clean -o allure-report",
     "open:allure-report": "npx allure open allure-report",
-
     "test": "cucumber-js",
     "generate:selector:from": "npx playwright codegen ",
     "generate:selector:baseurl": "npx playwright codegen https://opensource-demo.orangehrmlive.com",
-    "debug:chromium:tags": "BROWSER='chromium' PARALLEL=1 npx cucumber-js --parallel 1 --require support/world.js --require steps --tags ",
-    
-    "test:chromium:tags": "BROWSER=chromium npx cucumber-js -p chromium --require support/world.js --require steps --tags \"$TAGS\"",
-    "test:firefox:tags": "BROWSER=firefox npx cucumber-js -p firefox --require support/world.js --require steps --tags \"$TAGS\"",
-    "test:webkit:tags": "BROWSER=webkit npx cucumber-js -p webkit --require support/world.js --require steps --tags \"$TAGS\"",
-    
-    "test:chromium:smoke": "BROWSER='chromium' npx cucumber-js -p chromium --require support/world.js --require steps --tags '@smoke-web'",
-    "test:firefox:smoke": "BROWSER='firefox' npx cucumber-js -p firefox --require support/world.js --require steps --tags '@smoke-web'",
-    "test:webkit:smoke": "BROWSER='webkit' npx cucumber-js -p webkit --require support/world.js --require steps --tags '@smoke-web'",
-    "test:crossbrowser:smoke": "HEADLESS=false npm-run-all remove-allure-sh --parallel test:chromium:smoke test:firefox:smoke test:webkit:smoke",
-    "test:crossbrowser:smoke:headless": "HEADLESS=true npm-run-all remove-allure-sh --parallel test:chromium:smoke test:firefox:smoke test:webkit:smoke",
-    "test:android:tags": "npx cucumber-js -p android --parallel 1 --require steps --require support/world.js --tags ",
-    "test:android": "npx cucumber-js -p android --parallel 1 --require steps --require support/world.js --tags '@android'",
-    "test:ios:tags": "npx cucumber-js -p ios --parallel 1 --require steps --require support/world.js --tags ",
-    "test:ios": "npx cucumber-js -p ios --parallel 1 --require steps --require support/world.js --tags '@ios'",
-    "test:api:tags": "npx cucumber-js -p api --require support/world.js --require steps --tags ",
-    "test:api": "npx cucumber-js -p api --require support/world.js --require steps --tags '@api'",
-    
+    "debug:chromium:tags": "TEST_LEVEL=web BROWSER='chromium' PARALLEL=1 npx cucumber-js --parallel 1 --require support/world.js --require steps --tags ",
+    "test:chromium:tags": "TEST_LEVEL=web BROWSER=chromium npx cucumber-js -p chromium --require support/world.js --require steps --tags \"$TAGS\"",
+    "test:firefox:tags": "TEST_LEVEL=web BROWSER=firefox npx cucumber-js -p firefox --require support/world.js --require steps --tags \"$TAGS\"",
+    "test:webkit:tags": "TEST_LEVEL=web BROWSER=webkit npx cucumber-js -p webkit --require support/world.js --require steps --tags \"$TAGS\"",
+    "test:chromium:smoke": "TEST_LEVEL=web BROWSER='chromium' npx cucumber-js -p chromium --require support/world.js --require steps --tags '@smoke-web'",
+    "test:firefox:smoke": "TEST_LEVEL=web BROWSER='firefox' npx cucumber-js -p firefox --require support/world.js --require steps --tags '@smoke-web'",
+    "test:webkit:smoke": "TEST_LEVEL=web BROWSER='webkit' npx cucumber-js -p webkit --require support/world.js --require steps --tags '@smoke-web'",
+    "test:crossbrowser:smoke": "TEST_LEVEL=web HEADLESS=false npm-run-all remove-allure-sh --parallel test:chromium:smoke test:firefox:smoke test:webkit:smoke",
+    "test:crossbrowser:smoke:headless": "TEST_LEVEL=web HEADLESS=true npm-run-all remove-allure-sh --parallel test:chromium:smoke test:firefox:smoke test:webkit:smoke",
+    "test:android:tags": "TEST_LEVEL=android npx cucumber-js -p android --parallel 1 --require steps --require support/world.js --tags ",
+    "test:android": "TEST_LEVEL=android npx cucumber-js -p android --parallel 1 --require steps --require support/world.js --tags '@android'",
+    "test:ios:tags": "TEST_LEVEL=ios npx cucumber-js -p ios --parallel 1 --require steps --require support/world.js --tags ",
+    "test:ios": "TEST_LEVEL=ios npx cucumber-js -p ios --parallel 1 --require steps --require support/world.js --tags '@ios'",
+    "test:api:tags": "TEST_LEVEL=api npx cucumber-js -p api --require support/world.js --require steps --tags ",
+    "test:api": "TEST_LEVEL=api npx cucumber-js -p api --require support/world.js --require steps --tags '@api'",
     "appium:server": "npx appium -p 4723",
     "appium:server:debug": "npx appium -p 4723 --log-level debug",
     "remove-appium-logs-sh": "rm -rf appium.log",
@@ -55,8 +51,8 @@
   "license": "ISC",
   "description": "Inside that directory, you can run several commands:",
   "devDependencies": {
-    "@cucumber/cucumber": "^11.2.0",
-    "@playwright/test": "^1.51.1",
+    "@cucumber/cucumber": "^11.3.0",
+    "@playwright/test": "^1.55.1",
     "@types/node": "^22.13.14",
     "allure-commandline": "^2.33.0",
     "allure-cucumberjs": "^3.2.1",
@@ -64,16 +60,17 @@
     "appium-uiautomator2-driver": "^5.0.3",
     "appium-xcuitest-driver": "^10.1.2",
     "cucumber": "^6.0.7",
+    "cucumber-playwright": "^1.2.1",
     "npm-run-all": "^4.1.5",
-    "playwright": "^1.51.1",
+    "playwright": "^1.55.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@appium/doctor": "^1.16.28",
     "allure-js-commons": "^3.2.1",
     "appium": "^3.0.2",
     "axios": "^1.11.0",
-    "cucumber-playwright": "^1.2.1",
     "dotenv": "^16.4.7",
     "openai": "^5.10.1",
     "rimraf": "^6.0.1",
@@ -82,5 +79,13 @@
   },
   "directories": {
     "test": "tests"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hudson-rosa/playwright-js-bdd-tests.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hudson-rosa/playwright-js-bdd-tests/issues"
+  },
+  "homepage": "https://github.com/hudson-rosa/playwright-js-bdd-tests#readme"
 }

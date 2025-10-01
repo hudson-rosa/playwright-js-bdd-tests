@@ -83,36 +83,48 @@ Before(async function (scenario) {
   }
 
   await this.initApiContext();
-  await this.initBrowser();
   this.page = this.getPage();
 
-  if (tags.includes("@android")) {
-    await this.initAndroid();
-  }
-
-  if (tags.includes("@ios")) {
-    await this.initIOS();
+  switch (process.env.TEST_LEVEL) {
+    case "web":
+      await this.initBrowser();
+      this.page = this.getPage();
+      break;
+    case "android":
+      await this.initAndroid();
+      break;
+    case "ios":
+      await this.initIOS();
+      break;
+    default:
+      await this.initBrowser();
+      break;
   }
 });
 
 After(async function (scenario) {
   console.log(`--> Scenario - "${scenario.pickle.name}" has been ${scenario.result?.status}!`);
-  console.log(`--> BROWSER: ${this.browserName}`);
   const page = this.getPage();
   const isFailed = scenario.result?.status === Status.FAILED;
 
-  if (tags.includes("@web") && isFailed && page != null) {
-    await attachScreenshotFromFailure(this, scenario, page);
+  switch (process.env.TEST_LEVEL) {
+    case "web":
+      if (isFailed && page != null) {
+        console.log(`--> BROWSER: ${this.browserName}`);
+        await attachScreenshotFromFailure(this, scenario, page);
+      }
+      await this.closeBrowser();
+      break;
+    case "android":
+      await this.quitAndroid();
+      break;
+    case "ios":
+      await this.quitIOS();
+      break;
+    default:
+      await this.closeBrowser();
+      break;
   }
 
-  await this.closeBrowser();
   await this.disposeApi();
-
-  if (tags.includes("@android")) {
-    await this.quitAndroid();
-  }
-
-  if (tags.includes("@ios")) {
-    await this.quitIOS();
-  }
 });

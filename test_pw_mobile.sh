@@ -68,8 +68,8 @@ fi
 # Clear old results if specified
 if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
   echo "\n 🗑 Cleaning up old reports..."
-  npm run remove-allure-sh
   npm run remove-appium-logs-sh
+  npm run remove-allure-sh
 fi
 
 # Running Appium server in the background

@@ -293,3 +293,9 @@ Create the folder and install the SDK components:
   adb --version
   sdkmanager --list
 ```
+
+Test if the app can be installed manually on a real Android device:
+```bash
+  adb install -r /Users/qa/Projects/test_automation/playwright-js-bdd-tests/apps/ApiDemos-debug.apk
+  adb shell am start -n io.appium.android.apis/.ApiDemos
+```
