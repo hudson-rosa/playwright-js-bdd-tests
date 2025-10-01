@@ -219,35 +219,77 @@ To have accurate analysis on existing failures from the generated Allure Report 
 
 Using Homebrew:
 ```bash
-brew install node@22
-echo 'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"' >> /Users/<PC_NAME>/.zshrc
-brew link --overwrite node@22
+  brew install node@22
+
+  echo 'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"' >> /Users/<PC_NAME>/.zshrc
+  # Or simply:
+  echo 'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"' >> ~/.zshrc
+
+  brew link --overwrite node@22
 ```
 
 Or with NVM:
 
 ```bash
-nvm install 22.20.0
-nvm use 22.20.0
+  nvm install 22.20.0
+  nvm use 22.20.0
 ```
 
-Then verify and install the desired Appium version:
+Then verify and install the desired Appium version for the project:
 
 ```bash
-node -v
-# should be >= 22.+++
+  node -v
+  # should be >= 22.+++
 
-npm install -g appium@latest
-appium -v 
-# should be > 3.0.2
+  npm install appium@latest
+  appium -v 
+  # should be > 3.0.2
 ```
 
 Finally, install the drivers for Android and iOS:
 
 ```bash
-appium driver install xcuitest
-appium driver install uiautomator2
+  npx appium driver uninstall uiautomator2
+  npx appium driver uninstall xcuitest
+  npx appium driver install uiautomator2
+  npx appium driver install xcuitest
 
-# to check them:
-appium driver list --installed
+  # to check them:
+  npx appium driver list --installed
+```
+
+Make sure your Homebrew is installed:
+```bash
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Install Android Studio - Full IDE
+```bash
+  brew install --cask android-studio
+```
+
+Or, just the command line tools:
+```bash
+  brew install --cask android-commandlinetools
+  brew list --cask android-commandlinetools
+```
+
+Export the vvariables for Android SDK:
+```bash
+  export ANDROID_HOME=$HOME/Library/Android/sdk
+  export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+  export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH
+  echo $ANDROID_HOME
+  echo $ANDROID_SDK_ROOT
+```
+
+Create the folder and install the SDK components:
+```bash
+  mkdir -p ~/Library/Android/sdk
+  ls -l ~/Library/Android/sdk
+
+  sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-34" "build-tools;34.0.0" "emulator" "system-images;android-34;google_apis;x86_64"
+
+  adb --version
+  sdkmanager --list
 ```
