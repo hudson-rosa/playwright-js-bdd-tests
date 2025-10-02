@@ -210,6 +210,18 @@ To have accurate analysis on existing failures from the generated Allure Report 
   node analyzeWithGPT.js result.json
 ```
 
+# APPIUM
+
+To inspect your mobile app to extract locators for page objects implementation on your tests, first download the Appium Inspector from this official Appium-Inspector repository and install it on your local machine:
+
+  https://github.com/appium/appium-inspector/releases/ 
+
+  If you are working on MacOS, after installing the Appium-Inspector, the system it may block this application by default for security reasons. In this case, skip the quarantine verification by running this command:
+
+```bash
+  sudo xattr -rd com.apple.quarantine /Applications/Appium\ Inspector.app
+```
+
 ## Issues with Appium
 
 1️⃣ Unsupported Node version warning

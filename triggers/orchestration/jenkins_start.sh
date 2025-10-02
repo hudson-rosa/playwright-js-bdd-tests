@@ -1,4 +1,4 @@
-cd jenkins_server
+cd ci
 docker compose up -d
 
 echo "------> Jenkins started in: http://localhost:8080"

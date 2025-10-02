@@ -1,4 +1,4 @@
-cd jenkins_server
+cd ci
 docker compose down -v
 
 echo "..."
