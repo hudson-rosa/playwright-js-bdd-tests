@@ -68,13 +68,12 @@ fi
 # Clear old results if specified
 if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
   echo "\n 🗑 Cleaning up old reports..."
-  npm run remove-appium-logs-sh
-  npm run remove-allure-sh
+  npm run appium:remove-logs-sh
+  npm run allure:remove-results:$PLATFORM
 fi
 
 # Running Appium server in the background
-./run_appium_server.sh > appium.log 2>&1 &
-APPIUM_PID=$!
+./triggers/appium/run_appium_server.sh > appium.log 2>&1 & APPIUM_PID=$!
 echo "🚀 Appium started in background with PID $APPIUM_PID"
 
 # Running tests
@@ -100,7 +99,7 @@ esac
 echo "✅ All tests were executed."
 
 # Generate Allure Report
-./run_allure_mobile_results.sh open_allure=$OPEN_ALLURE
+./triggers/allure/run_allure_mobile_results.sh open_allure=$OPEN_ALLURE
 
 echo "✅ All done."
 

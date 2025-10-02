@@ -4,7 +4,7 @@ const path = require('path');
 const { OpenAI } = require('openai');
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const resultsDir = path.resolve(__dirname, './../allure-results');
+const resultsDir = path.resolve(__dirname, `./../allure-results/${process.env.BROWSER}`);
 
 
 async function askGPTAboutFailure(resultsFfile) {

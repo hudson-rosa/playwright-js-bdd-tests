@@ -5,7 +5,7 @@ const axios = require('axios');
 
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
-const resultsDir = path.resolve(__dirname, './../allure-results');
+const resultsDir = path.resolve(__dirname, `./../allure-results/${process.env.BROWSER}`);
 
 async function askDeepSeekAboutFailure(resultsFfile) {
   const prompt =

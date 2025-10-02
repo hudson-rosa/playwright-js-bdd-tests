@@ -1,13 +1,12 @@
 #!/bin/bash
 set -e
 
-# RUN THIS FILE WITH THE COMMAND:  ./run_appium_server.sh
+# RUN THIS FILE WITH THE COMMAND:  ./triggers/installation/install_xcode_builders.sh
 
-# Remove Previous Allure Results
 echo "_____________________________________"
-echo "\n🎭 APPIUM SERVER ⚡"
+echo "🎭 XCODE RESOURCES ⚡"
 echo "-------------------------------------"
-echo "     ▶ Starting..."
+echo "     ▶ Installing..."
 
 # Ensure Xcode Command Line Tools are installed
 echo "------> Checking for Xcode Command Line Tools..."
@@ -17,6 +16,8 @@ xcode-select --install || true
 echo "------> Installing Carthage..."
 brew install carthage
 brew install ios-deploy
+
+echo "✅ Xcode tools installed!"
 
 # ~/Library/Developer/Xcode/DerivedData/<AppName-xxxx>/Build/Products/Debug-iphonesimulator/AppName.app
 

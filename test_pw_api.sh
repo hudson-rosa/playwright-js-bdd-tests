@@ -7,6 +7,7 @@ echo "\n🎭 API • Playwright • JS • BDD • Allure ⚡"
 echo "-------------------------------------------"
 echo "     ▶ Starting..."
 
+
 # RUN THIS FILE WITH THE COMMAND:
 # E.g.:       ./test_pw_api.sh open_allure=true clear_old_results=true tag="@api"
 OPEN_ALLURE="false"
@@ -59,7 +60,7 @@ fi
 # Clear old results if specified
 if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
   echo "\n 🗑 Cleaning up old reports..."
-  npm run remove-allure-sh
+  npm run allure:remove-results:api
 fi
 
 # Running tests
@@ -73,7 +74,7 @@ npm run test:api:tags $TAG || TEST_EXIT_CODE=$?
 echo "✅ All selected API tests were executed."
 
 # Generate Allure Report
-./run_allure_api_results.sh open_allure=$OPEN_ALLURE
+./triggers/allure/run_allure_api_results.sh open_allure=$OPEN_ALLURE
 
 echo "✅ All done."
 

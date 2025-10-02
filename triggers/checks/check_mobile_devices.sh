@@ -1,15 +1,21 @@
 #!/bin/bash
+set -e
 
-echo "\n------> Checking Android Devices connected..."
+# RUN THIS FILE WITH THE COMMAND:  ./triggers/checks/check_mobile_devices.sh
+
+echo "------> Checking Android Devices connected..."
 adb devices
+echo "✅ Revealed all the connected Android devices!"
 
-echo "\n------> Checking iOS Devices connected..."
+echo "------> Checking iOS Devices connected..."
 idevice_id -l
+echo "✅ Revealed all the connected iOS devices!"
 
-echo "\n------> Checking All devices and simulators available..."
+echo "------> Checking All devices simulators available..."
 xcrun xctrace list devices
+echo "✅ Revealed all the device simulators available!"
 
-# echo "\n------> Installing iOS app on connected device..."
+# echo "------> Installing iOS app on connected device..."
 # unzip iOS-Real-Device-Saucelabs-MyDemo.1.3.0-162.ipa -d iOS-Real-Device-Saucelabs-MyDemo.1.3.0-162
 # codesign -f -s "com.saucelabs.mydemoapp.rn" --entitlements Entitlements.plist ./iOS-Real-Device-Saucelabs-MyDemo.1.3.0-162/Payload/MyRNDemoApp.app
 # codesign -dvvv iOS-Real-Device-Saucelabs-MyDemo.1.3.0-162/Payload/MyRNDemoApp.app

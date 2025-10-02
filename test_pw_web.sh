@@ -12,7 +12,7 @@ echo "     ▶ Starting..."
 # E.g.1 - Chrome:        ./test_pw_web.sh browser=chromium headless=false open_allure=true clear_old_results=true tag="@web"
 # E.g.2 - Firefox:       ./test_pw_web.sh browser=firefox headless=false open_allure=true clear_old_results=true tag="@web"
 # E.g.3 - Webkit:        ./test_pw_web.sh browser=webkit headless=false open_allure=true clear_old_results=true tag="@web"
-# E.g.4 - All Browsers:  ./test_pw_web.sh browser=all headless=false open_allure=true clear_old_results=true tag="@web"
+# E.g.4 - All Browsers:  ./test_pw_web.sh browser=all-web headless=false open_allure=true clear_old_results=true tag="@web"
 BROWSER=""
 HEADLESS=""
 OPEN_ALLURE="false"
@@ -58,7 +58,7 @@ if [ -z "$CLEAR_OLD_RESULTS" ]; then
   MISSING_ARGS+="\n ❌ CLEAR_OLD_RESULTS arg is missing on the command!\n    --> Use: clear_old_results=true|false"
 fi
 if [ -z "$BROWSER" ]; then
-  MISSING_ARGS+="\n ❌ BROWSER arg is missing on the command!\n    --> Use: browser=chromium|firefox|webkit|all"
+  MISSING_ARGS+="\n ❌ BROWSER arg is missing on the command!\n    --> Use: browser=chromium|firefox|webkit|all-web"
 fi
 if [ -z "$HEADLESS" ]; then
   MISSING_ARGS+="\n ❌ HEADLESS arg is missing on the command!\n    --> Use: headless=true|false"
@@ -79,7 +79,7 @@ fi
 # Clear old results if specified
 if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
   echo "\n 🗑 Cleaning up old reports..."
-  npm run remove-allure-sh
+  npm run allure:remove-results:$BROWSER
 fi
 
 # Running tests based on the selected browser
@@ -100,11 +100,11 @@ firefox)
 webkit)
   TAGS=$TAG HEADLESS=$HEADLESS npm run test:webkit:tags || TEST_EXIT_CODE=$?
   ;;
-all)
+all-web)
   TAGS=$TAG HEADLESS=$HEADLESS npx npm-run-all --parallel test:chromium:tags test:firefox:tags test:webkit:tags || TEST_EXIT_CODE=$?
   ;;
 *)
-  echo "❌ Invalid browser: $BROWSER. Valid options are: chromium, firefox, webkit, all"
+  echo "❌ Invalid browser: $BROWSER. Valid options are: chromium, firefox, webkit, all-web"
   exit 1
   ;;
 esac
@@ -112,7 +112,7 @@ esac
 echo "✅ All tests were executed."
 
 # Generate Allure Report
-./run_allure_web_results.sh open_allure=$OPEN_ALLURE
+./triggers/allure/run_allure_web_results.sh open_allure=$OPEN_ALLURE
 
 echo "✅ All done."
 

@@ -5,4 +5,4 @@ echo "..."
 echo "------> Jenkins stopped"
 echo "------> Docker compose down"
 
-echo "✅ All done."
+echo "✅ All done. Jenkins is fully stopped."

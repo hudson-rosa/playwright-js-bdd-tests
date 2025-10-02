@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# RUN THIS FILE WITH THE COMMAND:  ./run_appium_server.sh
+# RUN THIS FILE WITH THE COMMAND:  ./triggers/appium/run_appium_server.sh
 
 # Remove Previous Allure Results
 echo "_____________________________________"

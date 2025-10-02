@@ -115,7 +115,7 @@ To remove all containers and volumes:
 ## Allure Report
 
 ```bash
-  npm run generate:allure-report && npm run open:allure-report
+  npm run allure:generate-report && npm run allure:open
 ```
 
 Generate a JSON report.
@@ -185,7 +185,7 @@ We suggest that you begin by typing:
 ```bash
   npx playwright test
 
-  npx playwright test signInOrangeHrm
+  npx playwright test tests/signInOrangeHrm.spec.js
 ```
 
 And check out the following files:

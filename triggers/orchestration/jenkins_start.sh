@@ -7,4 +7,4 @@ sleep 5
 echo "------> First Access Pass"
 docker exec -it local-jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
-echo "✅ All done."
+echo "✅ All done. Jenkis is ready to use."

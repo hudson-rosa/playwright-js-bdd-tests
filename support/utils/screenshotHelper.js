@@ -31,7 +31,7 @@ async function attachScreenshot(world, label = "") {
  * @param {object} page - The Playwright page instance.
  */
 async function attachScreenshotFromFailure(world, scenario, page) {
-  const screenshotsDir = path.resolve(__dirname, `../allure-results`);
+  const screenshotsDir = path.resolve(__dirname, `../../allure-results/${process.env.BROWSER}`);
   console.log("--> Capturing screenshot..." + screenshotsDir);
 
   if (!fs.existsSync(screenshotsDir)) {
