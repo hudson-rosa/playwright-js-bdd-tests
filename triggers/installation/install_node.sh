@@ -20,4 +20,8 @@ echo "✅ Installation done."
 echo 'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"' >> ~/.zshrc
 echo "✅ Environment variables exported."
 
+echo "------> Installing Node Check Updates..."
+npm install -g npm-check-updates
+ncu -v
+
 echo "✅ All done."

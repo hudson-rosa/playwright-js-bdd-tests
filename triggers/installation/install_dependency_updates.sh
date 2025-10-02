@@ -13,32 +13,41 @@ npm install playwright
 npx playwright install
 playwright --version
 
-echo "------> Updating NPM devDependencies..."
-npm install --save-dev @playwright/test@latest \
- @types/node@latest \
- allure-commandline@latest \
- allure-cucumberjs@latest \
- allure-playwright@latest \
- appium-uiautomator2-driver@latest \
- appium-xcuitest-driver@latest \
- cross-env@latest \
- cucumber@latest \
- cucumber-playwright@latest \
- dotenv-cli@latest \
- npm-run-all@latest \
- playwright@latest \
- ts-node@latest \
- typescript@latest
+echo "------> Outdated NPM packages:"
+npm outdated
 
-echo "------> Updating NPM Dependencies..."
-npm install --save allure-js-commons@latest \
- axios@latest \
- dotenv@latest \
- npm@latest \
- openai@latest \
- rimraf@latest \
- sanitize-filename@latest \
- webdriverio@latest
+echo "------> Updating all dependencies from the project to their latest versions..."
+ncu -u
+npm install
+
+# echo "------> Updating NPM devDependencies..."
+# npm install --save-dev @playwright/test@latest \
+#  @types/node@latest \
+#  allure-commandline@latest \
+#  allure-cucumberjs@latest \
+#  allure-playwright@latest \
+#  appium-uiautomator2-driver@latest \
+#  appium-xcuitest-driver@latest \
+#  cross-env@latest \
+#  cucumber@latest \
+#  cucumber-playwright@latest \
+#  dotenv-cli@latest \
+#  npm-run-all@latest \
+#  playwright@latest \
+#  ts-node@latest \
+#  typescript@latest
+
+# echo "------> Updating NPM Dependencies..."
+# npm install --save allure-js-commons@latest \
+#  @appium/doctor@latest \
+#  appium@latest \
+#  axios@latest \
+#  dotenv@latest \
+#  npm@latest \
+#  openai@latest \
+#  rimraf@latest \
+#  sanitize-filename@latest \
+#  webdriverio@latest
 
 echo "✅ All main packages installed."
 
