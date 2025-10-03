@@ -109,8 +109,6 @@ After(async function (scenario) {
   const status = scenario.result?.status == Status.PASSED ? "PASSED 🟢" : "FAILED 🔴";
   const isFailed = scenario.result?.status === Status.FAILED;
   const page = this.getPage?.();
-  const androidDriver = this.getAndroidDriver?.();
-  const iosDriver = this.getIOSDriver?.();
 
   console.log(`--> ${status} Scenario: "${scenario.pickle.name}"`);
 
@@ -124,14 +122,14 @@ After(async function (scenario) {
         await this.closeBrowser();
         break;
       case "android":
-        if (isFailed && androidDriver && this.attach) {
+        if (isFailed && this.androidDriver) {
           await attachScreenshotOfMobileScreenFailure(this, scenario, this.androidDriver, "android");
         }
         await this.quitAndroid();
         break;
       case "ios":
-        if (isFailed && iosDriver && this.attach) {
-          await attachScreenshotOfMobileScreenFailure(this, scenario, this.androidDriver, "ios");
+        if (isFailed && this.iosDriver) {
+          await attachScreenshotOfMobileScreenFailure(this, scenario, this.iosDriver, "ios");
         }
         await this.quitIOS();
         break;

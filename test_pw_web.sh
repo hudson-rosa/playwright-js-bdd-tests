@@ -112,9 +112,7 @@ esac
 echo "✅ All tests were executed."
 
 # Generate Allure Report
-./triggers/allure/run_allure_web_results.sh open_allure=$OPEN_ALLURE
-
-echo "✅ All done."
+./triggers/allure/run_allure_report.sh open_allure=$OPEN_ALLURE test_level=web
 
 # Exit with captured test result
 exit ${TEST_EXIT_CODE:-0}

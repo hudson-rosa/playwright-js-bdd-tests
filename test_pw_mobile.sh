@@ -99,7 +99,7 @@ esac
 echo "✅ All tests were executed."
 
 # Generate Allure Report
-./triggers/allure/run_allure_mobile_results.sh open_allure=$OPEN_ALLURE
+./triggers/allure/run_allure_report.sh open_allure=$OPEN_ALLURE test_level=mobile
 
 echo "✅ All done."
 

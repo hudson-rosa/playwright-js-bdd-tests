@@ -11,21 +11,38 @@ function buildConfig(resultsDir) {
     format: ["progress", "allure-cucumberjs/reporter"],
     formatOptions: {
       resultsDir, // resultsDir: "allure-results",
+
       labels: [
+        // Static labels from tags
+        { pattern: [/@epic:(.*)/], name: "epic" },
+        { pattern: [/@feature:(.*)/], name: "feature" },
+        { pattern: [/@story:(.*)/], name: "story" },
+        { pattern: [/@owner:(.*)/], name: "owner" },
+        { pattern: [/@severity:(.*)/], name: "severity" },
+
+        // Dynamic labels via JS
         {
-          pattern: [/@epic:(.*)/],
-          name: "epic"
-        },
-        {
-          pattern: [/@severity:(.*)/],
-          name: "severity"
+          pattern: [/@browser:(.*)/],
+          name: "browser",
+          value: () => process.env.BROWSER || "unknown"
         },
         {
           pattern: [/.*/],
-          name: "browser",
-          value: process.env.BROWSER || "unknown"
+          name: "OS",
+          value: () => process.platform
+        },
+        {
+          pattern: [/.*/],
+          name: "Node Version",
+          value: () => process.version
+        },
+        {
+          pattern: [/.*/],
+          name: "Environment",
+          value: () => process.env.TEST_ENV || "local"
         }
       ],
+
       links: {
         issue: {
           pattern: [/@issue:(.*)/],
@@ -51,7 +68,6 @@ function buildConfig(resultsDir) {
     }
   };
 }
-
 
 module.exports = {
   chromium: buildConfig("allure-results/chromium"),
