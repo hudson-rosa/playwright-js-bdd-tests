@@ -39,10 +39,12 @@ class CustomWorld {
   }
 
   async closeBrowser() {
-    try {
-      await this.browserHandler.close();
-    } catch (err) {
-      console.error("Error when closing the browser: ", err);
+    if (this.browserHandler?.browser) {
+      try {
+        await this.browserHandler.close();
+      } catch (err) {
+        console.warn("Browser already closed or error on close:", err.message);
+      }
     }
   }
 
@@ -78,10 +80,6 @@ Before(async function (scenario) {
   tags = scenario.pickle.tags.map((t) => t.name);
   console.log(`--> Scenario - "${scenario.pickle.name}" with tags: ${tags.join(", ")}`);
 
-  if (this.allure) {
-    this.allure.addParameter("Browser", process.env.BROWSER || "unknown");
-  }
-
   await this.initApiContext();
   this.page = this.getPage();
 
@@ -102,35 +100,47 @@ Before(async function (scenario) {
   }
 });
 
+process.on("uncaughtException", (err) => {
+  if (err.code === "ERR_IPC_CHANNEL_CLOSED") return;
+  console.error(err);
+});
+
 After(async function (scenario) {
-  console.log(`--> Scenario - "${scenario.pickle.name}" has been ${scenario.result?.status}!`);
-  const page = this.getPage();
+  const status = scenario.result?.status == Status.PASSED ? "PASSED 🟢" : "FAILED 🔴";
   const isFailed = scenario.result?.status === Status.FAILED;
+  const page = this.getPage?.();
+  const androidDriver = this.getAndroidDriver?.();
+  const iosDriver = this.getIOSDriver?.();
 
-  switch (process.env.TEST_LEVEL) {
-    case "web":
-      if (isFailed && page != null) {
-        console.log(`--> BROWSER: ${this.browserName}`);
-        await attachScreenshotOfWebPageFailure(this, scenario, page);
-      }
-      await this.closeBrowser();
-      break;
-    case "android":
-      if (isFailed && this.androidDriver) {
-        await attachScreenshotOfMobileScreenFailure(this, scenario, this.androidDriver, "android");
-      }
-      await this.quitAndroid();
-      break;
-    case "ios":
-      if (isFailed && this.iosDriver) {
-        await attachScreenshotOfMobileScreenFailure(this, scenario, this.androidDriver, "ios");
-      }
-      await this.quitIOS();
-      break;
-    default:
-      await this.closeBrowser();
-      break;
+  console.log(`--> ${status} Scenario: "${scenario.pickle.name}"`);
+
+  try {
+    switch (process.env.TEST_LEVEL) {
+      case "web":
+        if (isFailed && page && !page.isClosed?.() && this.attach) {
+          console.log(`--> BROWSER: ${this.browserName}`);
+          await attachScreenshotOfWebPageFailure(this, scenario, page);
+        }
+        await this.closeBrowser();
+        break;
+      case "android":
+        if (isFailed && androidDriver && this.attach) {
+          await attachScreenshotOfMobileScreenFailure(this, scenario, this.androidDriver, "android");
+        }
+        await this.quitAndroid();
+        break;
+      case "ios":
+        if (isFailed && iosDriver && this.attach) {
+          await attachScreenshotOfMobileScreenFailure(this, scenario, this.androidDriver, "ios");
+        }
+        await this.quitIOS();
+        break;
+      default:
+        await this.closeBrowser();
+        break;
+    }
+    await this.disposeApi();
+  } catch (err) {
+    console.warn("⚠️ After hook - unhandled error ignored:", err.message);
   }
-
-  await this.disposeApi();
 });

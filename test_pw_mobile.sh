@@ -9,8 +9,8 @@ echo "     ▶ Starting..."
 
 
 # RUN THIS FILE WITH THE COMMAND:
-# E.g.1:       ./test_pw_mobile.sh platform=android open_allure=true clear_old_results=true tag="@android"
-# E.g.2:       ./test_pw_mobile.sh platform=ios open_allure=true clear_old_results=true tag="@ios"
+# E.g.1:       ./test_pw_mobile.sh open_allure=true clear_old_results=true platform=android tag="@android"
+# E.g.2:       ./test_pw_mobile.sh open_allure=true clear_old_results=true platform=ios tag="@ios"
 OPEN_ALLURE="false"
 CLEAR_OLD_RESULTS="false"
 TAG=""

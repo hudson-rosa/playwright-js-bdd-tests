@@ -24,7 +24,7 @@ class BrowserHandler {
 
   async close() {
     if (this.browser) {
-      console.log('Closing browser...');
+      console.log(`    ... ✖️ Closing '${process.env.BROWSER}' browser`);
       await this.browser.close();
       this.browser = null;
       this.page = null;

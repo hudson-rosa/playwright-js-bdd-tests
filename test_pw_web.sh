@@ -9,10 +9,10 @@ echo "     ▶ Starting..."
 
 
 # RUN THIS FILE WITH THE COMMAND:
-# E.g.1 - Chrome:        ./test_pw_web.sh browser=chromium headless=false open_allure=true clear_old_results=true tag="@web"
-# E.g.2 - Firefox:       ./test_pw_web.sh browser=firefox headless=false open_allure=true clear_old_results=true tag="@web"
-# E.g.3 - Webkit:        ./test_pw_web.sh browser=webkit headless=false open_allure=true clear_old_results=true tag="@web"
-# E.g.4 - All Browsers:  ./test_pw_web.sh browser=all-web headless=false open_allure=true clear_old_results=true tag="@web"
+# E.g.1 - Chrome:        ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=chromium tag="@web"
+# E.g.2 - Firefox:       ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=firefox tag="@web"
+# E.g.3 - Webkit:        ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=webkit tag="@web"
+# E.g.4 - All Browsers:  ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=all tag="@web"
 BROWSER=""
 HEADLESS=""
 OPEN_ALLURE="false"
@@ -58,7 +58,7 @@ if [ -z "$CLEAR_OLD_RESULTS" ]; then
   MISSING_ARGS+="\n ❌ CLEAR_OLD_RESULTS arg is missing on the command!\n    --> Use: clear_old_results=true|false"
 fi
 if [ -z "$BROWSER" ]; then
-  MISSING_ARGS+="\n ❌ BROWSER arg is missing on the command!\n    --> Use: browser=chromium|firefox|webkit|all-web"
+  MISSING_ARGS+="\n ❌ BROWSER arg is missing on the command!\n    --> Use: browser=chromium|firefox|webkit|all"
 fi
 if [ -z "$HEADLESS" ]; then
   MISSING_ARGS+="\n ❌ HEADLESS arg is missing on the command!\n    --> Use: headless=true|false"
@@ -91,22 +91,22 @@ echo "   ⤷ ✅ Headless                 : $HEADLESS"
 echo "   ⤷ ✅ Tag                      : $TAG"
 
 case "$BROWSER" in
-chromium)
-  TAGS=$TAG HEADLESS=$HEADLESS npm run test:chromium:tags || TEST_EXIT_CODE=$?
-  ;;
-firefox)
-  TAGS=$TAG HEADLESS=$HEADLESS npm run test:firefox:tags || TEST_EXIT_CODE=$?
-  ;;
-webkit)
-  TAGS=$TAG HEADLESS=$HEADLESS npm run test:webkit:tags || TEST_EXIT_CODE=$?
-  ;;
-all-web)
-  TAGS=$TAG HEADLESS=$HEADLESS npx npm-run-all --parallel test:chromium:tags test:firefox:tags test:webkit:tags || TEST_EXIT_CODE=$?
-  ;;
-*)
-  echo "❌ Invalid browser: $BROWSER. Valid options are: chromium, firefox, webkit, all-web"
-  exit 1
-  ;;
+  chromium)
+    TAGS=$TAG HEADLESS=$HEADLESS npm run test:chromium:tags || TEST_EXIT_CODE=$?
+    ;;
+  firefox)
+    TAGS=$TAG HEADLESS=$HEADLESS npm run test:firefox:tags || TEST_EXIT_CODE=$?
+    ;;
+  webkit)
+    TAGS=$TAG HEADLESS=$HEADLESS npm run test:webkit:tags || TEST_EXIT_CODE=$?
+    ;;
+  all)
+    TAGS=$TAG HEADLESS=$HEADLESS npx npm-run-all --parallel test:chromium:tags test:firefox:tags test:webkit:tags || TEST_EXIT_CODE=$?
+    ;;
+  *)
+    echo "❌ Invalid browser: $BROWSER. Valid options are: chromium, firefox, webkit, all"
+    exit 1
+    ;;
 esac
 
 echo "✅ All tests were executed."

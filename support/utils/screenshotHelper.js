@@ -10,20 +10,28 @@ const sanitizeFilename = require("sanitize-filename");
  * @param {string} [label] - Optional label to log in the console.
  */
 async function attachScreenshotOfWebPage(world, label = "") {
-  if (!world?.attach || typeof world.attach !== "function") {
-    throw new Error('The "attach" function is not available on the World instance.');
-  }
+  try {
+    if (!page || page.isClosed?.()) {
+      console.warn("Page is closed. Skipping screenshot for:", scenario.pickle.name);
+      return;
+    }
+    if (!world?.attach || typeof world.attach !== "function") {
+      throw new Error('The "attach" function is not available on the World instance.');
+    }
 
-  const page = world.getPage?.();
-  if (!page) {
-    throw new Error("No active page found in world.getPage().");
-  }
+    const page = world.getPage?.();
+    if (!page) {
+      throw new Error("No active page found in world.getPage().");
+    }
 
-  const screenshot = await page.screenshot();
-  await world.attach(screenshot, "image/png");
+    const screenshot = await page.screenshot();
+    await world.attach(screenshot, "image/png");
 
-  if (label) {
-    console.log(`📸 Screenshot taken from: ${label}`);
+    if (label) {
+      console.log(`📸 Screenshot taken from: ${label}`);
+    }
+  } catch (err) {
+    console.warn("⚠️ Could not take mobile screenshot:", err.message);
   }
 }
 
@@ -53,18 +61,26 @@ async function attachScreenshotOfMobileScreen(world, label = "") {
  * @param {object} page - The Playwright page instance.
  */
 async function attachScreenshotOfWebPageFailure(world, scenario, page) {
-  const screenshotsDir = path.resolve(__dirname, `../../allure-results/${process.env.BROWSER}`);
-  console.log("--> Capturing screenshot..." + screenshotsDir);
+  try {
+    if (!page || page.isClosed?.()) {
+      console.warn("Page is closed. Skipping screenshot for:", scenario.pickle.name);
+      return;
+    }
+    const screenshotsDir = path.resolve(__dirname, `../../allure-results/${process.env.BROWSER}`);
+    console.log("--> Capturing screenshot..." + screenshotsDir);
 
-  if (!fs.existsSync(screenshotsDir)) {
-    fs.mkdirSync(screenshotsDir, { recursive: true });
+    if (!fs.existsSync(screenshotsDir)) {
+      fs.mkdirSync(screenshotsDir, { recursive: true });
+    }
+
+    const filePath = prepareScreenshotFilePathname(scenario, screenshotsDir);
+    const screenshotBuffer = await page.screenshot({ path: filePath, type: "png" });
+
+    console.log(`📸 Screenshot from failure saved at: ${filePath}`);
+    world.attach(screenshotBuffer, "image/png");
+  } catch (err) {
+    console.warn("⚠️ Could not take web screenshot:", err.message);
   }
-
-  const filePath = prepareScreenshotFilePathname(scenario, screenshotsDir);
-  const screenshotBuffer = await page.screenshot({ path: filePath, type: "png" });
-
-  console.log(`📸 Screenshot from failure saved at: ${filePath}`);
-  world.attach(screenshotBuffer, "image/png");
 }
 
 /**
@@ -76,18 +92,23 @@ async function attachScreenshotOfWebPageFailure(world, scenario, page) {
  */
 async function attachScreenshotOfMobileScreenFailure(world, scenario, driver, platform = "android") {
   const screenshotsDir = path.resolve(__dirname, `../../allure-results/${platform}`);
-  if (!fs.existsSync(screenshotsDir)) {
-    fs.mkdirSync(screenshotsDir, { recursive: true });
+
+  try {
+    if (!fs.existsSync(screenshotsDir)) {
+      fs.mkdirSync(screenshotsDir, { recursive: true });
+    }
+
+    const filePath = prepareScreenshotFilePathname(scenario, screenshotsDir);
+    const screenshotBase64 = await driver.takeScreenshot();
+    const screenshotBuffer = Buffer.from(screenshotBase64, "base64");
+
+    fs.writeFileSync(filePath, screenshotBuffer);
+
+    console.log(`📸 [MOBILE] Screenshot from failure saved at: ${filePath}`);
+    await world.attach(screenshotBuffer, "image/png");
+  } catch (err) {
+    console.warn("⚠️ Could not take mobile screenshot:", err.message);
   }
-
-  const filePath = prepareScreenshotFilePathname(scenario, screenshotsDir);
-  const screenshotBase64 = await driver.takeScreenshot();
-  const screenshotBuffer = Buffer.from(screenshotBase64, "base64");
-
-  fs.writeFileSync(filePath, screenshotBuffer);
-
-  console.log(`📸 [MOBILE] Screenshot from failure saved at: ${filePath}`);
-  await world.attach(screenshotBuffer, "image/png");
 }
 
 function prepareScreenshotFilePathname(scenario, screenshotsDir) {
