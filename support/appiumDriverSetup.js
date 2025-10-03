@@ -6,6 +6,11 @@ const DEFAULT_SYSTEM_PORT = 58200;
 const dynamicSystemPort = (process.env.APPIUM_DEFAULT_SYSTEM_PORT ? parseInt(process.env.APPIUM_DEFAULT_SYSTEM_PORT) : DEFAULT_SYSTEM_PORT) + Math.floor(Math.random() * 20);
 
 const androidDevices = {
+  pixel_android15: {
+    "appium:platformVersion": "15",
+    "appium:deviceName": "Medium_Phone_API_35",
+    "appium:udid": "emulator-5554",
+  },
   pixel6_android16: {
     "appium:platformVersion": "16",
     "appium:deviceName": "Pixel_6",
