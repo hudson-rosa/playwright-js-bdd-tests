@@ -216,11 +216,23 @@ To inspect your mobile app to extract locators for page objects implementation o
 
   https://github.com/appium/appium-inspector/releases/ 
 
-  If you are working on MacOS, after installing the Appium-Inspector, the system it may block this application by default for security reasons. In this case, skip the quarantine verification by running this command:
+- If you are working on MacOS, after installing the Appium-Inspector, the system it may block this application by default for security reasons. In this case, skip the quarantine verification by running this command:
 
 ```bash
   sudo xattr -rd com.apple.quarantine /Applications/Appium\ Inspector.app
 ```
+
+Now run the appium server locally:
+
+```bash
+  npx appium -p 4723
+```
+
+- If you are struggling to use the Appium Inspector locally installed, you also can use an online version:
+
+  https://inspector.appiumpro.com/
+
+
 
 ## Issues with Appium
 
@@ -286,7 +298,7 @@ Or, just the command line tools:
   brew list --cask android-commandlinetools
 ```
 
-Export the vvariables for Android SDK:
+Export the variables for Android SDK:
 ```bash
   export ANDROID_HOME=$HOME/Library/Android/sdk
   export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk

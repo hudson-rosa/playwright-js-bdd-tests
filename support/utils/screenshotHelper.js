@@ -1,3 +1,5 @@
+// support/utils/screenshotHelper.js
+
 const fs = require("fs");
 const path = require("path");
 const sanitizeFilename = require("sanitize-filename");
@@ -7,7 +9,7 @@ const sanitizeFilename = require("sanitize-filename");
  * @param {object} world - The Cucumber world context (`this` in steps).
  * @param {string} [label] - Optional label to log in the console.
  */
-async function attachScreenshot(world, label = "") {
+async function attachScreenshotFromBrowser(world, label = "") {
   if (!world?.attach || typeof world.attach !== "function") {
     throw new Error('The "attach" function is not available on the World instance.');
   }
@@ -30,7 +32,7 @@ async function attachScreenshot(world, label = "") {
  * @param {object} scenario - The Cucumber scenario object.
  * @param {object} page - The Playwright page instance.
  */
-async function attachScreenshotFromFailure(world, scenario, page) {
+async function attachScreenshotFromBrowserFailure(world, scenario, page) {
   const screenshotsDir = path.resolve(__dirname, `../../allure-results/${process.env.BROWSER}`);
   console.log("--> Capturing screenshot..." + screenshotsDir);
 
@@ -38,18 +40,51 @@ async function attachScreenshotFromFailure(world, scenario, page) {
     fs.mkdirSync(screenshotsDir, { recursive: true });
   }
 
+  const filePath = prepareScreenshotFilePathname(scenario, screenshotsDir);
+  const screenshotBuffer = await page.screenshot({ path: filePath, type: "png" });
+
+  console.log(`📸 Screenshot from failure saved at: ${filePath}`);
+  world.attach(screenshotBuffer, "image/png");
+}
+
+/**
+ * Capture and attach a screenshot from a mobile driver (Appium) when a scenario fails.
+ * @param {object} world - The Cucumber world context (`this` in steps).
+ * @param {object} scenario - The Cucumber scenario object.
+ * @param {object} driver - The Appium driver instance.
+ * @param {string} platform - The mobile platform ("android" or "ios").
+ */
+async function attachMobileScreenshotFromFailure(world, scenario, driver, platform = "android") {
+  const screenshotsDir = path.resolve(
+    __dirname,
+    `../../allure-results/${platform}`
+  );
+  if (!fs.existsSync(screenshotsDir)) {
+    fs.mkdirSync(screenshotsDir, { recursive: true });
+  }
+  
+  const filePath = prepareScreenshotFilePathname(scenario, screenshotsDir);
+  const screenshotBase64 = await driver.takeScreenshot();
+  const screenshotBuffer = Buffer.from(screenshotBase64, "base64");
+
+  fs.writeFileSync(filePath, screenshotBuffer);
+
+  console.log(`📸 [MOBILE] Screenshot from failure saved at: ${filePath}`);
+  await world.attach(screenshotBuffer, "image/png");
+}
+
+function prepareScreenshotFilePathname(scenario, screenshotsDir) {
   const scenarioName = sanitizeFilename(scenario.pickle.name);
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const fileName = `${timestamp}_${scenarioName}.png`;
   const filePath = path.join(screenshotsDir, fileName);
-
-  const screenshotBuffer = await page.screenshot({ path: filePath, type: "png" });
-
-  console.log(`📸 Attaching screenshot from failure at: ${filePath}`);
-  world.attach(screenshotBuffer, "image/png");
+  return filePath;
 }
 
 module.exports = {
-  attachScreenshot,
-  attachScreenshotFromFailure
+  attachScreenshotFromBrowser,
+  attachScreenshotFromBrowserFailure,
+  attachMobileScreenshotFromFailure,
 };
+
+

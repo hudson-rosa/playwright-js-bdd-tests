@@ -5,7 +5,7 @@ const { Status } = require("@cucumber/cucumber");
 const { request } = require("@playwright/test");
 const BrowserHandler = require("./browserHandler");
 const AppiumDriverSetup = require("./appiumDriverSetup");
-const { attachScreenshotFromFailure } = require("../support/utils/screenshotHelper.js");
+const { attachScreenshotFromBrowserFailure } = require("../support/utils/screenshotHelper.js");
 let tags;
 
 class CustomWorld {
@@ -111,7 +111,7 @@ After(async function (scenario) {
     case "web":
       if (isFailed && page != null) {
         console.log(`--> BROWSER: ${this.browserName}`);
-        await attachScreenshotFromFailure(this, scenario, page);
+        await attachScreenshotFromBrowserFailure(this, scenario, page);
       }
       await this.closeBrowser();
       break;
