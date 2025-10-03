@@ -13,14 +13,11 @@ function buildConfig(resultsDir) {
       resultsDir, // resultsDir: "allure-results",
 
       labels: [
-        // Static labels from tags
         { pattern: [/@epic:(.*)/], name: "epic" },
         { pattern: [/@feature:(.*)/], name: "feature" },
         { pattern: [/@story:(.*)/], name: "story" },
         { pattern: [/@owner:(.*)/], name: "owner" },
-        { pattern: [/@severity:(.*)/], name: "severity" },
-
-        // Dynamic labels via JS
+        { pattern: [/@severity:(.*)/], name: "severity" }, // define scenarios with: trivial, minor, normal, critical, blocker
         {
           pattern: [/@browser:(.*)/],
           name: "browser",

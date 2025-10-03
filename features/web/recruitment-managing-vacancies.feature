@@ -1,7 +1,7 @@
 @web @regression-web @recruitment
 Feature: Recruitment - Managing Vacancies
 
-  @vacancy
+  @vacancy @severity:normal
   Scenario: Registering new vacancy
     Given I am on "Recruitment > Vacancies" page as the user:
       | user     | Admin    |
