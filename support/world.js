@@ -5,7 +5,8 @@ const { Status } = require("@cucumber/cucumber");
 const { request } = require("@playwright/test");
 const BrowserHandler = require("./browserHandler");
 const AppiumDriverSetup = require("./appiumDriverSetup");
-const { attachScreenshotOfWebPageFailure, attachScreenshotOfMobileScreenFailure } = require("../support/utils/screenshotHelper.js");
+const { attachScreenshotOfWebPageFailure, attachScreenshotOfMobileScreenFailure } = require("./utils/screenshotHelper.js");
+const { testStatus } = require("./utils/stringsHelper.js");
 let tags;
 
 class CustomWorld {
@@ -106,11 +107,11 @@ process.on("uncaughtException", (err) => {
 });
 
 After(async function (scenario) {
-  const status = scenario.result?.status == Status.PASSED ? "PASSED 🟢" : "FAILED 🔴";
+  const status = testStatus(scenario);
   const isFailed = scenario.result?.status === Status.FAILED;
   const page = this.getPage?.();
 
-  console.log(`--> ${status} Scenario: "${scenario.pickle.name}"`);
+  console.log(`\n--> ${status} Scenario: "${scenario.pickle.name}"\n`);
 
   try {
     switch (process.env.TEST_LEVEL) {
@@ -134,7 +135,6 @@ After(async function (scenario) {
         await this.quitIOS();
         break;
       default:
-        await this.closeBrowser();
         break;
     }
     await this.disposeApi();

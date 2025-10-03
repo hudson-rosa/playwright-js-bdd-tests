@@ -1,6 +1,6 @@
 // pages/mobile/android/main.page.js
 
-const { removeQuotes } = require("../../../support/utils/StringsHelper.js");
+const { removeQuotes } = require("../../../support/utils/stringsHelper.js");
 
 class ADMainPage {
   constructor(driver) {

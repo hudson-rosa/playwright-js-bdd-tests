@@ -43,7 +43,7 @@ if [ -n "$MISSING_ARGS" ]; then
 fi
 
 echo "\n✨✨ Generating Allure Report ✨✨..."
-sleep 2
+sleep 1
 
 case "$TEST_LEVEL" in
   api)

@@ -1,13 +1,13 @@
- @api @regression-api
+ @api @regression-api @json-placeholder
 Feature: API Testing with Playwright
 
-  @get-user-details @smoke-api
+  @get-user-details @smoke-api @severity:critical
   Scenario: Get user details
     Given I send a GET request to "/users/1"
     Then the response status should be 200
     And the response should contain "Leanne Graham"
 
-  @post-new-user
+  @post-new-user @severity:blocker
   Scenario: Create a new user
     Given I send a POST request to "/users" with body:
       """
