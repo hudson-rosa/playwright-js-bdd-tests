@@ -1,7 +1,13 @@
+const DashboardPage = require("../web/dashboard.page.js");
+const SignInPage = require("../web/signin.page.js");
+const NavigationPage = require("../web/navigation.page.js");
+const RecruitmentPage = require("../web/recruitment.page.js");
+const RecruitmentVacanciesPage = require("../web/recruitment-vacancies.page.js");
+
 module.exports = {
-  DashboardPage: require("../web/dashboard.page.js"),
-  SignInPage: require("../web/signin.page.js"),
-  NavigationPage: require("../web/navigation.page.js"),
-  RecruitmentPage: require("../web/recruitment.page.js"),
-  RecruitmentVacanciesPage: require("../web/recruitment-vacancies.page.js")
+  DashboardPage,
+  SignInPage,
+  NavigationPage,
+  RecruitmentPage,
+  RecruitmentVacanciesPage
 };
