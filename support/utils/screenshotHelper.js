@@ -9,7 +9,7 @@ const sanitizeFilename = require("sanitize-filename");
  * @param {object} world - The Cucumber world context (`this` in steps).
  * @param {string} [label] - Optional label to log in the console.
  */
-async function attachScreenshotFromBrowser(world, label = "") {
+async function attachScreenshotOfWebPage(world, label = "") {
   if (!world?.attach || typeof world.attach !== "function") {
     throw new Error('The "attach" function is not available on the World instance.');
   }
@@ -27,12 +27,32 @@ async function attachScreenshotFromBrowser(world, label = "") {
   }
 }
 
+async function attachScreenshotOfMobileScreen(world, label = "") {
+  if (!world?.attach || typeof world.attach !== "function") {
+    throw new Error('The "attach" function is not available on the World instance.');
+  }
+
+  const driver = world.androidDriver || world.iosDriver;
+  if (!driver) {
+    throw new Error("No active mobile driver found (androidDriver or iosDriver).");
+  }
+
+  const screenshotBase64 = await driver.takeScreenshot();
+  const screenshotBuffer = Buffer.from(screenshotBase64, "base64");
+
+  await world.attach(screenshotBuffer, "image/png");
+
+  if (label) {
+    console.log(`📸 Screenshot taken from: ${label}`);
+  }
+}
+
 /** Captures and attaches a screenshot when a scenario fails.
  * @param {object} world - The Cucumber world context (`this` in steps).
  * @param {object} scenario - The Cucumber scenario object.
  * @param {object} page - The Playwright page instance.
  */
-async function attachScreenshotFromBrowserFailure(world, scenario, page) {
+async function attachScreenshotOfWebPageFailure(world, scenario, page) {
   const screenshotsDir = path.resolve(__dirname, `../../allure-results/${process.env.BROWSER}`);
   console.log("--> Capturing screenshot..." + screenshotsDir);
 
@@ -54,15 +74,12 @@ async function attachScreenshotFromBrowserFailure(world, scenario, page) {
  * @param {object} driver - The Appium driver instance.
  * @param {string} platform - The mobile platform ("android" or "ios").
  */
-async function attachMobileScreenshotFromFailure(world, scenario, driver, platform = "android") {
-  const screenshotsDir = path.resolve(
-    __dirname,
-    `../../allure-results/${platform}`
-  );
+async function attachScreenshotOfMobileScreenFailure(world, scenario, driver, platform = "android") {
+  const screenshotsDir = path.resolve(__dirname, `../../allure-results/${platform}`);
   if (!fs.existsSync(screenshotsDir)) {
     fs.mkdirSync(screenshotsDir, { recursive: true });
   }
-  
+
   const filePath = prepareScreenshotFilePathname(scenario, screenshotsDir);
   const screenshotBase64 = await driver.takeScreenshot();
   const screenshotBuffer = Buffer.from(screenshotBase64, "base64");
@@ -82,9 +99,8 @@ function prepareScreenshotFilePathname(scenario, screenshotsDir) {
 }
 
 module.exports = {
-  attachScreenshotFromBrowser,
-  attachScreenshotFromBrowserFailure,
-  attachMobileScreenshotFromFailure,
+  attachScreenshotOfWebPage,
+  attachScreenshotOfMobileScreen,
+  attachScreenshotOfWebPageFailure,
+  attachScreenshotOfMobileScreenFailure
 };
-
-
