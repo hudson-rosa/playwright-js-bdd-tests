@@ -30,10 +30,10 @@ done
 MISSING_ARGS=""
 
 if [ -z "$OPEN_ALLURE" ]; then
-  MISSING_ARGS+="\n ❌ OPEN_ALLURE arg is missing on the command!\n    --> Use: open_allure=true|false"
+  MISSING_ARGS+=" ❌ OPEN_ALLURE arg is missing on the command!    --> Use: open_allure=true|false"
 fi
 if [ -z "$TEST_LEVEL" ]; then
-  MISSING_ARGS+="\n ❌ TEST_LEVEL arg is missing on the command!\n    --> Use: test_level=api|web|mobole"
+  MISSING_ARGS+=" ❌ TEST_LEVEL arg is missing on the command!    --> Use: test_level=api|web|mobole"
 fi
 
 # Show all missing arg messages at once
@@ -42,7 +42,7 @@ if [ -n "$MISSING_ARGS" ]; then
   exit 1
 fi
 
-echo "\n✨✨ Generating Allure Report ✨✨..."
+echo "✨✨ Generating Allure Report ✨✨..."
 sleep 1
 
 case "$TEST_LEVEL" in

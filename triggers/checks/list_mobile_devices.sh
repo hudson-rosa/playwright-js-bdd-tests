@@ -1,21 +1,36 @@
 #!/bin/bash
 set -e
 
-# RUN THIS FILE WITH THE COMMAND:  ./triggers/checks/check_mobile_devices.sh
+# RUN THIS FILE WITH THE COMMAND:  ./triggers/checks/list_mobile_devices.sh
 
-echo "------> Checking Android Devices connected..."
+echo "______________________________________"
+echo "🎭 LISTING ANDROID/IOS DEVICES ⚡"
+echo "--------------------------------------"
+echo "     ▶ Checking..."
+
+echo ""
+echo "=============================================="
+echo "🔎 Finding Android Devices connected..."
 adb devices
 echo "✅ Revealed all the connected Android devices!"
-
-echo "------> Checking iOS Devices connected..."
+echo "=============================================="
+echo ""
+echo "🔎 Finding All Android Emulators available..."
+emulator -list-avds
+echo "✅ Revealed all the Android Emulators!"
+echo "=============================================="
+echo ""
+echo "🔎 Finding IOS Real Devices connected..."
 idevice_id -l
 echo "✅ Revealed all the connected iOS devices!"
-
-echo "------> Checking All devices simulators available..."
+echo "=============================================="
+echo ""
+echo "🔎 Finding All IOS Emulators available..."
 xcrun xctrace list devices
-echo "✅ Revealed all the device simulators available!"
+echo "✅ Revealed all the IOS Emulators!"
+echo "=============================================="
 
-# echo "------> Installing iOS app on connected device..."
+# echo "🥁 Installing iOS app on connected device..."
 # unzip iOS-Real-Device-Saucelabs-MyDemo.1.3.0-162.ipa -d iOS-Real-Device-Saucelabs-MyDemo.1.3.0-162
 # codesign -f -s "com.saucelabs.mydemoapp.rn" --entitlements Entitlements.plist ./iOS-Real-Device-Saucelabs-MyDemo.1.3.0-162/Payload/MyRNDemoApp.app
 # codesign -dvvv iOS-Real-Device-Saucelabs-MyDemo.1.3.0-162/Payload/MyRNDemoApp.app

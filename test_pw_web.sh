@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
 
-# Remove Previous Allure Results
 echo "___________________________________________"
-echo "\n🎭 WEB • Playwright • JS • BDD • Allure ⚡"
+echo "🎭 WEB • Playwright • JS • BDD • Allure ⚡"
 echo "-------------------------------------------"
 echo "     ▶ Starting..."
 
@@ -52,22 +51,22 @@ done
 MISSING_ARGS=""
 
 if [ -z "$OPEN_ALLURE" ]; then
-  MISSING_ARGS+="\n ❌ OPEN_ALLURE arg is missing on the command!\n    --> Use: open_allure=true|false"
+  MISSING_ARGS+=" ❌ OPEN_ALLURE arg is missing on the command!    --> Use: open_allure=true|false"
 fi
 if [ -z "$CLEAR_OLD_RESULTS" ]; then
-  MISSING_ARGS+="\n ❌ CLEAR_OLD_RESULTS arg is missing on the command!\n    --> Use: clear_old_results=true|false"
+  MISSING_ARGS+=" ❌ CLEAR_OLD_RESULTS arg is missing on the command!    --> Use: clear_old_results=true|false"
 fi
 if [ -z "$BROWSER" ]; then
-  MISSING_ARGS+="\n ❌ BROWSER arg is missing on the command!\n    --> Use: browser=chromium|firefox|webkit|all"
+  MISSING_ARGS+=" ❌ BROWSER arg is missing on the command!    --> Use: browser=chromium|firefox|webkit|all"
 fi
 if [ -z "$HEADLESS" ]; then
-  MISSING_ARGS+="\n ❌ HEADLESS arg is missing on the command!\n    --> Use: headless=true|false"
+  MISSING_ARGS+=" ❌ HEADLESS arg is missing on the command!    --> Use: headless=true|false"
 fi
 if [ -z "$TAG" ]; then
-  MISSING_ARGS+="\n ❌ TAG arg is missing on the command!\n    --> Use: tag='@smoke-web'|'@regression-web'|'@web...'"
+  MISSING_ARGS+=" ❌ TAG arg is missing on the command!    --> Use: tag='@smoke-web'|'@regression-web'|'@web...'"
 fi
 if [[ $TAG != @* ]]; then
-  MISSING_ARGS+="\n ⚠️ Current TAG value must start with '@' under the brackets\n    --> Use: tag='@smoke-web'|'@regression-web'|'@web...'"
+  MISSING_ARGS+=" ⚠️ Current TAG value must start with '@' under the brackets    --> Use: tag='@smoke-web'|'@regression-web'|'@web...'"
 fi
 
 # Show all missing arg messages at once
@@ -78,17 +77,20 @@ fi
 
 # Clear old results if specified
 if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
-  echo "\n 🗑 Cleaning up old reports..."
+  echo "🗑 Cleaning up old reports..."
   npm run allure:remove-results:$BROWSER
 fi
 
 # Running tests based on the selected browser
-echo "\n▶ Running Playwright tests"
+echo "⚙️ WEB Environment variables:"
 echo "   ⤷ ✅ Open Allure              : $OPEN_ALLURE"
 echo "   ⤷ ✅ Clear Old Allure Results : $CLEAR_OLD_RESULTS"
 echo "   ⤷ ✅ Browser                  : $BROWSER"
 echo "   ⤷ ✅ Headless                 : $HEADLESS"
 echo "   ⤷ ✅ Tag                      : $TAG"
+echo "________________________________________________________"
+echo "▶ Running Playwright tests on $BROWSER" browser pages...
+echo "--------------------------------------------------------"
 
 case "$BROWSER" in
   chromium)

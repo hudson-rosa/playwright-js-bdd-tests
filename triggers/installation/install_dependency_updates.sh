@@ -8,19 +8,19 @@ echo "_____________________________________"
 echo "🎭 PROJECT DEPENDENCIES UPDATE ⚡"
 echo "-------------------------------------"
 
-echo "------> Installing Playwright browsers through NPX..."
+echo "🥁 Installing Playwright browsers through NPX..."
 npm install playwright
 npx playwright install
 playwright --version
 
-echo "------> Outdated NPM packages:"
+echo "⛓️‍💥 Outdated NPM packages:"
 npm outdated
 
-echo "------> Updating all dependencies from the project to their latest versions..."
+echo "🆕 Updating all dependencies from the project to their latest versions..."
 ncu -u
 npm install
 
-# echo "------> Updating NPM devDependencies..."
+# echo "🆕 Updating NPM devDependencies..."
 # npm install --save-dev @playwright/test@latest \
 #  @types/node@latest \
 #  allure-commandline@latest \
@@ -37,7 +37,7 @@ npm install
 #  ts-node@latest \
 #  typescript@latest
 
-# echo "------> Updating NPM Dependencies..."
+# echo "🆕 Updating NPM Dependencies..."
 # npm install --save allure-js-commons@latest \
 #  @appium/doctor@latest \
 #  appium@latest \
@@ -51,6 +51,6 @@ npm install
 
 echo "✅ All main packages installed."
 
-# echo "------> Initializing Playwright..."
+# echo "🚀 Initializing Playwright..."
 # npm init playwright@latest --yes
 # echo "✅ All done."

@@ -8,7 +8,7 @@ echo "_____________________________________"
 echo "🎭 NODE RESOURCES ⚡"
 echo "-------------------------------------"
 
-echo "------> Globally installing iOS / Android Resources..."
+echo "🚀 Globally installing iOS / Android Resources..."
 npm install --save appium@latest
 npm install --save appium @appium/doctor
 brew install android-platform-tools

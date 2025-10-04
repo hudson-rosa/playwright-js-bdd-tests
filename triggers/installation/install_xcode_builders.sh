@@ -9,11 +9,11 @@ echo "-------------------------------------"
 echo "     ▶ Installing..."
 
 # Ensure Xcode Command Line Tools are installed
-echo "------> Checking for Xcode Command Line Tools..."
+echo "🔎 Checking for Xcode Command Line Tools..."
 xcode-select --install || true
 
 # Install Carthage for iOS dependencies
-echo "------> Installing Carthage..."
+echo "🥁 Installing Carthage..."
 brew install carthage
 brew install ios-deploy
 

@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
 
-# Remove Previous Allure Results
 echo "___________________________________________"
-echo "\n🎭 API • Playwright • JS • BDD • Allure ⚡"
+echo "🎭 API • Playwright • JS • BDD • Allure ⚡"
 echo "-------------------------------------------"
 echo "     ▶ Starting..."
 
@@ -39,16 +38,16 @@ done
 MISSING_ARGS=""
 
 if [ -z "$OPEN_ALLURE" ]; then
-  MISSING_ARGS+="\n ❌ OPEN_ALLURE arg is missing on the command!\n    --> Use: open_allure=true|false"
+  MISSING_ARGS+=" ❌ OPEN_ALLURE arg is missing on the command!    --> Use: open_allure=true|false"
 fi
 if [ -z "$CLEAR_OLD_RESULTS" ]; then
-  MISSING_ARGS+="\n ❌ CLEAR_OLD_RESULTS arg is missing on the command!\n    --> Use: clear_old_results=true|false"
+  MISSING_ARGS+=" ❌ CLEAR_OLD_RESULTS arg is missing on the command!    --> Use: clear_old_results=true|false"
 fi
 if [ -z "$TAG" ]; then
-  MISSING_ARGS+="\n ❌ TAG arg is missing on the command!\n    --> Use: tag='@smoke-api'|'@regression-api'|'@api...'"
+  MISSING_ARGS+=" ❌ TAG arg is missing on the command!    --> Use: tag='@smoke-api'|'@regression-api'|'@api...'"
 fi
 if [[ $TAG != @* ]]; then
-  MISSING_ARGS+="\n ⚠️ Current TAG value must start with '@' under the brackets\n    --> Use: tag='@smoke-api'|'@regression-api'|'@api...'"
+  MISSING_ARGS+=" ⚠️ Current TAG value must start with '@' under the brackets    --> Use: tag='@smoke-api'|'@regression-api'|'@api...'"
 fi
 
 # Show all missing arg messages at once
@@ -59,15 +58,16 @@ fi
 
 # Clear old results if specified
 if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
-  echo "\n 🗑 Cleaning up old reports..."
+  echo "🗑 Cleaning up old reports..."
   npm run allure:remove-results:api
 fi
 
 # Running tests
-echo "\n▶ Running Playwright API tests"
+echo "⚙️ API Environment variables:"
 echo "   ⤷ ✅ Open Allure              : $OPEN_ALLURE"
 echo "   ⤷ ✅ Clear Old Allure Results : $CLEAR_OLD_RESULTS"
 echo "   ⤷ ✅ Tag                      : $TAG"
+echo "__________________________"
 
 npm run test:api:tags $TAG || TEST_EXIT_CODE=$?
 

@@ -7,7 +7,7 @@ echo "_____________________________________"
 echo "🎭 NODE RESOURCES ⚡"
 echo "-------------------------------------"
 
-echo "------> Installing Node > 22..."
+echo "🚀 Installing Node > 22..."
 brew unlink node
 brew update
 brew install node@v22
@@ -20,7 +20,7 @@ echo "✅ Installation done."
 echo 'export PATH="/opt/homebrew/opt/node@22/bin:$PATH"' >> ~/.zshrc
 echo "✅ Environment variables exported."
 
-echo "------> Installing Node Check Updates..."
+echo "🥁 Installing Node Check Updates..."
 npm install -g npm-check-updates
 ncu -v
 
