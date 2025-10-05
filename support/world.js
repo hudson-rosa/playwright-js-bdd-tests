@@ -3,8 +3,8 @@
 const { setWorldConstructor, Before, After } = require("@cucumber/cucumber");
 const { Status } = require("@cucumber/cucumber");
 const { request } = require("@playwright/test");
-const BrowserHandler = require("./browserHandler");
-const AppiumDriverSetup = require("./appiumDriverSetup");
+const BrowserHandler = require("./web/browserHandler");
+const AppiumDriverSetup = require("./mobile/appiumDriverSetup");
 const { attachScreenshotOfWebPageFailure, attachScreenshotOfMobileScreenFailure } = require("./utils/screenshotHelper.js");
 const { testStatus } = require("./utils/stringsHelper.js");
 let tags;
