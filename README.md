@@ -24,9 +24,11 @@ For the API tests, we can have these command args:
 For the Android Mobile tests, we can have these command args:
 
 ```bash
-  # Examples:
-  ./test_pw_mobile.sh platform=android open_allure=true tag='@smoke-android'
-  ./test_pw_mobile.sh platform=ios open_allure=false tag='@sum-computation'
+  # Examples using script that triggers Appium, ADB and Allure from Node orchestration:
+  ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=android target_device=real device_profile_name=real_pixel6_android16 tag=@android
+  
+  # Examples using script that triggers Appium, ADB and Allure from bash script orchestration:
+  ./test_mobile_from_bash.sh open_allure=true clear_old_results=true platform=android target_device=real device_profile_name=real_pixel6_android16 tag=@android
 ```
 
 ---
