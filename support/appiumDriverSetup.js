@@ -58,9 +58,9 @@ class AppiumDriverSetup {
       "appium:app": path.join(__dirname, process.env.ANDROID_RELATIVE_APP_PATH),
       "appium:appPackage": process.env.ANDROID_APP_PACKAGE,
       "appium:appActivity": process.env.ANDROID_APP_ACTIVITY,
-      "appium:noReset": false,
-      "appium:fullReset": false,
-      "appium:autoGrantPermissions": true,
+      "appium:noReset": process.env.NO_RESET,
+      "appium:fullReset": process.env.FULL_RESET,
+      "appium:autoGrantPermissions": process.env.APPIUM_AUTO_GRANT_PERMISSIONS,
       "appium:newCommandTimeout": parseInt(process.env.APPIUM_COMMAND_TIMEOUT || 3600),
       "appium:systemPort": dynamicSystemPort,
       ...profile

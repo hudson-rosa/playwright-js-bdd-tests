@@ -108,8 +108,7 @@ case "$PLATFORM" in
   android)
     # Starting the device/emulator in the background
     ./triggers/appium/start_android_device.sh target_device=$TARGET_DEVICE
-
-    sleep 10
+    
     # Running the tests on Android
     ANDROID_PROFILE=$DEVICE_PROFILE_NAME npm run test:$PLATFORM:tags $TAG || TEST_EXIT_CODE=$?
   ;;
