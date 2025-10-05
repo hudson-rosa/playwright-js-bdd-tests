@@ -4,7 +4,7 @@
 require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
-const { spawnDetached } = require("./utils/process-utils.js");
+const { spawnDetached, spawnInherit } = require("./utils/process-utils.js");
 const { listConnectedDevices, listEmulatorAvds, waitForDeviceReady } = require("./utils/adb-utils.js");
 
 let childEmulatorProcess;
@@ -83,12 +83,15 @@ async function handleEmulatorDevice() {
   console.log(`⏳ Waiting for emulator to boot (PID ${childEmulatorProcess.pid})...`);
 
   writePidForCleanup();
+  
+  await installApkOnEmulatorDevice();
 
   return await waitEmulatotReady();
 
+
   async function waitEmulatotReady() {
     try {
-      await waitForDeviceReady(120000);
+      waitForDeviceReady(120000);
       console.log(`✅ Emulator ${first} booted (PID ${childEmulatorProcess.pid})`);
     } catch (err) {
       console.warn("⚠️ Emulator did not boot in time (PID is written):", err.message);
@@ -98,6 +101,26 @@ async function handleEmulatorDevice() {
 
   function writePidForCleanup() {
     fs.writeFileSync(getAndroidEmulatorPidFilePath(), String(childEmulatorProcess.pid), { encoding: "utf8" });
+  }
+}
+
+/**
+ * Installs an APK on an Android emulator device using the specified environment variable for the APK path.
+ * Runs the npm script 'android:adb:install-apk' with the provided APK path.
+ * Logs success or failure to the console.
+ * Exits the process with code 1 if installation fails.
+ *
+ * @async
+ * @function installApkOnEmulatorDevice
+ * @returns {Promise<void>} Resolves when the APK installation process completes.
+ */
+async function installApkOnEmulatorDevice() {
+  try {
+    await spawnInherit("npm", ["run", "android:adb:install-apk", "--", process.env.ANDROID_RELATIVE_APP_PATH]);
+    console.log("✅ APK installed successfully!");
+  } catch (err) {
+    console.error("❌ Failed to install APK:", err.message || err);
+    process.exit(1);
   }
 }
 
