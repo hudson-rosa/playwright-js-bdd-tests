@@ -33,7 +33,7 @@ if [ -z "$OPEN_ALLURE" ]; then
   MISSING_ARGS+=" ❌ OPEN_ALLURE arg is missing on the command!    --> Use: open_allure=true|false"
 fi
 if [ -z "$TEST_LEVEL" ]; then
-  MISSING_ARGS+=" ❌ TEST_LEVEL arg is missing on the command!    --> Use: test_level=api|web|mobole"
+  MISSING_ARGS+=" ❌ TEST_LEVEL arg is missing on the command!    --> Use: test_level=api|web|mobile"
 fi
 
 # Show all missing arg messages at once

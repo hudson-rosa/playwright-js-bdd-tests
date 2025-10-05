@@ -8,8 +8,11 @@ echo "     ▶ Starting..."
 
 
 # RUN THIS FILE WITH THE COMMAND:
-# E.g.1:       ./test_pw_mobile.sh open_allure=true clear_old_results=true platform=android target_device=real|emulator device_profile_name=phone_x tag="@android"
-# E.g.2:       ./test_pw_mobile.sh open_allure=true clear_old_results=true platform=ios target_device=real|emulator device_profile_name=phone_y tag="@ios"
+# E.g.1:       ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=android target_device=real|emulator device_profile_name=phone_x tag="@android"
+# E.g.2:       ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=ios target_device=real|emulator device_profile_name=phone_y tag="@ios"
+
+# Demo comand: ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=android target_device=real device_profile_name=real_pixel6_android16 tag=@android
+
 OPEN_ALLURE="false"
 CLEAR_OLD_RESULTS="false"
 PLATFORM=""
@@ -81,18 +84,7 @@ if [ -n "$MISSING_ARGS" ]; then
   exit 1
 fi
 
-# Clear old results if specified
-if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
-  echo "🗑 Cleaning up old reports..."
-  npm run appium:remove-logs-sh
-  npm run allure:remove-results:$PLATFORM
-fi
-
-# Running Appium server in the background
-./triggers/appium/start_appium_server.sh > appium.log 2>&1 & APPIUM_PID=$!
-echo "🚀 Appium started in background with PID $APPIUM_PID"
-
-# Running tests
+# Testing Parameters
 echo "⚙️ MOBILE Environment variables:"
 echo "   ⤷ ✅ Open Allure              : $OPEN_ALLURE"
 echo "   ⤷ ✅ Clear Old Allure Results : $CLEAR_OLD_RESULTS"
@@ -104,50 +96,7 @@ echo "_________________________________________"
 echo "▶ Running Playwright tests on $PLATFORM"
 echo "-----------------------------------------"
 
-case "$PLATFORM" in
-  android)
-    # Starting the device/emulator in the background
-    ./triggers/appium/start_android_device.sh target_device=$TARGET_DEVICE
-    
-    # Running the tests on Android
-    ANDROID_PROFILE=$DEVICE_PROFILE_NAME npm run test:$PLATFORM:tags $TAG || TEST_EXIT_CODE=$?
-  ;;
-  ios)
-    # Running the tests on IOS
-    IOS_PROFILE=$DEVICE_PROFILE_NAME npm run test:$PLATFORM:tags $TAG || TEST_EXIT_CODE=$?
-  ;;
-  *)
-    echo "❌ Invalid platform: $PLATFORM. Valid options are: android, ios"
-    exit 1
-  ;;
-esac
-
-echo "✅ All tests were executed."
-
-# Stopping Appium
-if [ -n "$APPIUM_PID" ]; then
-  echo "🛑 Stopping Appium (PID $APPIUM_PID)..."
-  kill $APPIUM_PID || true
-  echo "⏹️ Appium (PID $APPIUM_PID) is stopped"
-fi
-
-# Stopping emulator if started
-if [ -f /tmp/emulator_pid.txt ]; then
-  sleep 3
-  EMULATOR_PID=$(cat /tmp/emulator_pid.txt)
-  echo "🛑 Stopping Android Emulator (PID $EMULATOR_PID)..."
-  kill $EMULATOR_PID || true
-  sleep 2
-  if ps -p $EMULATOR_PID > /dev/null; then
-    echo "⚠️ Emulator still running, forcing shutdown..."
-    kill -9 $EMULATOR_PID || true
-  fi
-  rm -f /tmp/emulator_pid.txt
-  echo "⏹️ Android Emulator (PID $EMULATOR_PID) is stopped"
-fi
-
-# Generate Allure Report
-./triggers/allure/run_allure_report.sh open_allure=$OPEN_ALLURE test_level=mobile
+OPEN_ALLURE=$OPEN_ALLURE CLEAR_OLD_RESULTS=$CLEAR_OLD_RESULTS PLATFORM=$PLATFORM TARGET_DEVICE=$TARGET_DEVICE DEVICE_PROFILE_NAME=$DEVICE_PROFILE_NAME TAG=$TAG npm run test:mobile:js:args
 
 echo "✅ All done."
 

@@ -1,4 +1,4 @@
-// support/browserHandler.js
+// support/browser-handler.js
 
 const { chromium, firefox, webkit } = require("playwright");
 

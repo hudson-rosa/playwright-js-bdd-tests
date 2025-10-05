@@ -10,8 +10,8 @@
         "name": "Debug Cucumber Test",
         "program": "${workspaceFolder}/node_modules/.bin/cucumber-js",
         "args": [
-            "npm", "run", "debug:chromium:tags", "'@recruitment'"
-            // "npx", "cucumber-js", "features/features/recruitment-managing-vacancies.feature", "--require", "steps/recruitment-vacancies-steps.js"
+            "npm", "run", "debug:chromium:tags", "'@sign-in'"
+            // "npx", "cucumber-js", "features/features/recruitment-managing-vacancies.feature", "--require", "steps/recruitment-vacancies.steps.js"
         ],
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen",

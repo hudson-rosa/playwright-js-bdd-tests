@@ -1,4 +1,4 @@
-// support/utils/StringsHelper.js
+// support/utils/Strings-helper.js
 
 const { Status } = require("@cucumber/cucumber");
 

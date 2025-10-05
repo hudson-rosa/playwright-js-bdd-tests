@@ -3,10 +3,10 @@
 const { setWorldConstructor, Before, After } = require("@cucumber/cucumber");
 const { Status } = require("@cucumber/cucumber");
 const { request } = require("@playwright/test");
-const BrowserHandler = require("./web/browserHandler");
-const AppiumDriverSetup = require("./mobile/appiumDriverSetup");
-const { attachScreenshotOfWebPageFailure, attachScreenshotOfMobileScreenFailure } = require("./utils/screenshotHelper.js");
-const { testStatus } = require("./utils/stringsHelper.js");
+const BrowserHandler = require("./web/browser-handler.js");
+const AppiumDriverSetup = require("./mobile/appium-driver-setup.js");
+const { attachScreenshotOfWebPageFailure, attachScreenshotOfMobileScreenFailure } = require("./utils/screenshot-helper.js");
+const { testStatus } = require("./utils/strings-helper.js");
 let tags;
 
 class CustomWorld {
@@ -20,7 +20,7 @@ class CustomWorld {
 
   async initApiContext() {
     this.apiContext = await request.newContext({
-      baseURL: process.env.BASE_API
+      baseURL: process.env.API_BASE_URL
     });
   }
 
