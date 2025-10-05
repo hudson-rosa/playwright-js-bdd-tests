@@ -1,10 +1,10 @@
-// steps/web/sign-in-steps.js
+// steps/web/sign-in.steps.js
 
-const { Given, When, Then, Before } = require("@cucumber/cucumber");
+const { Given, When, Then } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
 require("dotenv").config();
 
-const { SignInPage, DashboardPage } = require("../../pages/page_modules/web_index");
+const { SignInPage, DashboardPage } = require("../../pages/page_modules/web-index");
 
 let signInPage;
 let dashboardPage;

@@ -66,7 +66,7 @@ Run multiple tags.
 If you need to specify the scenarios based on the steps path:
 
 ```bash
-  npx cucumber-js features/sign-in.feature --require steps/signInSteps.js
+  npx cucumber-js features/sign-in.feature --require steps/sign-in.steps.js
 ```
 
 ### Running locally from Dockerfile
@@ -185,7 +185,7 @@ We suggest that you begin by typing:
 ```bash
   npx playwright test
 
-  npx playwright test tests/signInOrangeHrm.spec.js
+  npx playwright test tests/sign-in-orange-hrm.spec.js
 ```
 
 And check out the following files:
@@ -207,7 +207,9 @@ To open last HTML report run:
 To have accurate analysis on existing failures from the generated Allure Report logs, run this command:
 
 ```bash
-  node analyzeWithGPT.js result.json
+  node analyzer/chatgpt-log-analyser.js results/file/path/to/check
+  # OR
+  node analyzer/deepseek-log-analyser.js results/file/path/to/check
 ```
 
 # APPIUM

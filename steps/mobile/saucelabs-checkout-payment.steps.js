@@ -1,6 +1,6 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
-const { SLCheckoutPaymentPage, SLCheckoutReviewOrderPage } = require("../../pages/page_modules/ios_index");
+const { SLCheckoutPaymentPage, SLCheckoutReviewOrderPage } = require("../../pages/page_modules/ios-index");
 
 let checkoutPaymentPage;
 let reviewOrderPage;

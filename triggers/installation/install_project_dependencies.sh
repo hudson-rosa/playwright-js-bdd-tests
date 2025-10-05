@@ -13,6 +13,6 @@ npm init -y
 
 # Run a single scenario to check if everything works:
 echo "▶ Running quick tests on Chromium, Firefox and Webkit..."
-npx playwright test signInOrangeHrm.spec.js
+npx playwright test tests/sign-in-orange-hrm.spec.js
 
 echo "✅ All done."

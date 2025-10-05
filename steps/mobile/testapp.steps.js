@@ -1,8 +1,8 @@
-// steps/mobile/testapp-steps.js
+// steps/mobile/testapp.steps.js
 
 const { Given, When, Then } = require("@cucumber/cucumber");
 const { expect } = require("@playwright/test");
-const IOSTestAppPage = require("../../pages/page_modules/ios_index");
+const IOSTestAppPage = require("../../pages/page_modules/ios-index");
 
 let iosAppPage;
 

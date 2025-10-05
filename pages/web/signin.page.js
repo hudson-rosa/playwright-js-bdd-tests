@@ -9,7 +9,7 @@ class SignInPage {
   }
 
   async openPage() {
-    await this.page.goto(process.env.BASE_URL);
+    await this.page.goto(process.env.WEB_BASE_URL);
     return this.page;
   }
 

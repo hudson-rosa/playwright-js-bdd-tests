@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
-  await page.goto(process.env.BASE_URL);
+  await page.goto(process.env.WEB_BASE_URL);
   await page.fill('input[name="username"]', 'Admin');
   await page.fill('input[name="password"]', 'admin123');
   await page.click('button[type="submit"]');
