@@ -13,7 +13,6 @@
     "allure:remove-results:webkit": "rm -rf allure-results/webkit",
     "allure:remove-results:android": "rm -rf allure-results/android",
     "allure:remove-results:ios": "rm -rf allure-results/ios",
-    "allure:remove-results-win": "rimraf allure-report allure-results",
     "allure:generate-report": "npx allure generate allure-results --clean -o allure-report",
     "allure:generate-report:web": "npx allure generate allure-results/chromium allure-results/firefox allure-results/webkit --clean -o allure-report",
     "allure:generate-report:mobile": "npx allure generate allure-results/android allure-results/ios --clean -o allure-report",
@@ -38,7 +37,6 @@
     "test:ios": "TEST_LEVEL=ios npx cucumber-js -p ios --parallel 1 --require steps --require support/world.js --tags '@ios'",
     "test:api:tags": "TEST_LEVEL=api npx cucumber-js -p api --require support/world.js --require steps --tags ",
     "test:api": "TEST_LEVEL=api npx cucumber-js -p api --require support/world.js --require steps --tags '@api'",
-
     "test:mobile:js:args": "node support/mobile/run-mobile-tests.js open_allure=$OPEN_ALLURE clear_old_results=$CLEAR_OLD_RESULTS platform=$PLATFORM target_device=$TARGET_DEVICE device_profile_name=$DEVICE_PROFILE_NAME tag=$TAG",
     "appium:server": "npx appium -p 4723",
     "appium:server:debug": "npx appium -p 4723 --log-level debug",
@@ -54,7 +52,68 @@
     "docker-compose-down": "docker-compose down -v",
     "docker-compose-build": "docker-compose build",
     "docker-compose-run-tests": "docker-compose up --abort-on-container-exit",
-    "docker-compose-run-tests-args": "OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests"
+    "docker-compose-run-tests-args": "OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests",
+
+
+    "format:allure:win": "--format allure-cucumberjs/reporter --format-options \"{ \\\"resultsDir\\\": \\\"results\\\" }\"",
+    "allure:remove-all-reports:win": "rimraf allure-results allure-report",
+    "allure:remove-results:api:win": "rimraf allure-results\\api",
+    "allure:remove-results:all:win": "rimraf allure-results\\chromium allure-results\\firefox allure-results\\webkit",
+    "allure:remove-results:chromium:win": "rimraf allure-results\\chromium",
+    "allure:remove-results:firefox:win": "rimraf allure-results\\firefox",
+    "allure:remove-results:webkit:win": "rimraf allure-results\\webkit",
+    "allure:remove-results:androidv": "rimraf allure-results\\android",
+    "allure:remove-results:ios:win": "rimraf allure-results\\ios",
+    "allure:remove-results:win": "rimraf allure-report allure-results",
+    "allure:generate-report:win": "npx allure generate allure-results --clean -o allure-report",
+    "allure:generate-report:web:win": "npx allure generate allure-results\\chromium allure-results\\firefox allure-results\\webkit --clean -o allure-report",
+    "allure:generate-report:mobile:win": "npx allure generate allure-results\\android allure-results\\ios --clean -o allure-report",
+    "allure:generate-report:api:win": "npx allure generate allure-results\\api --clean -o allure-report",
+    "allure:serve:win": "npx allure serve allure-report",
+    "allure:open:win": "npx allure open allure-report",
+
+    "generate:selector:from:win": "npx playwright codegen",
+    "generate:selector:baseurl:win": "npx playwright codegen https://opensource-demo.orangehrmlive.com",
+
+    "debug:chromium:tags:win": "cross-env TEST_LEVEL=web BROWSER=chromium PARALLEL=1 npx cucumber-js --parallel 1 --require support/world.js --require steps --tags \"%TAGS%\"",
+
+    "test:chromium:tags:win": "cross-env TEST_LEVEL=web BROWSER=chromium npx cucumber-js -p chromium --require support/world.js --require steps --tags \"%TAGS%\"",
+    "test:firefox:tags:win": "cross-env TEST_LEVEL=web BROWSER=firefox npx cucumber-js -p firefox --require support/world.js --require steps --tags \"%TAGS%\"",
+    "test:webkit:tags:win": "cross-env TEST_LEVEL=web BROWSER=webkit npx cucumber-js -p webkit --require support/world.js --require steps --tags \"%TAGS%\"",
+
+    "test:chromium:smoke:win": "cross-env TEST_LEVEL=web BROWSER=chromium npx cucumber-js -p chromium --require support/world.js --require steps --tags \"@smoke-web\"",
+    "test:firefox:smoke:win": "cross-env TEST_LEVEL=web BROWSER=firefox npx cucumber-js -p firefox --require support/world.js --require steps --tags \"@smoke-web\"",
+    "test:webkit:smokev": "cross-env TEST_LEVEL=web BROWSER=webkit npx cucumber-js -p webkit --require support/world.js --require steps --tags \"@smoke-web\"",
+
+    "test:crossbrowser:smoke:win": "cross-env TEST_LEVEL=web HEADLESS=false npm-run-all allure:remove-results:win --parallel test:chromium:smoke test:firefox:smoke test:webkit:smoke",
+    "test:crossbrowser:smoke:headless:win": "cross-env TEST_LEVEL=web HEADLESS=true npm-run-all allure:remove-results:win --parallel test:chromium:smoke test:firefox:smoke test:webkit:smoke",
+
+    "test:android:tags:win": "cross-env TEST_LEVEL=android TAG=%TAG% npx cucumber-js -p android --parallel 1 --require steps --require support/world.js --tags \"%TAG%\"",
+    "test:android:win": "cross-env TEST_LEVEL=android npx cucumber-js -p android --parallel 1 --require steps --require support/world.js --tags \"@android\"",
+    "test:ios:tags:win": "cross-env TEST_LEVEL=ios TAG=%TAG% npx cucumber-js -p ios --parallel 1 --require steps --require support/world.js --tags \"%TAG%\"",
+    "test:ios:win": "cross-env TEST_LEVEL=ios npx cucumber-js -p ios --parallel 1 --require steps --require support/world.js --tags \"@ios\"",
+
+    "test:api:tags:win": "cross-env TEST_LEVEL=api npx cucumber-js -p api --require support/world.js --require steps --tags",
+    "test:api:win": "cross-env TEST_LEVEL=api npx cucumber-js -p api --require support/world.js --require steps --tags \"@api\"",
+
+    "test:mobile:js:args:win": "node support/mobile/run-mobile-tests.js open_allure=%OPEN_ALLURE% clear_old_results=%CLEAR_OLD_RESULTS% platform=%PLATFORM% target_device=%TARGET_DEVICE% device_profile_name=%DEVICE_PROFILE_NAME% tag=%TAG%",
+
+    "appium::win": "npx appium -p 4723",
+    "appium:server:debug:win": "npx appium -p 4723 --log-level debug",
+    "android:adb:install-apk:win": "adb install -r \"%APP_PATH%\"",
+    "appium:remove-logs:win": "rimraf appium.log",
+
+    "docker-show-images:win": "docker images -q",
+    "docker-show-containers:win": "docker ps -aq",
+    "docker-remove-images:win": "for /f %i in ('docker images -q') do docker rmi -f %i",
+    "docker-remove-containers:win": "for /f %i in ('docker ps -aq') do docker rm -f %i",
+    "docker-remove-all:win": "npm run docker-remove-images && npm run docker-remove-containers && npm run docker-compose-down",
+    "dockerfile-build:win": "docker build -t playwright-bdd-tests .",
+    "dockerfile-run:win": "docker run --rm playwright-bdd-tests",
+    "docker-compose-down:win": "docker-compose down -v",
+    "docker-compose-build:win": "docker-compose build",
+    "docker-compose-run-tests:win": "docker-compose up --abort-on-container-exit",
+    "docker-compose-run-tests-args:win": "cross-env OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests"
   },
   "keywords": [],
   "author": "",
