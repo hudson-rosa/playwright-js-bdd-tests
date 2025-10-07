@@ -81,7 +81,7 @@ if not "%MISSING_ARGS%"=="" (
 REM Clear old results if requested
 if /i "%CLEAR_OLD_RESULTS%"=="true" (
   echo 🗑 Cleaning up old reports...
-  call npm run allure:remove-results:%BROWSER%
+  call npm run allure:remove-results:%BROWSER%:win
 )
 
 echo ⚙️ WEB Environment variables:

@@ -62,7 +62,7 @@
     "allure:remove-results:chromium:win": "rimraf allure-results\\chromium",
     "allure:remove-results:firefox:win": "rimraf allure-results\\firefox",
     "allure:remove-results:webkit:win": "rimraf allure-results\\webkit",
-    "allure:remove-results:androidv": "rimraf allure-results\\android",
+    "allure:remove-results:android:win": "rimraf allure-results\\android",
     "allure:remove-results:ios:win": "rimraf allure-results\\ios",
     "allure:remove-results:win": "rimraf allure-report allure-results",
     "allure:generate-report:win": "npx allure generate allure-results --clean -o allure-report",

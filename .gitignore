@@ -10,4 +10,5 @@ allure-results
 results
 *.log
 *.err
+.idea
 .DS_Store
