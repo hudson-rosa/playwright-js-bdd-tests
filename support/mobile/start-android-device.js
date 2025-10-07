@@ -83,13 +83,16 @@ async function handleEmulatorDevice() {
   console.log(`⏳ Waiting for emulator to boot (PID ${childEmulatorProcess.pid})...`);
 
   writePidForCleanup();
-  
+  await waitEmulatorReady();
+
+  console.log("📦 Installing APK on emulator...");
   await installApkOnEmulatorDevice();
 
-  return await waitEmulatotReady();
+  console.log(`✅ Emulator ${first} is ready and APK installed.`);
 
+  return;
 
-  async function waitEmulatotReady() {
+  async function waitEmulatorReady() {
     try {
       waitForDeviceReady(120000);
       console.log(`✅ Emulator ${first} booted (PID ${childEmulatorProcess.pid})`);
@@ -116,7 +119,14 @@ async function handleEmulatorDevice() {
  */
 async function installApkOnEmulatorDevice() {
   try {
-    await spawnInherit("npm", ["run", "android:adb:install-apk", "--", process.env.ANDROID_RELATIVE_APP_PATH]);
+    const appPath = process.env.ANDROID_RELATIVE_APP_PATH;
+
+    if (!appPath || !fs.existsSync(appPath)) {
+      console.error("❌ APK path not found or invalid:", appPath);
+      process.exit(1);
+    }
+
+    await spawnInherit("npm", ["run", "android:adb:install-apk", "--", appPath]);
     console.log("✅ APK installed successfully!");
   } catch (err) {
     console.error("❌ Failed to install APK:", err.message || err);

@@ -21,14 +21,19 @@ For the API tests, we can have these command args:
   ./test_pw_api.sh open_allure=false tag="@post-new-user"
 ```
 
-For the Android Mobile tests, we can have these command args:
+For the Android Mobile tests, we can run using Appium, ADB and Allure with these command args:
 
 ```bash
-  # Examples using script that triggers Appium, ADB and Allure from Node orchestration:
+  # Command example using Node orchestration to trigger the mobile tests on REAL DEVICE:
   ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=android target_device=real device_profile_name=real_pixel6_android16 tag=@android
   
-  # Examples using script that triggers Appium, ADB and Allure from bash script orchestration:
+  # Command example using Node orchestration to trigger the mobile tests on EMULATOR:
+  ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=android target_device=emulator device_profile_name=emulator_pixel_android15 tag=@android
+  
+  # Command example using Bash orchestration to trigger the mobile tests REAL DEVICE;EMULATOR:
   ./test_mobile_from_bash.sh open_allure=true clear_old_results=true platform=android target_device=real device_profile_name=real_pixel6_android16 tag=@android
+  
+  ./test_mobile_from_bash.sh open_allure=true clear_old_results=true platform=android target_device=emulator device_profile_name=emulator_pixel_android15 tag=@android
 ```
 
 ---
