@@ -8,7 +8,7 @@ Feature: Country Info SOAP API
   @capital-city @severity:critical
   Scenario: Get capital city of Luxembourg
     Given I have the ready envelope "capitalCity.xml"
-    When I send a SOAP request with action "http://www.oorsprong.org/websamples.countryinfo/CapitalCity" and variables:
+    When I send a SOAP request with action "capitalCity" and variables:
       | countryCode | LU |
     Then the SOAP response status should be 200
-    And the SOAP node "Envelope.Body.CapitalCityResponse.CapitalCityResult" should be "Luxembourg"
+    And the SOAP node "capitalCityResult" should be "Luxembourg"
