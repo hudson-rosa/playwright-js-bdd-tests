@@ -10,6 +10,11 @@ const dynamicSystemPort = (process.env.APPIUM_DEFAULT_SYSTEM_PORT ? parseInt(pro
 const androidDevices = {
   emulator_pixel_android15: {
     "appium:platformVersion": "15",
+    "appium:deviceName": "pixel_9_pro",
+    "appium:udid": "emulator-5554",
+  },
+  emulator_pixel_android15: {
+    "appium:platformVersion": "15",
     "appium:deviceName": "Medium_Phone_API_35",
     "appium:udid": "emulator-5554",
   },

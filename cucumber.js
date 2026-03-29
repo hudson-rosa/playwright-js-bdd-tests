@@ -72,5 +72,6 @@ module.exports = {
   webkit: buildConfig("allure-results/webkit"),
   android: buildConfig("allure-results/android"),
   ios: buildConfig("allure-results/ios"),
-  api: buildConfig("allure-results/api")
+  restapi: buildConfig("allure-results/restapi"),
+  soapapi: buildConfig("allure-results/soapapi")
 };

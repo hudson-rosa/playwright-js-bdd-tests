@@ -62,7 +62,10 @@ function openAllure(OPEN_ALLURE) {
  */
 function generateAllure(TEST_LEVEL) {
   switch (TEST_LEVEL) {
-    case "api":
+    case "restapi":
+      execSync("npm run allure:generate-report:api", { stdio: "inherit" });
+      break;
+    case "soapapi":
       execSync("npm run allure:generate-report:api", { stdio: "inherit" });
       break;
     case "web":
@@ -114,7 +117,7 @@ function validateArgs() {
 
   if (missing.length > 0) {
     console.error(`❌ Missing arguments: ${missing.join(", ")}`);
-    console.error("---> Usage: node ./support/report/run-allure-report.js open_allure=true|false test_level=api|web|mobile");
+    console.error("---> Usage: node ./support/report/run-allure-report.js open_allure=true|false test_level=restapi|soapapi|web|mobile");
     process.exit(1);
   }
 }
