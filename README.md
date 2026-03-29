@@ -13,12 +13,12 @@ For the Web tests, we can have these command args:
   ./test_pw_web.sh browser=webkit headless=false open_allure=true tag='@negative'
 ```
 
-For the API tests, we can have these command args:
+For the API tests, REST or SOAP, we can have these command args:
 
 ```bash
   # Examples:
-  ./test_pw_api.sh open_allure=true tag="@api"
-  ./test_pw_api.sh open_allure=false tag="@post-new-user"
+  ./test_pw_api.sh open_allure=true clear_old_results=true api_type=soapapi tag="@rest-api"
+  ./test_pw_api.sh open_allure=true clear_old_results=true api_type=soapapi tag="@soap-api"
 ```
 
 For the Android Mobile tests, we can run using Appium, ADB and Allure with these command args:
@@ -311,7 +311,13 @@ Export the variables for Android SDK:
 ```bash
   export ANDROID_HOME=$HOME/Library/Android/sdk
   export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+  export PATH=$PATH:$ANDROID_HOME/emulator
+  export PATH=$PATH:$ANDROID_HOME/tools
+  export PATH=$PATH:$ANDROID_HOME/tools/bin
+  export PATH=$PATH:$ANDROID_HOME/platform-tools
+  export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
   export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH
+
   echo $ANDROID_HOME
   echo $ANDROID_SDK_ROOT
 ```
@@ -331,4 +337,30 @@ Test if the app can be installed manually on a real Android device:
 ```bash
   adb install -r /Users/qa/Projects/test_automation/playwright-js-bdd-tests/app-dist/ApiDemos-debug.apk
   adb shell am start -n io.appium.android.apis/.ApiDemos
+```
+
+To install new emulator versions for Android:
+```bash
+  yes | sdkmanager --licenses
+  sdkmanager --update
+```
+
+Install the required packages for Pixel 7:
+```bash
+  sdkmanager "platform-tools" "platforms;android-34" "system-images;android-34;google_apis;x86_64" "emulator"
+
+  avdmanager create avd -n Pixel_9_API_35 -k "system-images;android-35;google_apis_playstore;x86_64" -d "pixel_9"
+
+  sdkmanager "system-images;android-35;google_apis_playstore;x86_64"
+
+  yes | sdkmanager --licenses
+
+  avdmanager list devices
+```
+
+Start the Emulator:
+
+```bash
+  emulator -list-avds
+  emulator -avd Pixel_9_API_35
 ```
