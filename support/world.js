@@ -15,13 +15,24 @@ class CustomWorld {
     this.attach = options.attach;
     this.apiContext = null;
     this.response = null;
+    this.soapBody = null;
+    this.soapRequest = null;
     this.androidDriver = null;
   }
 
-  async initApiContext() {
+  async initRestApiContext() {
     this.apiContext = await request.newContext({
-      baseURL: process.env.API_BASE_URL
+      baseURL: process.env.RESTAPI_BASE_URL
     });
+    const restResp = await this.apiContext.get(process.env.RESTAPI_BASE_URL);
+    console.log("🚀 Initialized REST API context with base URL:", restResp.url());
+  }
+  async initSoapApiContext() {
+    this.apiContext = await request.newContext({
+      baseURL: process.env.SOAPAPI_BASE_URL
+    });
+    const soapResp = await this.apiContext.get(process.env.SOAPAPI_BASE_URL);
+    console.log("🚀 Initialized SOAP API context with base URL:", soapResp.url());
   }
 
   async disposeApi() {
@@ -33,6 +44,7 @@ class CustomWorld {
     const browserType = process.env.BROWSER || "chromium";
     this.browser = await this.browserHandler.launch(browserType, isHeadless);
     this.browserName = browserType;
+    console.log(`🚀 Initialized ${this.browserName} Browser 🚀`);
   }
 
   getPage() {
@@ -51,6 +63,7 @@ class CustomWorld {
 
   async initAndroid() {
     this.androidDriver = await AppiumDriverSetup.getAndroidDriver();
+    console.log("🚀 Initialized Android Driver 🚀");
   }
 
   async quitAndroid() {
@@ -62,6 +75,7 @@ class CustomWorld {
 
   async initIOS() {
     this.iosDriver = await AppiumDriverSetup.getIOSDriver();
+    console.log("🚀 Initialized iOS Driver 🚀");
     return this.iosDriver;
   }
 
@@ -81,7 +95,6 @@ Before(async function (scenario) {
   tags = scenario.pickle.tags.map((t) => t.name);
   console.log(`--> Scenario - "${scenario.pickle.name}" with tags: ${tags.join(", ")}`);
 
-  await this.initApiContext();
   this.page = this.getPage();
 
   switch (process.env.TEST_LEVEL) {
@@ -94,6 +107,12 @@ Before(async function (scenario) {
       break;
     case "ios":
       await this.initIOS();
+      break;
+    case "restapi":
+      await this.initRestApiContext();
+      break;
+    case "soapapi":
+      await this.initSoapApiContext();
       break;
     default:
       await this.initBrowser();
@@ -138,6 +157,15 @@ After(async function (scenario) {
         break;
     }
     await this.disposeApi();
+
+    if (this.soapRequest && this.attach) {
+      this.attach(this.soapRequest, "text/xml");
+    }
+
+    if (this.response && this.attach) {
+      const responseText = await this.response.text();
+      this.attach(responseText, "text/xml");
+    }
   } catch (err) {
     console.warn("⚠️ After hook - unhandled error ignored:", err.message);
   }
