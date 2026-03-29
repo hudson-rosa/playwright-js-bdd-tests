@@ -33,7 +33,7 @@ if [ -z "$OPEN_ALLURE" ]; then
   MISSING_ARGS+=" ❌ OPEN_ALLURE arg is missing on the command!    --> Use: open_allure=true|false"
 fi
 if [ -z "$TEST_LEVEL" ]; then
-  MISSING_ARGS+=" ❌ TEST_LEVEL arg is missing on the command!    --> Use: test_level=restapi|soapapi|web|mobile"
+  MISSING_ARGS+=" ❌ TEST_LEVEL arg is missing on the command!    --> Use: test_level=restapi|soapapi|api|web|mobile"
 fi
 
 # Show all missing arg messages at once
@@ -52,6 +52,9 @@ case "$TEST_LEVEL" in
   soapapi)
      npm run allure:generate-report:api || TEST_EXIT_CODE=$?
     ;;
+  api)
+    npm run allure:generate-report:api || TEST_EXIT_CODE=$?
+    ;;
   web)
     npm run allure:generate-report:web || TEST_EXIT_CODE=$?
     ;;
@@ -59,7 +62,7 @@ case "$TEST_LEVEL" in
     npm run allure:generate-report:mobile || TEST_EXIT_CODE=$?
     ;;
   *)
-    echo "❌ Invalid test level name: $BROWSER. Valid options are: restapi, soapapi, web, mobile"
+    echo "❌ Invalid test level name: $TEST_LEVEL. Valid options are: restapi, soapapi, api, web, mobile"
     exit 1
     ;;
 esac
