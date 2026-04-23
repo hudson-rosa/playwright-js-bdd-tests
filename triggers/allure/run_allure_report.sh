@@ -2,11 +2,11 @@
 set -e
 
 # RUN THIS FILE WITH THE COMMAND:
-# E.g.1:       ./triggers/allure/run_allure_report.sh open_allure=true test_level=perf
-# E.g.2:       ./triggers/allure/run_allure_report.sh open_allure=true test_level=restapi
-# E.g.3:       ./triggers/allure/run_allure_report.sh open_allure=true test_level=soapapi
-# E.g.4:       ./triggers/allure/run_allure_report.sh open_allure=true test_level=web
-# E.g.5:       ./triggers/allure/run_allure_report.sh open_allure=true test_level=mobile
+# ./triggers/allure/run_allure_report.sh open_allure=true test_level=perf
+# ./triggers/allure/run_allure_report.sh open_allure=true test_level=restapi
+# ./triggers/allure/run_allure_report.sh open_allure=true test_level=soapapi
+# ./triggers/allure/run_allure_report.sh open_allure=true test_level=web
+# ./triggers/allure/run_allure_report.sh open_allure=true test_level=mobile
 
 # Default values
 TEST_LEVEL=""

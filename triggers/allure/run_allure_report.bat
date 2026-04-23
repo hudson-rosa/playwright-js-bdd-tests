@@ -1,6 +1,11 @@
 @echo off
 setlocal enabledelayedexpansion
 
+REM .\triggers\allure\run_allure_report.sh open_allure=true test_level=perf
+REM .\triggers\allure\run_allure_report.sh open_allure=true test_level=restapi
+REM .\triggers\allure\run_allure_report.sh open_allure=true test_level=soapapi
+REM .\triggers\allure\run_allure_report.sh open_allure=true test_level=web
+REM .\triggers\allure\run_allure_report.sh open_allure=true test_level=mobile
 
 echo ✨✨ Generating Allure Report ✨✨...
 
@@ -58,7 +63,13 @@ timeout /t 1 >nul
 
 set "TEST_EXIT_CODE=0"
 
-if /i "%TEST_LEVEL%"=="api" (
+if /i "%TEST_LEVEL%"=="perf" (
+  call npm run allure:generate-report:perf:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+) else if /i "%TEST_LEVEL%"=="restapi" (
+  call npm run allure:generate-report:api:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+) else if /i "%TEST_LEVEL%"=="soapapi" (
+  call npm run allure:generate-report:api:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+) else if /i "%TEST_LEVEL%"=="api" (
   call npm run allure:generate-report:api:win || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%TEST_LEVEL%"=="web" (
   call npm run allure:generate-report:web:win || set TEST_EXIT_CODE=%ERRORLEVEL%

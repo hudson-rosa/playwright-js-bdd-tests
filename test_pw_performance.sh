@@ -1,39 +1,39 @@
 #!/bin/bash
 set -e
 
-echo "__________________________________________________"
-echo "🎭 PEFORMANCE • Playwright • JS • BDD • Allure ⚡"
-echo "--------------------------------------------------"
+echo "____________________________________________"
+echo "🎭 PEFORMANCE • Playwright • JS • Allure ⚡"
+echo "--------------------------------------------"
 echo "     ▶ Starting..."
 
 
 # RUN THIS FILE WITH THE COMMAND:
-# ./test_pw_performance.sh open_allure=true clear_old_results=true tag="@perf"
+# ./test_pw_performance.sh open_allure=true clear_old_results=true file="ddos-k6.test.js"
 OPEN_ALLURE="false"
 CLEAR_OLD_RESULTS="false"
-TAG=""
+FILE=""
 
 # Parse named arguments
-for arg in "$@"; do
-  case $arg in
-    open_allure=*)
-      OPEN_ALLURE="${arg#*=}"
-      shift
-      ;;
-    clear_old_results=*)
-      CLEAR_OLD_RESULTS="${arg#*=}"
-      shift
-      ;;
-    tag=*)
-      TAG="${arg#*=}"
-      shift
-      ;;
-    *)
-      echo "❌ Unknown argument: $arg"
-      exit 1
-      ;;
-  esac
-done
+
+case $arg in
+  open_allure=*)
+    OPEN_ALLURE="${arg#*=}"
+    shift
+    ;;
+  clear_old_results=*)
+    CLEAR_OLD_RESULTS="${arg#*=}"
+    shift
+    ;;
+  file=*)
+    FILE="${arg#*=}"
+    shift
+    ;;
+  *)
+    echo "❌ Unknown argument: $arg"
+    exit 1
+    ;;
+esac
+
 
 MISSING_ARGS=""
 
@@ -43,11 +43,11 @@ fi
 if [ -z "$CLEAR_OLD_RESULTS" ]; then
   MISSING_ARGS+=" ❌ CLEAR_OLD_RESULTS arg is missing on the command!    --> Use: clear_old_results=true|false"
 fi
-if [ -z "$TAG" ]; then
-  MISSING_ARGS+=" ❌ TAG arg is missing on the command!    --> Use: tag='@smoke-perf'|'@regression-perf'|'@perf...'"
+if [ -z "$FILE" ]; then
+  MISSING_ARGS+=" ❌ FILE arg is missing on the command!    --> Use: FILE='ddos-k6.test.js'"
 fi
-if [[ $TAG != @* ]]; then
-  MISSING_ARGS+=" ⚠️ Current TAG value must start with '@' under the brackets    --> Use: tag='@smoke-perf'|'@regression-perf'|'@perf...'"
+if [[ $FILE != @* ]]; then
+  MISSING_ARGS+=" ⚠️ Current FILE value must start with '@' under the brackets    --> Use: FILE='ddos-k6.test.js'"
 fi
 
 # Show all missing arg messages at once
@@ -66,10 +66,10 @@ fi
 echo "⚙️ PERFORMANCE Environment variables:"
 echo "   ⤷ ✅ Open Allure              : $OPEN_ALLURE"
 echo "   ⤷ ✅ Clear Old Allure Results : $CLEAR_OLD_RESULTS"
-echo "   ⤷ ✅ Tag                      : $TAG"
+echo "   ⤷ ✅ File Name                : $FILE"
 echo "__________________________"
 
-npm run test:perf:tags $TAG || TEST_EXIT_CODE=$?
+npm run test:perf:file $FILE || TEST_EXIT_CODE=$?
 
 echo "✅ All selected PERFORMANCE tests were executed."
 
