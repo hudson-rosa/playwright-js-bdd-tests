@@ -7,12 +7,12 @@ echo -------------------------------------------
 echo      - Starting...
 
 REM ===========================================
-REM Example usage with POWERSHELL:
+REM RUN THIS FILE WITH ONE OF THESE COMMANDS:
 REM
-REM .\test_pw_web.bat headless=false open_allure=true clear_old_results=true browser=chromium tag=@web
-REM .\test_pw_web.bat headless=false open_allure=true clear_old_results=true browser=firefox tag=@web
-REM .\test_pw_web.bat headless=false open_allure=true clear_old_results=true browser=webkit tag=@web
-REM .\test_pw_web.bat headless=false open_allure=true clear_old_results=true browser=all tag=@web
+REM - Chrome:       .\test_pw_web.bat headless=false open_allure=true clear_old_results=true browser=chromium tag=@web
+REM - Firefox:      .\test_pw_web.bat headless=false open_allure=true clear_old_results=true browser=firefox tag=@web
+REM - Webkit:       .\test_pw_web.bat headless=false open_allure=true clear_old_results=true browser=webkit tag=@web
+REM - All Browsers: .\test_pw_web.bat headless=false open_allure=true clear_old_results=true browser=all tag=@web
 REM
 REM Example usage with CMD:
 REM
@@ -70,7 +70,7 @@ if "%TAG%"=="" set "MISSING_ARGS=!MISSING_ARGS! ❌ TAG arg is missing! Use: tag
 
 echo %TAG% | findstr /b "@" >nul
 if errorlevel 1 (
-  set "MISSING_ARGS=!MISSING_ARGS! --️ TAG value must start with '@'"
+  set "MISSING_ARGS=!MISSING_ARGS! --- TAG value must start with '@'"
 )
 
 if not "%MISSING_ARGS%"=="" (

@@ -7,9 +7,9 @@ echo "-----------------------------------------------"
 echo "     ▶ Starting..."
 
 
-# RUN THIS FILE WITH THE COMMAND:
-# E.g.1:       ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=android target_device=real|emulator device_profile_name=phone_x tag="@android"
-# E.g.2:       ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=ios target_device=real|emulator device_profile_name=phone_y tag="@ios"
+# RUN THIS FILE WITH ONE OF THESE COMMANDS:
+# ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=android target_device=real|emulator device_profile_name=phone_x tag="@android"
+# ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=ios target_device=real|emulator device_profile_name=phone_y tag="@ios"
 
 # Demo comand: ./test_mobile_from_node.sh open_allure=true clear_old_results=true platform=android target_device=real device_profile_name=real_pixel6_android16 tag=@android
 

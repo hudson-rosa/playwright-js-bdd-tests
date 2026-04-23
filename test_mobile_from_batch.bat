@@ -10,7 +10,7 @@ echo ⚙️ Setting the environment variables for platform-tools and emulator...
 call triggers\checks\set_environment_vars_win.bat
 
 REM ==========================================================
-REM Example usage:
+REM RUN THIS FILE WITH ONE OF THESE COMMANDS:
 REM .\test_mobile_from_batch.bat open_allure=true clear_old_results=true platform=android target_device=real device_profile_name=real_pixel6_android16 tag=@android
 REM .\test_mobile_from_batch.bat open_allure=true clear_old_results=true platform=ios target_device=emulator device_profile_name=iphone15 tag=@ios
 REM ==========================================================

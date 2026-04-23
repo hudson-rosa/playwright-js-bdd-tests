@@ -7,9 +7,9 @@ echo "-------------------------------------------"
 echo "     ▶ Starting..."
 
 
-# RUN THIS FILE WITH THE COMMAND:
-# E.g.:       ./test_pw_api.sh open_allure=true clear_old_results=true api_type=soapapi tag="@soap-api"
-# E.g.:       ./test_pw_api.sh open_allure=true clear_old_results=true api_type=restapi tag="@rest-api"
+# RUN THIS FILE WITH ONE OF THESE COMMANDS:
+# ./test_pw_api.sh open_allure=true clear_old_results=true api_type=soapapi tag="@soap-api"
+# ./test_pw_api.sh open_allure=true clear_old_results=true api_type=restapi tag="@rest-api"
 API_TYPE=""
 OPEN_ALLURE="false"
 CLEAR_OLD_RESULTS="false"

@@ -7,10 +7,12 @@ echo -------------------------------------------
 echo      - Starting...
 
 REM ===========================================
-REM Example usage:
-REM .\test_pw_api.bat open_allure=true clear_old_results=true tag=@api
+REM RUN THIS FILE WITH ONE OF THESE COMMANDS:
+REM .\test_pw_api.bat open_allure=true clear_old_results=true api_type=soapapi tag="@soap-api"
+REM .\test_pw_api.bat open_allure=true clear_old_results=true api_type=restapi tag="@rest-api"
 REM ===========================================
 
+set "API_TYPE=false"
 set "OPEN_ALLURE=false"
 set "CLEAR_OLD_RESULTS=false"
 set "TAG="
@@ -42,6 +44,7 @@ for /f "tokens=1* delims==" %%A in ("%arg%") do (
 
 if /i "!name!"=="open_allure" set "OPEN_ALLURE=!value!"
 if /i "!name!"=="clear_old_results" set "CLEAR_OLD_RESULTS=!value!"
+if /i "!name!"=="api_type" set "API_TYPE=!value!"
 if /i "!name!"=="tag" set "TAG=!value!"
 
 shift
@@ -55,6 +58,9 @@ if "%OPEN_ALLURE%"=="" (
 )
 if "%CLEAR_OLD_RESULTS%"=="" (
   set "MISSING_ARGS=!MISSING_ARGS! ❌ CLEAR_OLD_RESULTS arg is missing! Use: clear_old_results=true|false"
+)
+if "%API_TYPE%"=="" (
+  set "MISSING_ARGS=!MISSING_ARGS! ❌ API_TYPE arg is missing! Use: api_type=restapi|soapapi|api"
 )
 if "%TAG%"=="" (
   set "MISSING_ARGS=!MISSING_ARGS! ❌ TAG arg is missing! Use: tag=@smoke-api|@regression-api|@api..."
@@ -80,15 +86,45 @@ REM Running tests
 echo ⚙️ API Environment variables:
 echo    ⤷ ✅ Open Allure              : %OPEN_ALLURE%
 echo    ⤷ ✅ Clear Old Allure Results : %CLEAR_OLD_RESULTS%
+echo    ⤷ ✅ API Type                 : %API_TYPE%
 echo    ⤷ ✅ Tag                      : %TAG%
 echo __________________________
 
 set "TEST_EXIT_CODE=0"
-call npm run test:api:tags:win %TAG% || set TEST_EXIT_CODE=%ERRORLEVEL%
 
-echo ✅ All selected API tests were executed.
+IF /I "%API_TYPE%"=="soapapi" (
+    IF /I "%CLEAR_OLD_RESULTS%"=="true" (
+        echo 🗑 Cleaning up old SOAP API reports...
+        call npm run allure:remove-results:api:soap:win
+    )
+    set "TAGS=%TAG%"
+    call npm run test:api:soap:tags:win
+    set "TEST_EXIT_CODE=%ERRORLEVEL%"
+
+) ELSE IF /I "%API_TYPE%"=="restapi" (
+    IF /I "%CLEAR_OLD_RESULTS%"=="true" (
+        echo 🗑 Cleaning up old REST API reports...
+        call npm run allure:remove-results:api:rest:win
+    )
+    set "TAGS=%TAG%"
+    call npm run test:api:rest:tags
+    set "TEST_EXIT_CODE=%ERRORLEVEL%"
+
+) ELSE IF /I "%API_TYPE%"=="api" (
+    call npm run allure:remove-results:api:soap:win
+    call npm run allure:remove-results:api:rest:win
+    set "TAGS=%TAG%"
+    call npx npm-run-all --parallel test:api:soap:tags test:api:rest:tags:win
+    set "TEST_EXIT_CODE=%ERRORLEVEL%"
+
+) ELSE (
+    echo ❌ Invalid API type: %API_TYPE%. Valid options are: soapapi, restapi, api
+    exit /b 1
+)
+
+echo ✅ All selected %API_TYPE% tests were executed.
 
 REM Generate Allure Report
-call triggers\allure\run_allure_report.bat open_allure=%OPEN_ALLURE% test_level=api
+call triggers\allure\run_allure_report.bat open_allure=%OPEN_ALLURE% test_level=%API_TYPE%
 
 exit /b %TEST_EXIT_CODE%

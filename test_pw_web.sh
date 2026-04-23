@@ -7,11 +7,11 @@ echo "-------------------------------------------"
 echo "     ▶ Starting..."
 
 
-# RUN THIS FILE WITH THE COMMAND:
-# E.g.1 - Chrome:        ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=chromium tag="@web"
-# E.g.2 - Firefox:       ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=firefox tag="@web"
-# E.g.3 - Webkit:        ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=webkit tag="@web"
-# E.g.4 - All Browsers:  ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=all tag="@web"
+# RUN THIS FILE WITH ONE OF THESE COMMANDS:
+# - Chrome:        ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=chromium tag="@web"
+# - Firefox:       ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=firefox tag="@web"
+# - Webkit:        ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=webkit tag="@web"
+# - All Browsers:  ./test_pw_web.sh headless=false open_allure=true clear_old_results=true browser=all tag="@web"
 BROWSER=""
 HEADLESS=""
 OPEN_ALLURE="false"
