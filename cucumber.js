@@ -72,6 +72,7 @@ module.exports = {
   webkit: buildConfig("allure-results/webkit"),
   android: buildConfig("allure-results/android"),
   ios: buildConfig("allure-results/ios"),
+  perf: buildConfig("allure-results/perf"),
   restapi: buildConfig("allure-results/restapi"),
   soapapi: buildConfig("allure-results/soapapi")
 };
