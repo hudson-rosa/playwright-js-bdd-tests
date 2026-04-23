@@ -77,7 +77,11 @@ echo    ⤷ ✅ Clear Old Allure Results : %CLEAR_OLD_RESULTS%
 echo    ⤷ ✅ File Name                : %FILE%
 echo __________________________
 
-call npm run test:perf:file:win %FILE%
+:: When running from the k6 package
+@REM call npm run test:perf:file:win %FILE%
+
+:: When running from the portable k6.exe on Windows
+call npm run test:perf:file:exe:win %FILE%
 set "TEST_EXIT_CODE=%ERRORLEVEL%"
 
 echo ✅ All selected PERFORMANCE tests were executed.
