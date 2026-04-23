@@ -12,3 +12,4 @@ results
 *.err
 .idea
 .DS_Store
+audit-perfs/reports/*

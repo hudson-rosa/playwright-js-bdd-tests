@@ -1,7 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM .\triggers\allure\run_allure_report.sh open_allure=true test_level=perf
 REM .\triggers\allure\run_allure_report.sh open_allure=true test_level=restapi
 REM .\triggers\allure\run_allure_report.sh open_allure=true test_level=soapapi
 REM .\triggers\allure\run_allure_report.sh open_allure=true test_level=web
@@ -51,7 +50,7 @@ if "%OPEN_ALLURE%"=="" (
   set "MISSING_ARGS=!MISSING_ARGS! ❌ OPEN_ALLURE arg is missing! --> Use: open_allure=true|false"
 )
 if "%TEST_LEVEL%"=="" (
-  set "MISSING_ARGS=!MISSING_ARGS! ❌ TEST_LEVEL arg is missing! --> Use: test_level=api|web|mobile"
+  set "MISSING_ARGS=!MISSING_ARGS! ❌ TEST_LEVEL arg is missing! --> Use: test_level=restapi|soapapi|api|web|mobile"
 )
 
 if not "%MISSING_ARGS%"=="" (
@@ -63,9 +62,7 @@ timeout /t 1 >nul
 
 set "TEST_EXIT_CODE=0"
 
-if /i "%TEST_LEVEL%"=="perf" (
-  call npm run allure:generate-report:perf:win || set TEST_EXIT_CODE=%ERRORLEVEL%
-) else if /i "%TEST_LEVEL%"=="restapi" (
+if /i "%TEST_LEVEL%"=="restapi" (
   call npm run allure:generate-report:api:win || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%TEST_LEVEL%"=="soapapi" (
   call npm run allure:generate-report:api:win || set TEST_EXIT_CODE=%ERRORLEVEL%

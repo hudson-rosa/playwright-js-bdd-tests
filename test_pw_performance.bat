@@ -2,15 +2,14 @@
 setlocal enabledelayedexpansion
 
 REM RUN THIS FILE WITH THIS COMMAND:
-REM .\test_pw_performance.bat open_allure=true clear_old_results=true file="ddos-k6.test.js"
+REM .\test_pw_performance.bat open_k6_reporter=true clear_old_results=true file=".\tests\performance\ddos-k6-test.js"
 
 echo __________________________________________________
-echo 🎭 PEFORMANCE • Playwright • JS • Allure ⚡
+echo 🎭 PEFORMANCE • Playwright • JS • K6 Reporter ⚡
 echo --------------------------------------------------
 echo      ▶ Starting...
 
 :: Default values
-set "OPEN_ALLURE=false"
 set "CLEAR_OLD_RESULTS=false"
 set "FILE="
 
@@ -39,7 +38,6 @@ for /f "tokens=1* delims==" %%A in ("%arg%") do (
   set "value=%%~B"
 )
 
-if /i "!name!"=="open_allure" set "OPEN_ALLURE=!value!"
 if /i "!name!"=="clear_old_results" set "CLEAR_OLD_RESULTS=!value!"
 if /i "!name!"=="file" set "FILE=!value!"
 
@@ -49,14 +47,11 @@ goto parse_args
 :after_parse
 set "MISSING_ARGS="
 
-if "%OPEN_ALLURE%"=="" (
-  set "MISSING_ARGS=!MISSING_ARGS! ❌ OPEN_ALLURE arg is missing! Use: open_allure=true|false"
-)
 if "%CLEAR_OLD_RESULTS%"=="" (
   set "MISSING_ARGS=!MISSING_ARGS! ❌ CLEAR_OLD_RESULTS arg is missing! Use: clear_old_results=true|false"
 )
 if "%FILE%"=="" (
-  set "MISSING_ARGS=!MISSING_ARGS! ❌ FILE arg is missing! Use: file=ddos-k6.test.js"
+  set "MISSING_ARGS=!MISSING_ARGS! ❌ FILE arg is missing! Use: file=.\tests\performance\ddos-k6-test.js"
 )
 
 if not "%MISSING_ARGS%"=="" (
@@ -65,14 +60,13 @@ if not "%MISSING_ARGS%"=="" (
 )
 
 REM Clear old results if requested
-if /i "%CLEAR_OLD_RESULTS%"=="true" (
-  echo 🗑 Cleaning up old API reports...
-  call npm run allure:remove-results:api:win
-)
+@REM if /i "%CLEAR_OLD_RESULTS%"=="true" (
+@REM   echo 🗑 Cleaning up old API reports...
+@REM   call npm run audit-k6:remove-results:perf:win
+@REM )
 
 :: Running tests
 echo ⚙️ PERFORMANCE Environment variables:
-echo    ⤷ ✅ Open Allure              : %OPEN_ALLURE%
 echo    ⤷ ✅ Clear Old Allure Results : %CLEAR_OLD_RESULTS%
 echo    ⤷ ✅ File Name                : %FILE%
 echo __________________________
@@ -85,8 +79,5 @@ call npm run test:perf:file:exe:win %FILE%
 set "TEST_EXIT_CODE=%ERRORLEVEL%"
 
 echo ✅ All selected PERFORMANCE tests were executed.
-
-REM Generate Allure Report
-call .\triggers\allure\run_allure_report.bat open_allure=%OPEN_ALLURE% test_level=perf
 
 exit /b %TEST_EXIT_CODE%

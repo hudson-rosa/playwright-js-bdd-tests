@@ -2,7 +2,6 @@
 set -e
 
 # RUN THIS FILE WITH THE COMMAND:
-# ./triggers/allure/run_allure_report.sh open_allure=true test_level=perf
 # ./triggers/allure/run_allure_report.sh open_allure=true test_level=restapi
 # ./triggers/allure/run_allure_report.sh open_allure=true test_level=soapapi
 # ./triggers/allure/run_allure_report.sh open_allure=true test_level=web
@@ -35,7 +34,7 @@ if [ -z "$OPEN_ALLURE" ]; then
   MISSING_ARGS+=" ❌ OPEN_ALLURE arg is missing on the command!    --> Use: open_allure=true|false"
 fi
 if [ -z "$TEST_LEVEL" ]; then
-  MISSING_ARGS+=" ❌ TEST_LEVEL arg is missing on the command!    --> Use: test_level=perf|restapi|soapapi|api|web|mobile"
+  MISSING_ARGS+=" ❌ TEST_LEVEL arg is missing on the command!    --> Use: test_level=restapi|soapapi|api|web|mobile"
 fi
 
 # Show all missing arg messages at once
@@ -48,9 +47,6 @@ echo "✨✨ Generating Allure Report ✨✨..."
 sleep 1
 
 case "$TEST_LEVEL" in
-  perf)
-     npm run allure:generate-report:perf || TEST_EXIT_CODE=$?
-    ;;
   restapi)
      npm run allure:generate-report:api || TEST_EXIT_CODE=$?
     ;;
@@ -67,7 +63,7 @@ case "$TEST_LEVEL" in
     npm run allure:generate-report:mobile || TEST_EXIT_CODE=$?
     ;;
   *)
-    echo "❌ Invalid test level name: $TEST_LEVEL. Valid options are: perf, restapi, soapapi, api, web, mobile"
+    echo "❌ Invalid test level name: $TEST_LEVEL. Valid options are: restapi, soapapi, api, web, mobile"
     exit 1
     ;;
 esac
