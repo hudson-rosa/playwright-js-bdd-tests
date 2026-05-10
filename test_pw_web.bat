@@ -81,7 +81,7 @@ if not "%MISSING_ARGS%"=="" (
 REM Clear old results if requested
 if /i "%CLEAR_OLD_RESULTS%"=="true" (
   echo 🗑 Cleaning up old reports...
-  call npm run allure:remove-results:%BROWSER%:win
+  call npm run allure:remove-results:%BROWSER%:bat
 )
 
 echo ⚙️ WEB Environment variables:
@@ -99,19 +99,19 @@ set "TEST_EXIT_CODE=0"
 if /i "%BROWSER%"=="chromium" (
   set TAGS=%TAG%
   set HEADLESS=%HEADLESS%
-  call npm run test:chromium:tags:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run test:chromium:tags:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%BROWSER%"=="firefox" (
   set TAGS=%TAG%
   set HEADLESS=%HEADLESS%
-  call npm run test:firefox:tags:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run test:firefox:tags:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%BROWSER%"=="webkit" (
   set TAGS=%TAG%
   set HEADLESS=%HEADLESS%
-  call npm run test:webkit:tags:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run test:webkit:tags:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%BROWSER%"=="all" (
   set TAGS=%TAG%
   set HEADLESS=%HEADLESS%
-  call npx npm-run-all --parallel test:chromium:tags:win test:firefox:tags:win test:webkit:tags:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npx npm-run-all --parallel test:chromium:tags:bat test:firefox:tags:bat test:webkit:tags:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else (
   echo ❌ Invalid browser: %BROWSER%. Valid options are: chromium, firefox, webkit, all
   exit /b 1

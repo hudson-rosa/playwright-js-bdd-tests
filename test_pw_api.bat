@@ -79,7 +79,7 @@ if not "%MISSING_ARGS%"=="" (
 REM Clear old results if requested
 if /i "%CLEAR_OLD_RESULTS%"=="true" (
   echo 🗑 Cleaning up old API reports...
-  call npm run allure:remove-results:api:win
+  call npm run allure:remove-results:api:bat
 )
 
 REM Running tests
@@ -95,26 +95,26 @@ set "TEST_EXIT_CODE=0"
 IF /I "%API_TYPE%"=="soapapi" (
     IF /I "%CLEAR_OLD_RESULTS%"=="true" (
         echo 🗑 Cleaning up old SOAP API reports...
-        call npm run allure:remove-results:api:soap:win
+        call npm run allure:remove-results:api:soap:bat
     )
     set "TAGS=%TAG%"
-    call npm run test:api:soap:tags:win
+    call npm run test:api:soap:tags:bat
     set "TEST_EXIT_CODE=%ERRORLEVEL%"
 
 ) ELSE IF /I "%API_TYPE%"=="restapi" (
     IF /I "%CLEAR_OLD_RESULTS%"=="true" (
         echo 🗑 Cleaning up old REST API reports...
-        call npm run allure:remove-results:api:rest:win
+        call npm run allure:remove-results:api:rest:bat
     )
     set "TAGS=%TAG%"
-    call npm run test:api:rest:tags
+    call npm run test:api:rest:tags:bat
     set "TEST_EXIT_CODE=%ERRORLEVEL%"
 
 ) ELSE IF /I "%API_TYPE%"=="api" (
-    call npm run allure:remove-results:api:soap:win
-    call npm run allure:remove-results:api:rest:win
+    call npm run allure:remove-results:api:soap:bat
+    call npm run allure:remove-results:api:rest:bat
     set "TAGS=%TAG%"
-    call npx npm-run-all --parallel test:api:soap:tags test:api:rest:tags:win
+    call npx npm-run-all --parallel test:api:soap:tags:bat test:api:rest:tags:bat
     set "TEST_EXIT_CODE=%ERRORLEVEL%"
 
 ) ELSE (

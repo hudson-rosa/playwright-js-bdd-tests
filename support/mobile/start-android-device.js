@@ -109,7 +109,7 @@ async function handleEmulatorDevice() {
 
 /**
  * Installs an APK on an Android emulator device using the specified environment variable for the APK path.
- * Runs the npm script 'android:adb:install-apk' with the provided APK path.
+ * Runs the npm script 'android:adb:install-apk:bash' with the provided APK path.
  * Logs success or failure to the console.
  * Exits the process with code 1 if installation fails.
  *
@@ -126,7 +126,7 @@ async function installApkOnEmulatorDevice() {
       process.exit(1);
     }
 
-    await spawnInherit("npm", ["run", "android:adb:install-apk", "--", appPath]);
+    await spawnInherit("npm", ["run", "android:adb:install-apk:bash", "--", appPath]);
     console.log("✅ APK installed successfully!");
   } catch (err) {
     console.error("❌ Failed to install APK:", err.message || err);

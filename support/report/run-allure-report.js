@@ -46,7 +46,7 @@ function openAllure(OPEN_ALLURE) {
   console.log(`🎚️ OPEN_ALLURE is set to ${OPEN_ALLURE}`);
   if (OPEN_ALLURE === "true") {
     console.log("📂 Opening Allure Report...");
-    execSync("npm run allure:open", { stdio: "inherit" });
+    execSync("npm run allure:open:bash", { stdio: "inherit" });
   } else {
     console.log("OPEN_ALLURE is not 'true', skipping...");
   }
@@ -63,16 +63,16 @@ function openAllure(OPEN_ALLURE) {
 function generateAllure(TEST_LEVEL) {
   switch (TEST_LEVEL) {
     case "restapi":
-      execSync("npm run allure:generate-report:api", { stdio: "inherit" });
+      execSync("npm run allure:generate-report:api:bash", { stdio: "inherit" });
       break;
     case "soapapi":
-      execSync("npm run allure:generate-report:api", { stdio: "inherit" });
+      execSync("npm run allure:generate-report:api:bash", { stdio: "inherit" });
       break;
     case "web":
-      execSync("npm run allure:generate-report:web", { stdio: "inherit" });
+      execSync("npm run allure:generate-report:web:bash", { stdio: "inherit" });
       break;
     case "mobile":
-      execSync("npm run allure:generate-report:mobile", { stdio: "inherit" });
+      execSync("npm run allure:generate-report:mobile:bash", { stdio: "inherit" });
       break;
     default:
       console.error("❌ Invalid test level. Valid options: api, web, mobile");

@@ -63,15 +63,15 @@ timeout /t 1 >nul
 set "TEST_EXIT_CODE=0"
 
 if /i "%TEST_LEVEL%"=="restapi" (
-  call npm run allure:generate-report:api:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run allure:generate-report:api:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%TEST_LEVEL%"=="soapapi" (
-  call npm run allure:generate-report:api:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run allure:generate-report:api:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%TEST_LEVEL%"=="api" (
-  call npm run allure:generate-report:api:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run allure:generate-report:api:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%TEST_LEVEL%"=="web" (
-  call npm run allure:generate-report:web:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run allure:generate-report:web:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%TEST_LEVEL%"=="mobile" (
-  call npm run allure:generate-report:mobile:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run allure:generate-report:mobile:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else (
   echo ❌ Invalid test level: %TEST_LEVEL%. Valid options are: api, web, mobile
   exit /b 1
@@ -81,7 +81,7 @@ echo OPEN_ALLURE is: %OPEN_ALLURE%
 if /i "%OPEN_ALLURE%"=="true" (
   timeout /t 1 >nul
   echo 📂 Opening Allure Report...
-  call npm run allure:open:win
+  call npm run allure:open:bat
 ) else (
   echo OPEN_ALLURE is not "true", skipping...
 )

@@ -48,19 +48,19 @@ sleep 1
 
 case "$TEST_LEVEL" in
   restapi)
-     npm run allure:generate-report:api || TEST_EXIT_CODE=$?
+     npm run allure:generate-report:api:bash || TEST_EXIT_CODE=$?
     ;;
   soapapi)
-     npm run allure:generate-report:api || TEST_EXIT_CODE=$?
+     npm run allure:generate-report:api:bash || TEST_EXIT_CODE=$?
     ;;
   api)
-    npm run allure:generate-report:api || TEST_EXIT_CODE=$?
+    npm run allure:generate-report:api:bash || TEST_EXIT_CODE=$?
     ;;
   web)
-    npm run allure:generate-report:web || TEST_EXIT_CODE=$?
+    npm run allure:generate-report:web:bash || TEST_EXIT_CODE=$?
     ;;
   mobile)
-    npm run allure:generate-report:mobile || TEST_EXIT_CODE=$?
+    npm run allure:generate-report:mobile:bash || TEST_EXIT_CODE=$?
     ;;
   *)
     echo "❌ Invalid test level name: $TEST_LEVEL. Valid options are: restapi, soapapi, api, web, mobile"
@@ -72,7 +72,7 @@ echo "OPEN_ALLURE is: $OPEN_ALLURE"
 if [ "$OPEN_ALLURE" = "true" ]; then
   sleep 1
   echo "📂 Opening Allure Report..."
-  npm run allure:open
+  npm run allure:open:bash
 else
   echo "OPEN_ALLURE is not 'true', skipping..."
 fi

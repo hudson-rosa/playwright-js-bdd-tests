@@ -79,21 +79,21 @@ case "$API_TYPE" in
   soapapi)
     if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
       echo "🗑 Cleaning up old SOAP API reports..."
-      npm run allure:remove-results:api:soap
+      npm run allure:remove-results:api:soap:bash
     fi
-    TAGS=$TAG npm run test:api:soap:tags || TEST_EXIT_CODE=$?
+    TAGS=$TAG npm run test:api:soap:tags:bash || TEST_EXIT_CODE=$?
     ;;
   restapi)
     if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
       echo "🗑 Cleaning up old REST API reports..."
-      npm run allure:remove-results:api:rest
+      npm run allure:remove-results:api:rest:bash
     fi
-    TAGS=$TAG npm run test:api:rest:tags || TEST_EXIT_CODE=$?
+    TAGS=$TAG npm run test:api:rest:tags:bash || TEST_EXIT_CODE=$?
     ;;
   api)
-    npm run allure:remove-results:api:soap
-    npm run allure:remove-results:api:rest 
-    TAGS=$TAG npx npm-run-all --parallel test:api:soap:tags test:api:rest:tags || TEST_EXIT_CODE=$?
+    npm run allure:remove-results:api:soap:bash
+    npm run allure:remove-results:api:rest:bash 
+    TAGS=$TAG npx npm-run-all --parallel test:api:soap:tags:bash test:api:rest:tags:bash || TEST_EXIT_CODE=$?
     ;;
   *)
     echo "❌ Invalid API type: $API_TYPE. Valid options are: soapapi, restapi, api"

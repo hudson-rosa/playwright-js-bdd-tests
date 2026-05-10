@@ -35,5 +35,5 @@ services:
         ./test_pw_web.sh open_allure=${OPEN_ALLURE} clear_old_results=${CLEAR_OLD_RESULTS} browser=${BROWSER} headless=${HEADLESS} tag='${TAG}'
     # ./test_pw_web.sh open_allure=false clear_old_results=true browser=chromium headless=true tag='@regression'
     # entrypoint: [ "npx" ]
-    # command: [ "npm-run-all", "-p", "test:chromium:smoke", "test:firefox:smoke", "test:webkit:smoke" ]
+    # command: [ "npm-run-all", "-p", "test:chromium:smoke:bash", "test:firefox:smoke:bash", "test:webkit:smoke:bash" ]
     shm_size: '1gb'

@@ -96,7 +96,7 @@ echo "_________________________________________"
 echo "▶ Running Playwright tests on $PLATFORM"
 echo "-----------------------------------------"
 
-OPEN_ALLURE=$OPEN_ALLURE CLEAR_OLD_RESULTS=$CLEAR_OLD_RESULTS PLATFORM=$PLATFORM TARGET_DEVICE=$TARGET_DEVICE DEVICE_PROFILE_NAME=$DEVICE_PROFILE_NAME TAG=$TAG npm run test:mobile:js:args
+OPEN_ALLURE=$OPEN_ALLURE CLEAR_OLD_RESULTS=$CLEAR_OLD_RESULTS PLATFORM=$PLATFORM TARGET_DEVICE=$TARGET_DEVICE DEVICE_PROFILE_NAME=$DEVICE_PROFILE_NAME TAG=$TAG npm run test:mobile:from-js:args:bash
 
 echo "✅ All done."
 

@@ -97,14 +97,14 @@ Running the tests using docker-compose.yml:
   docker-compose up --build --abort-on-container-exit
 
   # OR:
-  npm run docker-compose-run-tests
+  npm run docker-compose-run-tests:bash
 ```
 
 You can customise the test run variables such as OPEN_ALLURE, HEADLESS, BROWSER, TAG to send with the command `docker-compose up`. To make it simpler, combine with the command defined in the `package.json > scripts`:
 
 ```bash
   # Example:
-  OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests
+  OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@sign-in' npm run docker-compose-run-tests:bash
 
   # OR
   OPEN_ALLURE=false BROWSER=chromium HEADLESS=false TAG='@smoke' npm run docker-compose up
@@ -116,13 +116,13 @@ To remove all containers and volumes:
   docker-compose down -v
 
   # OR:
-  npm run docker-remove-all
+  npm run docker-remove-all:bash
 ```
 
 ## Allure Report
 
 ```bash
-  npm run allure:generate-report && npm run allure:open
+  npm run allure:generate-report:bash && npm run allure:open:bash
 ```
 
 Generate a JSON report.
@@ -142,7 +142,7 @@ Generate a JSON report.
 - To manually install the app on a device:
 
 ```bash
-  adb -s 25261FDF60045T install -r ./app-dist/ApiDemos-debug.apk
+  adb -s 25261FDF60045T install -r ./resources/app-dist/ApiDemos-debug.apk
 ```
 
 ---
@@ -335,7 +335,7 @@ Create the folder and install the SDK components:
 
 Test if the app can be installed manually on a real Android device:
 ```bash
-  adb install -r /Users/qa/Projects/test_automation/playwright-js-bdd-tests/app-dist/ApiDemos-debug.apk
+  adb install -r /Users/qa/Projects/test_automation/playwright-js-bdd-tests/resources/app-dist/ApiDemos-debug.apk
   adb shell am start -n io.appium.android.apis/.ApiDemos
 ```
 
@@ -364,3 +364,68 @@ Start the Emulator:
   emulator -list-avds
   emulator -avd Pixel_9_API_35
 ```
+
+# PERFORMANCE TEST WITH K6
+
+## Running the K6 Performance Tests (Normal, Spike and Soak)
+
+On this project, the Performance Tests designed using K6 don't need Playwright to be triggered. However, the runner scripts also have dedicated CLI to easily handle the executions by passing the correct arguments to the expected variables: OPEN_K6_REPORTER, CLEAR_OLD_RESULTS, FILE, SERVICE_NAME.
+
+To run the Sample test, we can have these command args to call the file directly:
+
+### EXAMPLE TEST
+
+```bash
+  # Example on Windows:
+  ./test_k6_performance.bat open_k6_reporter=true clear_old_results=true file="perf-tests/k6-tests/demo/ddos-demo-single-file-test.js" service_name=null
+
+  # Example on MacOS/Linux:
+  ./test_k6_performance.sh open_k6_reporter=true clear_old_results=true file="perf-tests/k6-tests/demo/ddos-demo-single-file-test.js" service_name=null
+```
+
+### SERVICE CONTEXT TEST
+
+Check the service name you would like to call in the `service_name` argument from the CLI. The service name will be taken from the `perf-tests/data/endpoints.js`, according to the setup you have given for the service connection. For example, we can add the service with name "MySpecificServiceName" and its setup there as part of the `endpoints` constant:
+
+```javascript
+export const endpoints = {
+  MySpecificServiceName: {
+    url: 'https://your-another-endpoint.com/api',
+    method: 'GET',
+    params: {
+      auth: 'basic',
+      username: '<ADD-THE-USERNAME>',
+      password: '<ADD-THE-PASSWORD>',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  },
+};
+```
+
+To run the test, the file used to trigger the tests in `file` argument should be always `perf-tests/k6-tests/ddos-base-test.js`.
+
+So you may have this way of triggering it:
+
+```bash
+  # Examples on Windows
+  .\test_k6_performance.bat open_k6_reporter=true clear_old_results=true file="perf-tests\k6-tests\ddos-base-test.js" service_name=demo
+  # OR;
+  .\test_k6_performance.bat open_k6_reporter=true clear_old_results=true file="perf-tests\k6-tests\ddos-base-test.js" service_name=MySpecificServiceName
+
+  # Examples on MacOS/Linux
+  ./test_k6_performance.sh open_k6_reporter=true clear_old_results=true file="perf-tests/k6-tests/ddos-base-test.js" service_name=MySpecificServiceName
+  # OR;
+  ./test_k6_performance.sh open_k6_reporter=true clear_old_results=true file="perf-tests/k6-tests/ddos-base-test.js" service_name=demo
+```
+
+Important:
+
+- For an user with restricted permissions on Windows machines, a portable file can be used (`k6-v1.7.1-windows-amd64.zip`): https://github.com/grafana/k6/releases
+
+## Generating Reports
+
+The local reports are generated automatically in the `audit-perfs/reports/report.html`. For this make sure that you have the argument `open_k6_reporter=true`.
+
+If the tests are running in the CI servers, keep the argument `open_k6_reporter=false`(always set to FALSE), as there is no need to have the report opened automatically in the browser.

@@ -78,7 +78,7 @@ fi
 # Clear old results if specified
 if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
   echo "🗑 Cleaning up old reports..."
-  npm run allure:remove-results:$BROWSER
+  npm run allure:remove-results:$BROWSER:bash
 fi
 
 # Running tests based on the selected browser
@@ -94,16 +94,16 @@ echo "--------------------------------------------------------"
 
 case "$BROWSER" in
   chromium)
-    TAGS=$TAG HEADLESS=$HEADLESS npm run test:chromium:tags || TEST_EXIT_CODE=$?
+    TAGS=$TAG HEADLESS=$HEADLESS npm run test:chromium:tags:bash || TEST_EXIT_CODE=$?
     ;;
   firefox)
-    TAGS=$TAG HEADLESS=$HEADLESS npm run test:firefox:tags || TEST_EXIT_CODE=$?
+    TAGS=$TAG HEADLESS=$HEADLESS npm run test:firefox:tags:bash || TEST_EXIT_CODE=$?
     ;;
   webkit)
-    TAGS=$TAG HEADLESS=$HEADLESS npm run test:webkit:tags || TEST_EXIT_CODE=$?
+    TAGS=$TAG HEADLESS=$HEADLESS npm run test:webkit:tags:bash || TEST_EXIT_CODE=$?
     ;;
   all)
-    TAGS=$TAG HEADLESS=$HEADLESS npx npm-run-all --parallel test:chromium:tags test:firefox:tags test:webkit:tags || TEST_EXIT_CODE=$?
+    TAGS=$TAG HEADLESS=$HEADLESS npx npm-run-all --parallel test:chromium:tags:bash test:firefox:tags:bash test:webkit:tags:bash || TEST_EXIT_CODE=$?
     ;;
   *)
     echo "❌ Invalid browser: $BROWSER. Valid options are: chromium, firefox, webkit, all"

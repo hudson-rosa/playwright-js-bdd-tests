@@ -11,8 +11,8 @@ call triggers\checks\set_environment_vars_win.bat
 
 REM ==========================================================
 REM RUN THIS FILE WITH ONE OF THESE COMMANDS:
-REM .\test_mobile_from_batch.bat open_allure=true clear_old_results=true platform=android target_device=real device_profile_name=real_pixel6_android16 tag=@android
-REM .\test_mobile_from_batch.bat open_allure=true clear_old_results=true platform=ios target_device=emulator device_profile_name=iphone15 tag=@ios
+REM .\test_mobile.bat open_allure=true clear_old_results=true platform=android target_device=real device_profile_name=real_pixel6_android16 tag=@android
+REM .\test_mobile.bat open_allure=true clear_old_results=true platform=ios target_device=emulator device_profile_name=iphone15 tag=@ios
 REM ==========================================================
 
 set "OPEN_ALLURE=false"
@@ -85,8 +85,8 @@ REM Clear old results if requested
 REM ----------------------------------------------------------
 if /i "%CLEAR_OLD_RESULTS%"=="true" (
   echo 🗑 Cleaning up old reports...
-  call npm run appium:remove-logs:win
-  call npm run allure:remove-results:%PLATFORM%:win
+  call npm run appium:remove-logs:bat
+  call npm run allure:remove-results:%PLATFORM%:bat
 )
 
 REM ----------------------------------------------------------
@@ -119,11 +119,11 @@ if /i "%PLATFORM%"=="android" (
   call triggers\appium\start_android_device.bat target_device=%TARGET_DEVICE%
   set "TAG=%TAG%"
   set "ANDROID_PROFILE=%DEVICE_PROFILE_NAME%"
-  call npm run test:android:tags:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run test:android:tags:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else if /i "%PLATFORM%"=="ios" (
   set "TAG=%TAG%"
   set "IOS_PROFILE=%DEVICE_PROFILE_NAME%"
-  call npm run test:ios:tags:win || set TEST_EXIT_CODE=%ERRORLEVEL%
+  call npm run test:ios:tags:bat || set TEST_EXIT_CODE=%ERRORLEVEL%
 ) else (
   echo ❌ Invalid platform: %PLATFORM%. Valid options are: android, ios
   exit /b 1

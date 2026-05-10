@@ -87,8 +87,8 @@ fi
 # Clear old results if specified
 if [[ $CLEAR_OLD_RESULTS == "true" ]]; then
   echo "🗑 Cleaning up old reports..."
-  npm run appium:remove-logs-sh
-  npm run allure:remove-results:$PLATFORM
+  npm run appium:remove-logs:bash
+  npm run allure:remove-results:$PLATFORM:bash
 fi
 
 # Running Appium server in the background
@@ -113,11 +113,11 @@ case "$PLATFORM" in
     ./triggers/appium/start_android_device.sh target_device=$TARGET_DEVICE
     
     # Running the tests on Android
-    TAG=$TAG ANDROID_PROFILE=$DEVICE_PROFILE_NAME npm run test:android:tags || TEST_EXIT_CODE=$?
+    TAG=$TAG ANDROID_PROFILE=$DEVICE_PROFILE_NAME npm run test:android:tags:bash || TEST_EXIT_CODE=$?
   ;;
   ios)
     # Running the tests on IOS
-    TAG=$TAG IOS_PROFILE=$DEVICE_PROFILE_NAME npm run test:ios:tags || TEST_EXIT_CODE=$?
+    TAG=$TAG IOS_PROFILE=$DEVICE_PROFILE_NAME npm run test:ios:tags:bash || TEST_EXIT_CODE=$?
   ;;
   *)
     echo "❌ Invalid platform: $PLATFORM. Valid options are: android, ios"

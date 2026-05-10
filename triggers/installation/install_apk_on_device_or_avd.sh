@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# RUN THIS FILE WITH THE COMMAND:  ./triggers/installation/install_apk_on_device_or_avd.sh app_path=./app-dist/ApiDemos-debug.apk app_package=io.appium.android.apis target_device=real|emulator
+# RUN THIS FILE WITH THE COMMAND:  ./triggers/installation/install_apk_on_device_or_avd.sh app_path=./resources/app-dist/ApiDemos-debug.apk app_package=io.appium.android.apis target_device=real|emulator
 
 APP_PATH=""
 APP_PACKAGE=""
@@ -34,7 +34,7 @@ if [ -z "$APP_PACKAGE" ]; then
   MISSING_ARGS+=" ❌ APP_PACKAGE arg is missing on the command!    --> Use: app_package=your.app.package"
 fi
 if [ -z "$APP_PATH" ]; then
-  MISSING_ARGS+=" ❌ APP_PATH arg is missing on the command!    --> Use: app_path=./app-dist/ApiDemos-debug.apk"
+  MISSING_ARGS+=" ❌ APP_PATH arg is missing on the command!    --> Use: app_path=./resources/app-dist/ApiDemos-debug.apk"
 fi
 if [ -z "$TARGET_DEVICE" ]; then
   MISSING_ARGS+=" ❌ TARGET_DEVICE arg is missing on the command!    --> Use: target_device=real|emulator"
@@ -55,7 +55,7 @@ case "$TARGET_DEVICE" in
       fi
     
       echo "🥁 Installing APK on real device..."
-      npm run android:adb:install-apk -- $APP_PATH 
+      npm run android:adb:install-apk:bash -- $APP_PATH 
       
       echo "🔎 Verifying and opening the installed app..."
       adb shell pm list packages | grep $APP_PACKAGE
@@ -94,7 +94,7 @@ case "$TARGET_DEVICE" in
     echo "✅ Emulador $first_avd is ready to use!"
     
     echo "🥁 Installing the app from based on the App path..."
-    npm run android:adb:install-apk -- $APP_PATH || TEST_EXIT_CODE=$?
+    npm run android:adb:install-apk:bash -- $APP_PATH || TEST_EXIT_CODE=$?
     ;;
   *)
     echo "❌ Invalid target device: $TARGET_DEVICE. Valid options are: real, emulator"

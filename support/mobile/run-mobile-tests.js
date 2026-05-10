@@ -163,7 +163,7 @@ function stopEmulatorProcess() {
  *
  * This function performs the following actions:
  * 1. Logs a message indicating that old results are being cleaned.
- * 2. Attempts to remove Appium logs by running the "appium:remove-logs-sh" npm script.
+ * 2. Attempts to remove Appium logs by running the "appium:remove-logs:bash" npm script.
  * 3. Attempts to remove Allure results for the specified platform by running the "allure:remove-results:${PLATFORM}" npm script.
  *
  * Both removal actions are attempted independently, and errors are silently ignored.
@@ -176,10 +176,10 @@ async function clearOldReports() {
   if (CLEAR_OLD_RESULTS === "true") {
     console.log("🗑 Cleaning old results...");
     try {
-      await spawnInherit("npm", ["run", "appium:remove-logs-sh"]);
+      await spawnInherit("npm", ["run", "appium:remove-logs:bash"]);
     } catch (e) {}
     try {
-      await spawnInherit("npm", ["run", `allure:remove-results:${PLATFORM}`]);
+      await spawnInherit("npm", ["run", `allure:remove-results:${PLATFORM}:bash`]);
     } catch (e) {}
   }
 }
